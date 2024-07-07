@@ -26,6 +26,9 @@ class Main:
             elif self.CmdToExecute == "remove obj":
                 corefn.RemoveObject(input("Enter a object: "))
 
+            elif self.CmdToExecute == "match":
+                corefn.Match()
+
             elif self.CmdToExecute == "quit":
                 self.isRunning = False
 
