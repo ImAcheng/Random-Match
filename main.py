@@ -29,11 +29,14 @@ class Main:
             elif self.CmdToExecute == "match":
                 corefn.Match()
 
+            elif self.CmdToExecute == "clear":
+                corefn.clear(input("\nEnter data type (name / obj / all): "))
+
             elif self.CmdToExecute == "quit":
                 self.isRunning = False
 
             else:
-                print("Unknown command.\n")
+                print("\nUnknown command.\n")
 
     def Command(self):
         self.CmdToExecute = input("Enter a command: ")

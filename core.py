@@ -31,7 +31,7 @@ class Core:
             json.dump(fm.StudentsData, file)
 
         # print current list
-        print(f'There are: \n{", ".join(self.StudentsList)} \nin the list.\n')
+        print(f'There {self.GetSingleOrMultiple("st")}: \n{", ".join(self.StudentsList)} \nin the list.\n')
 
     def RemoveStudent(self, name: str):
         if len(self.StudentsList) > 1:
@@ -50,7 +50,7 @@ class Core:
             json.dump(fm.StudentsData, file)
 
         # print current list
-        print(f'There are: \n{", ".join(self.StudentsList)} \nin the list.\n')
+        print(f'There {self.GetSingleOrMultiple("st")}: \n{", ".join(self.StudentsList)} \nin the list.\n')
 
     def AddNewObject(self, name: str):
         # program data
@@ -58,11 +58,11 @@ class Core:
 
         # save data
         fm.ObjectsData['Objects'] = self.ObjectsList
-        with open(os.path.join("UserData", "Objects.json")) as file:
+        with open(os.path.join("UserData", "Objects.json"), "w") as file:
             json.dump(fm.ObjectsData, file)
 
         # print current list
-        print(f'There are: \n{", ".join(self.StudentsList)} \nin the list.\n')
+        print(f'There {self.GetSingleOrMultiple("obj")}: \n{", ".join(self.ObjectsList)} \nin the list.\n')
 
     def RemoveObject(self, name: str):
         # debug
@@ -83,7 +83,7 @@ class Core:
             json.dump(fm.ObjectsData, file)
 
         # print current list
-        print(f'There are: \n{", ".join(self.StudentsList)} \nin the list.\n')
+        print(f'There {self.GetSingleOrMultiple("obj")}: \n{", ".join(self.StudentsList)} \nin the list.\n')
 
     def Match(self):
         # get the list which is used to be the range
@@ -119,3 +119,50 @@ class Core:
         self.cur_ObjectsList = self.ObjectsList
 
         # TODO: figure out why why remove data from the cur_ list also clear the original list
+
+    def clear(self, data: str):
+        if data == "name":
+            # program data
+            self.StudentsList.clear()
+
+            # save data
+            fm.StudentsData['Students'] = self.StudentsList
+            with open(os.path.join("UserData", "Students.json"), "w") as file:
+                json.dump(fm.StudentsData, file)
+
+        elif data == "obj":
+            # program data
+            self.ObjectsList.clear()
+
+            # save data
+            fm.ObjectsData['Objects'] = self.ObjectsList
+            with open(os.path.join("UserData", "Objects.json"), "w") as file:
+                json.dump(fm.ObjectsData, file)
+
+        elif data == "all":
+            # program data
+            self.StudentsList.clear()
+            self.ObjectsList.clear()
+
+            # save data
+            fm.StudentsData['Students'] = self.StudentsList
+            with open(os.path.join("UserData", "Students.json"), "w") as file:
+                json.dump(fm.StudentsData, file)
+
+            fm.ObjectsData['Objects'] = self.ObjectsList
+            with open(os.path.join("UserData", "Objects.json"), "w") as file:
+                json.dump(fm.ObjectsData, file)
+
+        print(f"\n====================\nCleared {data}\n====================\n")
+
+    def GetSingleOrMultiple(self, function):
+        if function == "st":
+            if len(self.StudentsList) > 1:
+                return "are"
+            else:
+                return "is"
+        else:
+            if len(self.ObjectsList) > 1:
+                return "are"
+            else:
+                return "is"

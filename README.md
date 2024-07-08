@@ -7,10 +7,13 @@ Type the commands below to use it.
 - add st - Add a new name to the database.
 - remove st - Remove a name from the database.
 - add obj - Add a new object to the database.
-- remove obj - Remove a object from the database.
+- remove obj - Remove an object from the database.
 
 ## Version
-- Indev 1.1.0 - Working on the match system.
+- Indev 1.2.0 
+    * Completed data clearing system.
+    * Fixed singular and plural grammar.
+- Release date: 2024-07-08
     
 #
 ©2024 Lonely Acheng All Rights Reserved.
