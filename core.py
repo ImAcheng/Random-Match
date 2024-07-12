@@ -12,18 +12,20 @@ class Core:
     def __init__(self):
         self.StudentsList: list = fm.StudentsData['Students']
         self.ObjectsList: list = fm.ObjectsData['Objects']
-        self.cur_NamesList: list = self.StudentsList
-        self.cur_ObjectsList: list = self.ObjectsList
+        self.cur_NamesList: list = []
+        self.cur_ObjectsList: list = []
         self.StudentToRemove: str = None
         self.ListDebugNum: int = 0
         self.RandomName: str = None
         self.RandomObject: str = None
         self.Matched: list = []
         self.ListUsedToBeRange: list = None
+        self.isExist: bool = False
 
     def AddNewStudent(self, name: str) -> object:
         # program data
         self.StudentsList.append(name)
+        self.cur_NamesList.append(name)
 
         # save data
         fm.StudentsData['Students'] = self.StudentsList
@@ -31,30 +33,34 @@ class Core:
             json.dump(fm.StudentsData, file)
 
         # print current list
-        print(f'There {self.GetSingleOrMultiple("st")}: \n{", ".join(self.StudentsList)} \nin the list.\n')
+        print(f'There {self.ListLenType(self.StudentsList)}: \n{", ".join(self.StudentsList)} \nin the list.\n')
 
     def RemoveStudent(self, name: str):
-        if len(self.StudentsList) > 1:
-            self.ListDebugNum = 1
+        for i in range(len(self.StudentsList)):
+            if name == self.StudentsList[i]:
+                self.isExist = True
+
+        if self.isExist:
+            # program data
+            self.StudentsList.remove(name)
+            self.cur_NamesList.remove(name)
+
+            # save data
+            fm.StudentsData['Students'] = self.StudentsList
+            with open(os.path.join("UserData", "Students.json"), "w") as file:
+                json.dump(fm.StudentsData, file)
+
+            # print current list
+            print(f'There {self.ListLenType(self.StudentsList)}: \n{", ".join(self.StudentsList)} \nin the list.\n')
         else:
-            self.ListDebugNum = 0
+            print("Name not found.")
 
-        # program data
-        for i in range(len(self.StudentsList) - self.ListDebugNum):
-            if self.StudentsList[i] == name:
-                self.StudentsList.remove(self.StudentsList[i])
-
-        # save data
-        fm.StudentsData['Students'] = self.StudentsList
-        with open(os.path.join("UserData", "Students.json"), "w") as file:
-            json.dump(fm.StudentsData, file)
-
-        # print current list
-        print(f'There {self.GetSingleOrMultiple("st")}: \n{", ".join(self.StudentsList)} \nin the list.\n')
+        self.isExist = False
 
     def AddNewObject(self, name: str):
         # program data
         self.ObjectsList.append(name)
+        self.cur_ObjectsList.append(name)
 
         # save data
         fm.ObjectsData['Objects'] = self.ObjectsList
@@ -62,28 +68,29 @@ class Core:
             json.dump(fm.ObjectsData, file)
 
         # print current list
-        print(f'There {self.GetSingleOrMultiple("obj")}: \n{", ".join(self.ObjectsList)} \nin the list.\n')
+        print(f'There {self.ListLenType(self.ObjectsList)}: \n{", ".join(self.ObjectsList)} \nin the list.\n')
 
     def RemoveObject(self, name: str):
-        # debug
-        if len(self.StudentsList) > 1:
-            self.ListDebugNum = 1
+        for i in range(len(self.ObjectsList)):
+            if name == self.ObjectsList[i]:
+                self.isExist = True
+
+        if self.isExist:
+            # program data
+            self.ObjectsList.remove(name)
+            self.cur_ObjectsList.remove(name)
+
+            # save data
+            fm.ObjectsData['Objects'] = self.ObjectsList
+            with open(os.path.join("UserData", "Objects.json"), "w") as file:
+                json.dump(fm.ObjectsData, file)
+
+            # print current list
+            print(f'There {self.ListLenType(self.ObjectsList)}: \n{", ".join(self.ObjectsList)} \nin the list.\n')
         else:
-            self.ListDebugNum = 0
+            print("\nObject not found.\n")
 
-        # program data
-        for i in range(len(self.ObjectsList) - self.ListDebugNum):
-            if self.ObjectsList[i] == name:
-                self.ObjectsList.remove(self.ObjectsList[i])
-            i += 1
-
-        # save data
-        fm.ObjectsData['Objects'] = self.ObjectsList
-        with open(os.path.join("UserData", "Objects.json"), "w") as file:
-            json.dump(fm.ObjectsData, file)
-
-        # print current list
-        print(f'There {self.GetSingleOrMultiple("obj")}: \n{", ".join(self.StudentsList)} \nin the list.\n')
+        self.isExist = False
 
     def Match(self):
         # get the list which is used to be the range
@@ -95,8 +102,8 @@ class Core:
         # match
         for i in range(len(self.ListUsedToBeRange)):
             # random choose
-            self.RandomName = random.choice(self.StudentsList)
-            self.RandomObject = random.choice(self.ObjectsList)
+            self.RandomName = random.choice(self.cur_NamesList)
+            self.RandomObject = random.choice(self.cur_ObjectsList)
 
             # add to list
             self.Matched.append([self.RandomName, self.RandomObject])
@@ -113,12 +120,7 @@ class Core:
 
         # reset
         self.Matched.clear()
-        self.StudentsList = json.load(open((os.path.join("UserData", "Students.json")), encoding='utf8'))['Students']
-        self.ObjectsList = json.load(open((os.path.join("UserData", "Objects.json")), encoding='utf8'))['Objects']
-        self.cur_NamesList = self.StudentsList
-        self.cur_ObjectsList = self.ObjectsList
-
-        # TODO: figure out why why remove data from the cur_ list also clear the original list
+        self.CurListDataSetup()
 
     def clear(self, data: str):
         if data == "name":
@@ -155,14 +157,24 @@ class Core:
 
         print(f"\n====================\nCleared {data}\n====================\n")
 
-    def GetSingleOrMultiple(self, function):
-        if function == "st":
-            if len(self.StudentsList) > 1:
-                return "are"
-            else:
-                return "is"
+    def ListLenType(self, TargetList: list):
+        if len(TargetList) > 1:
+            return "are"
         else:
-            if len(self.ObjectsList) > 1:
-                return "are"
-            else:
-                return "is"
+            return "is"
+
+    def CurListDataSetup(self):
+        self.cur_NamesList.clear()
+        self.cur_ObjectsList.clear()
+
+        for i in range(len(self.StudentsList)):
+            self.cur_NamesList.append(self.StudentsList[i])
+
+        for i in range(len(self.ObjectsList)):
+            self.cur_ObjectsList.append(self.ObjectsList[i])
+
+    def PrintListContent(self):
+        print(f"Names List: {self.StudentsList}\n"
+              f"Objects List: {self.ObjectsList}\n"
+              f"Current Names List: {self.cur_NamesList}\n"
+              f"Current Objects List: {self.cur_ObjectsList}")

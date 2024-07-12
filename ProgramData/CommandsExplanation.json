@@ -1,0 +1,13 @@
+{
+  "expl":
+    [
+      "Show this list.",
+      "Main function. Match a random name to a random object.",
+      "Add a new name to the list.",
+      "Add a new object to the list.",
+      "Remove a name from the list.",
+      "Remove a object from the list.",
+      "Clear data(name / obj / all) from the list.",
+      "Stop this program."
+    ]
+}

@@ -9,11 +9,17 @@ class FileManager:
         # open file
         self.rf_Students = open(os.path.join("UserData", "Students.json"), encoding='utf8')
         self.rf_Objects = open(os.path.join("UserData", "Objects.json"), encoding='utf8')
+        self.rf_Commands = open(os.path.join("ProgramData", "Commands.json"))
+        self.rf_CmdExplanation = open(os.path.join("ProgramData", "CommandsExplanation.json"))
 
         # json load
         self.StudentsData = json.load(self.rf_Students)
         self.ObjectsData = json.load(self.rf_Objects)
+        self.CmdList = json.load(self.rf_Commands)
+        self.CmdExpl = json.load(self.rf_CmdExplanation)
 
         # close file
         self.rf_Students.close()
         self.rf_Objects.close()
+        self.rf_Commands.close()
+        self.rf_CmdExplanation.close()

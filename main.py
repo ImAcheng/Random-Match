@@ -1,14 +1,20 @@
 # import python files
 import core
 
+# import other python files
+import fileManager
+
 # setup
 corefn = core.Core()
+fM = fileManager.FileManager()
 
 # main
 class Main:
     def __init__(self):
         self.isRunning: bool = True
         self.CmdToExecute: str = None
+
+        corefn.CurListDataSetup()
 
     def Update(self):
         while self.isRunning:
@@ -32,8 +38,17 @@ class Main:
             elif self.CmdToExecute == "clear":
                 corefn.clear(input("\nEnter data type (name / obj / all): "))
 
+            elif self.CmdToExecute == "help":
+                print("\n- Commands List -")
+                for i in range(len(fM.CmdList['cmds'])):
+                    print(f"{fM.CmdList['cmds'][i]}: {fM.CmdExpl['expl'][i]}")
+                print("\n")
+
             elif self.CmdToExecute == "quit":
                 self.isRunning = False
+
+            elif self.CmdToExecute == "print":
+                corefn.PrintListContent()
 
             else:
                 print("\nUnknown command.\n")

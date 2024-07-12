@@ -1,0 +1,13 @@
+{
+  "cmds":
+    [
+      "help",
+      "match",
+      "add st",
+      "add obj",
+      "remove st",
+      "remove obj",
+      "clear",
+      "quit"
+    ]
+}
