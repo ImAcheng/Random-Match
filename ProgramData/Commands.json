@@ -3,10 +3,8 @@
     [
       "help",
       "match",
-      "add st",
-      "add obj",
-      "remove st",
-      "remove obj",
+      "add",
+      "remove",
       "clear",
       "quit"
     ]

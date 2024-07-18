@@ -13,6 +13,7 @@ class Main:
     def __init__(self):
         self.isRunning: bool = True
         self.CmdToExecute: str = None
+        self.CmdDetail: str = None
 
         corefn.CurListDataSetup()
 
@@ -20,17 +21,21 @@ class Main:
         while self.isRunning:
             self.Command()
 
-            if self.CmdToExecute == "add st":
-                corefn.AddNewStudent(input("Enter a name: "))
+            if self.CmdToExecute == "add":
+                self.CmdDetail = input("Enter the target (name / object): ")
 
-            elif self.CmdToExecute == "remove st":
-                corefn.RemoveStudent(input("Enter a name: "))
+                if self.CmdDetail == "name":
+                    corefn.AddNewStudent(input("Enter a name: "))
+                elif self.CmdDetail == "object":
+                    corefn.AddNewObject(input("Enter a object: "))
 
-            elif self.CmdToExecute == "add obj":
-                corefn.AddNewObject(input("Enter a object: "))
+            elif self.CmdToExecute == "remove":
+                self.CmdDetail = input("Enter the target (name / object): ")
 
-            elif self.CmdToExecute == "remove obj":
-                corefn.RemoveObject(input("Enter a object: "))
+                if self.CmdDetail == "name":
+                    corefn.RemoveStudent(input("Enter a name: "))
+                elif self.CmdDetail == "object":
+                    corefn.RemoveObject(input("Enter a object: "))
 
             elif self.CmdToExecute == "match":
                 corefn.Match()
@@ -46,9 +51,6 @@ class Main:
 
             elif self.CmdToExecute == "quit":
                 self.isRunning = False
-
-            elif self.CmdToExecute == "print":
-                corefn.PrintListContent()
 
             else:
                 print("\nUnknown command.\n")

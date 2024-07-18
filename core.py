@@ -10,7 +10,7 @@ fm = fileManager.FileManager()
 # main
 class Core:
     def __init__(self):
-        self.StudentsList: list = fm.StudentsData['Students']
+        self.NamesList: list = fm.NamesData['Names']
         self.ObjectsList: list = fm.ObjectsData['Objects']
         self.cur_NamesList: list = []
         self.cur_ObjectsList: list = []
@@ -24,34 +24,34 @@ class Core:
 
     def AddNewStudent(self, name: str) -> object:
         # program data
-        self.StudentsList.append(name)
+        self.NamesList.append(name)
         self.cur_NamesList.append(name)
 
         # save data
-        fm.StudentsData['Students'] = self.StudentsList
-        with open(os.path.join("UserData", "Students.json"), "w") as file:
-            json.dump(fm.StudentsData, file)
+        fm.NamesData['Names'] = self.NamesList
+        with open(os.path.join("UserData", "Names.json"), "w") as file:
+            json.dump(fm.NamesData, file)
 
         # print current list
-        print(f'There {self.ListLenType(self.StudentsList)}: \n{", ".join(self.StudentsList)} \nin the list.\n')
+        print(f'There {self.ListLenType(self.NamesList)}: \n{", ".join(self.NamesList)} \nin the list.\n')
 
     def RemoveStudent(self, name: str):
-        for i in range(len(self.StudentsList)):
-            if name == self.StudentsList[i]:
+        for i in range(len(self.NamesList)):
+            if name == self.NamesList[i]:
                 self.isExist = True
 
         if self.isExist:
             # program data
-            self.StudentsList.remove(name)
+            self.NamesList.remove(name)
             self.cur_NamesList.remove(name)
 
             # save data
-            fm.StudentsData['Students'] = self.StudentsList
-            with open(os.path.join("UserData", "Students.json"), "w") as file:
-                json.dump(fm.StudentsData, file)
+            fm.NamesData['Names'] = self.NamesList
+            with open(os.path.join("UserData", "Names.json"), "w") as file:
+                json.dump(fm.NamesData, file)
 
             # print current list
-            print(f'There {self.ListLenType(self.StudentsList)}: \n{", ".join(self.StudentsList)} \nin the list.\n')
+            print(f'There {self.ListLenType(self.NamesList)}: \n{", ".join(self.NamesList)} \nin the list.\n')
         else:
             print("Name not found.")
 
@@ -94,7 +94,7 @@ class Core:
 
     def Match(self):
         # get the list which is used to be the range
-        if len(self.StudentsList) > len(self.ObjectsList):
+        if len(self.NamesList) > len(self.ObjectsList):
             self.ListUsedToBeRange = self.cur_ObjectsList
         else:
             self.ListUsedToBeRange = self.cur_NamesList
@@ -125,12 +125,12 @@ class Core:
     def clear(self, data: str):
         if data == "name":
             # program data
-            self.StudentsList.clear()
+            self.NamesList.clear()
 
             # save data
-            fm.StudentsData['Students'] = self.StudentsList
-            with open(os.path.join("UserData", "Students.json"), "w") as file:
-                json.dump(fm.StudentsData, file)
+            fm.NamesData['Names'] = self.NamesList
+            with open(os.path.join("UserData", "Names.json"), "w") as file:
+                json.dump(fm.NamesData, file)
 
         elif data == "obj":
             # program data
@@ -143,13 +143,13 @@ class Core:
 
         elif data == "all":
             # program data
-            self.StudentsList.clear()
+            self.NamesList.clear()
             self.ObjectsList.clear()
 
             # save data
-            fm.StudentsData['Students'] = self.StudentsList
-            with open(os.path.join("UserData", "Students.json"), "w") as file:
-                json.dump(fm.StudentsData, file)
+            fm.NamesData['Names'] = self.NamesList
+            with open(os.path.join("UserData", "Names.json"), "w") as file:
+                json.dump(fm.NamesData, file)
 
             fm.ObjectsData['Objects'] = self.ObjectsList
             with open(os.path.join("UserData", "Objects.json"), "w") as file:
@@ -167,14 +167,14 @@ class Core:
         self.cur_NamesList.clear()
         self.cur_ObjectsList.clear()
 
-        for i in range(len(self.StudentsList)):
-            self.cur_NamesList.append(self.StudentsList[i])
+        for i in range(len(self.NamesList)):
+            self.cur_NamesList.append(self.NamesList[i])
 
         for i in range(len(self.ObjectsList)):
             self.cur_ObjectsList.append(self.ObjectsList[i])
 
     def PrintListContent(self):
-        print(f"Names List: {self.StudentsList}\n"
+        print(f"Names List: {self.NamesList}\n"
               f"Objects List: {self.ObjectsList}\n"
               f"Current Names List: {self.cur_NamesList}\n"
               f"Current Objects List: {self.cur_ObjectsList}")
