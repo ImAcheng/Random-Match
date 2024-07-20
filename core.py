@@ -21,6 +21,8 @@ class Core:
         self.Matched: list = []
         self.ListUsedToBeRange: list = None
         self.isExist: bool = False
+        self.isDataCorrect: bool = True
+        self.IndexCheck: int = None
 
     def AddNewStudent(self, name: str) -> object:
         # program data
@@ -132,7 +134,7 @@ class Core:
             with open(os.path.join("UserData", "Names.json"), "w") as file:
                 json.dump(fm.NamesData, file)
 
-        elif data == "obj":
+        elif data == "object":
             # program data
             self.ObjectsList.clear()
 
@@ -155,7 +157,35 @@ class Core:
             with open(os.path.join("UserData", "Objects.json"), "w") as file:
                 json.dump(fm.ObjectsData, file)
 
-        print(f"\n====================\nCleared {data}\n====================\n")
+        else:
+            print(f"\nUnexpected arg names {data}.\nPlease make sure that you entered correct command.\n")
+            self.isDataCorrect = False
+
+        if self.isDataCorrect:
+            print(f"\n====================\nCleared {data}\n====================\n")
+
+        # reset data
+        self.isDataCorrect = True
+
+    def help(self, command):
+        if command is None:
+            print("\n- Commands List -")
+            for i in range(len(fm.CmdList['cmds'])):
+                print(f"{fm.CmdList['cmds'][i]}: {fm.CmdExpl['expl'][i]}")
+            print("")
+        else:
+            # check if command is found and record its index
+            for i in range(len(fm.CmdList['cmds'])):
+                if command == fm.CmdList['cmds'][i]:
+                    self.IndexCheck = i
+
+            if self.IndexCheck is not None:
+                print(f"\nCommand - {fm.CmdList['cmds'][self.IndexCheck]}\n{fm.CmdExpl['detail'][self.IndexCheck]}\n")
+            else:
+                print(f"\nCommand {command} is not found.\n")
+
+        # reset data
+        self.IndexCheck = None
 
     def ListLenType(self, TargetList: list):
         if len(TargetList) > 1:

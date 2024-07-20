@@ -6,6 +6,17 @@
       "Add a new name / object to the list.",
       "Remove a name / object from the list.",
       "Clear data(name / obj / all) from the list.",
+      "Stop this program.",
       "Stop this program."
+    ],
+  "detail":
+    [
+      "Usage > help / help <command> \nUse help to show all commands, help <command> to show a specific command and its details.",
+      "Usage > match \nUse match to match a random name to a random object.",
+      "Usage > add <target> <name> \nUse add <target (name / object)> <name> to add a new name or object to the data.",
+      "Usage > remove <target> <name> \nUse remove <target (name / object)> <name> to remove a name or object from the data.",
+      "Usage > clear <data> \nUse clear <data (name / object / all)> to clear names data, objects data, or all data.",
+      "Usage > quit \nUse quit to stop this program.",
+      "Usage > stop \nUse stop to stop this program."
     ]
 }

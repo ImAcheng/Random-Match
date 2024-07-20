@@ -6,6 +6,7 @@
       "add",
       "remove",
       "clear",
-      "quit"
+      "quit",
+      "stop"
     ]
 }

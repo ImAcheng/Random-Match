@@ -1,7 +1,5 @@
-# import python files
-import core
-
 # import other python files
+import core
 import fileManager
 
 # setup
@@ -12,51 +10,94 @@ fM = fileManager.FileManager()
 class Main:
     def __init__(self):
         self.isRunning: bool = True
-        self.CmdToExecute: str = None
-        self.CmdDetail: str = None
+
+        self.ArgsList: list = []
+        self.Args0 = None
+        self.Args1 = None
+        self.Args2 = None
 
         corefn.CurListDataSetup()
 
     def Update(self):
         while self.isRunning:
-            self.Command()
+            # get command
+            self.ArgsList = list(map(str, input("Enter command\n> ").strip().split()))
 
-            if self.CmdToExecute == "add":
-                self.CmdDetail = input("Enter the target (name / object): ")
+            # distribute args
+            self.Args0 = self.ArgsList[0]
+            if len(self.ArgsList) - 1 >= 1:
+                self.Args1 = self.ArgsList[1]
+            if len(self.ArgsList) - 1 >= 2:
+                self.Args2 = self.ArgsList[2]   # I know these codes look stupid.
 
-                if self.CmdDetail == "name":
-                    corefn.AddNewStudent(input("Enter a name: "))
-                elif self.CmdDetail == "object":
-                    corefn.AddNewObject(input("Enter a object: "))
+            if self.Args0 == "add":
+                if self.Args1 is not None:
+                    if self.Args1 == "name":
+                        if self.Args2 is not None:
+                            corefn.AddNewStudent(self.Args2)
+                        else:
+                            print("\nMissing args.\nCorrect usage > add <target> <name>\n")
+                    elif self.Args1 == "object":
+                        if self.Args2 is not None:
+                            corefn.AddNewObject(self.Args2)
+                        else:
+                            print("\nMissing args.\nCorrect usage > add <target> <name>\n")
+                    else:
+                        print(f"\nUnexpected arg names {self.Args1}.\nPlease make sure that you entered correct command.\n")
+                else:
+                    print("\nMissing args.\nCorrect usage > add <target> <name>\n")
 
-            elif self.CmdToExecute == "remove":
-                self.CmdDetail = input("Enter the target (name / object): ")
+            elif self.Args0 == "remove":
+                if self.Args1 is not None:
+                    if self.Args1 == "name":
+                        if self.Args2 is not None:
+                            corefn.AddNewStudent(self.Args2)
+                        else:
+                            print("\nMissing args.\nCorrect usage > remove <target> <name>\n")
+                    elif self.Args1 == "object":
+                        if self.Args2 is not None:
+                            corefn.AddNewObject(self.Args2)
+                        else:
+                            print("\nMissing args.\nCorrect usage > remove <target> <name>\n")
+                    else:
+                        print(f"\nUnexpected arg names {self.Args1}.\nPlease make sure that you entered correct command.\n")
+                else:
+                    print("\nMissing args.\nCorrect usage > remove <target> <name>\n")
 
-                if self.CmdDetail == "name":
-                    corefn.RemoveStudent(input("Enter a name: "))
-                elif self.CmdDetail == "object":
-                    corefn.RemoveObject(input("Enter a object: "))
+            elif self.Args0 == "match":
+                if self.Args1 is None and self.Args2 is None:
+                    corefn.Match()
+                else:
+                    print("\nUnexpected additional arg.\nThis command only requires Arg0.\n")
 
-            elif self.CmdToExecute == "match":
-                corefn.Match()
+            elif self.Args0 == "clear":
+                if self.Args2 is None:
+                    if self.Args1 is not None:
+                        corefn.clear(self.Args1)
+                    else:
+                        print("\nMissing args.\nCorrect usage > clear <data>\n")
+                else:
+                    print("\nUnexpected additional arg.\nThis command only requires Arg0 and Arg1.\n")
 
-            elif self.CmdToExecute == "clear":
-                corefn.clear(input("\nEnter data type (name / obj / all): "))
+            elif self.Args0 == "help":
+                if self.Args2 is None:
+                    corefn.help(self.Args1)
+                else:
+                    print("\nUnexpected additional arg.\nThis command only requires Arg0.\n")
 
-            elif self.CmdToExecute == "help":
-                print("\n- Commands List -")
-                for i in range(len(fM.CmdList['cmds'])):
-                    print(f"{fM.CmdList['cmds'][i]}: {fM.CmdExpl['expl'][i]}")
-                print("\n")
-
-            elif self.CmdToExecute == "quit":
-                self.isRunning = False
+            elif any([self.Args0 == "quit", self.Args0 == "stop"]):
+                if self.Args1 is None and self.Args2 is None:
+                    self.isRunning = False
+                else:
+                    print("\nUnexpected additional arg.\nThis command only requires Arg0.\n")
 
             else:
-                print("\nUnknown command.\n")
+                print("\nUnknown command.\nPlease make sure that you entered correct command (or use help command).\n")
 
-    def Command(self):
-        self.CmdToExecute = input("Enter a command: ")
+            # reset vars
+            self.Args0 = None
+            self.Args1 = None
+            self.Args2 = None
 
 main = Main()
 if __name__ == "__main__":
