@@ -1,10 +1,18 @@
 # import python modules
 import os
 import json
+import sys
 
-# rf means the original file
+# setup
+if getattr(sys, 'frozen', False):
+    ScriptDirection = os.path.dirname(sys.executable)
+else:
+    ScriptDirection = os.path.dirname(os.path.realpath(__file__))
+
+os.chdir(ScriptDirection)
 
 class FileManager:
+    # rf means the original file
     def __init__(self):
         # open file
         self.rf_Names = open(os.path.join("UserData", "Names.json"), encoding='utf8')
@@ -23,3 +31,5 @@ class FileManager:
         self.rf_Objects.close()
         self.rf_Commands.close()
         self.rf_CmdExplanation.close()
+
+print(os.path.dirname(os.path.realpath(__file__)))
