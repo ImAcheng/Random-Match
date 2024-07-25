@@ -7,6 +7,20 @@ import random
 import fileManager
 fm = fileManager.FileManager()
 
+# functions
+def ListLenType(TargetList: list) -> str:
+    if len(TargetList) > 1:
+        return "are"
+    else:
+        return "is"
+
+def PrintOutData(TargetList: list, DisplayName: str):
+    ListString = ", ".join(TargetList)
+    if TargetList:
+        print(f"\nThere {ListLenType(TargetList)} - \n{ListString} \nin the {DisplayName} list.\n")
+    else:
+        print(f"\n{DisplayName} list is empty.\n")
+
 # main
 class Core:
     def __init__(self):
@@ -14,17 +28,8 @@ class Core:
         self.ObjectsList: list = fm.ObjectsData['Objects']
         self.cur_NamesList: list = []
         self.cur_ObjectsList: list = []
-        self.StudentToRemove: str = None
-        self.ListDebugNum: int = 0
-        self.RandomName: str = None
-        self.RandomObject: str = None
-        self.Matched: list = []
-        self.ListUsedToBeRange: list = None
-        self.isExist: bool = False
-        self.isDataCorrect: bool = True
-        self.IndexCheck: int = None
 
-    def AddNewStudent(self, name: str) -> object:
+    def AddNewStudent(self, name: str):
         # program data
         self.NamesList.append(name)
         self.cur_NamesList.append(name)
@@ -34,15 +39,12 @@ class Core:
         with open(os.path.join("UserData", "Names.json"), "w") as file:
             json.dump(fm.NamesData, file)
 
-        # print current list
-        print(f'There {self.ListLenType(self.NamesList)}: \n{", ".join(self.NamesList)} \nin the list.\n')
+        # print messages
+        print(f"\nSuccessfully added '{name}' to the names list.")
+        PrintOutData(self.NamesList, "names")
 
-    def RemoveStudent(self, name: str):
-        for i in range(len(self.NamesList)):
-            if name == self.NamesList[i]:
-                self.isExist = True
-
-        if self.isExist:
+    def RemoveName(self, name: str):
+        try:
             # program data
             self.NamesList.remove(name)
             self.cur_NamesList.remove(name)
@@ -52,12 +54,11 @@ class Core:
             with open(os.path.join("UserData", "Names.json"), "w") as file:
                 json.dump(fm.NamesData, file)
 
-            # print current list
-            print(f'There {self.ListLenType(self.NamesList)}: \n{", ".join(self.NamesList)} \nin the list.\n')
-        else:
-            print("Name not found.")
-
-        self.isExist = False
+            # print messages
+            print(f"\nSuccessfully removed '{name}' from the names list.")
+            PrintOutData(self.NamesList, "names")
+        except ValueError:
+            print(f"Data '{name}' doesn't exist.")
 
     def AddNewObject(self, name: str):
         # program data
@@ -69,15 +70,12 @@ class Core:
         with open(os.path.join("UserData", "Objects.json"), "w") as file:
             json.dump(fm.ObjectsData, file)
 
-        # print current list
-        print(f'There {self.ListLenType(self.ObjectsList)}: \n{", ".join(self.ObjectsList)} \nin the list.\n')
+        # print messages
+        print(f"\nSuccessfully added '{name}' to the objects list.")
+        PrintOutData(self.ObjectsList, "objects")
 
     def RemoveObject(self, name: str):
-        for i in range(len(self.ObjectsList)):
-            if name == self.ObjectsList[i]:
-                self.isExist = True
-
-        if self.isExist:
+        try:
             # program data
             self.ObjectsList.remove(name)
             self.cur_ObjectsList.remove(name)
@@ -87,87 +85,114 @@ class Core:
             with open(os.path.join("UserData", "Objects.json"), "w") as file:
                 json.dump(fm.ObjectsData, file)
 
-            # print current list
-            print(f'There {self.ListLenType(self.ObjectsList)}: \n{", ".join(self.ObjectsList)} \nin the list.\n')
-        else:
-            print("\nObject not found.\n")
-
-        self.isExist = False
+                # print messages
+                print(f"\nSuccessfully removed '{name}' from the objects list.")
+                PrintOutData(self.NamesList, "objects")
+        except ValueError:
+            print(f"Data '{name}' doesn't exist.")
 
     def Match(self):
+        ListUsedToBeRange: list = []
+        Matched: list = []
+        RandomName: str = None
+        RandomObject: str = None
+
         # get the list which is used to be the range
         if len(self.NamesList) > len(self.ObjectsList):
-            self.ListUsedToBeRange = self.cur_ObjectsList
+            ListUsedToBeRange = self.cur_ObjectsList
         else:
-            self.ListUsedToBeRange = self.cur_NamesList
+            ListUsedToBeRange = self.cur_NamesList
 
-        # match
-        for i in range(len(self.ListUsedToBeRange)):
-            # random choose
-            self.RandomName = random.choice(self.cur_NamesList)
-            self.RandomObject = random.choice(self.cur_ObjectsList)
+        if self.cur_NamesList and self.cur_ObjectsList:
+            # match
+            for i in range(len(ListUsedToBeRange)):
+                # random choose
+                RandomName = random.choice(self.cur_NamesList)
+                RandomObject = random.choice(self.cur_ObjectsList)
 
-            # add to list
-            self.Matched.append([self.RandomName, self.RandomObject])
+                # add to list
+                Matched.append([RandomName, RandomObject])
 
-            # remove from list
-            self.cur_NamesList.remove(self.RandomName)
-            self.cur_ObjectsList.remove(self.RandomObject)
+                # remove from list
+                self.cur_NamesList.remove(RandomName)
+                self.cur_ObjectsList.remove(RandomObject)
 
-        # print result
-        print("\n======================")
-        for i in range(len(self.Matched)):
-            print(", ".join(self.Matched[i]))
-        print("======================\n")
+            # print result
+            print("\n======================")
+            for i in range(len(Matched)):
+                print(", ".join(Matched[i]))
+            print("======================\n")
+        else:
+            print("\nCannot run match command due to the empty list(s).\n")
 
         # reset
-        self.Matched.clear()
-        self.CurListDataSetup()
+        self.CurrentListDataSetup()
 
     def clear(self, data: str):
-        if data == "name":
-            # program data
-            self.NamesList.clear()
+        AbleToPrint: bool = False
+        isDataCorrect: bool = True
 
-            # save data
-            fm.NamesData['Names'] = self.NamesList
-            with open(os.path.join("UserData", "Names.json"), "w") as file:
-                json.dump(fm.NamesData, file)
+        if data == "name":
+            if self.NamesList:
+                # program data
+                self.NamesList.clear()
+                self.cur_NamesList.clear()
+
+                # save data
+                fm.NamesData['Names'] = self.NamesList
+                with open(os.path.join("UserData", "Names.json"), "w") as file:
+                    json.dump(fm.NamesData, file)
+
+                AbleToPrint = True
+            else:
+                print("\nCannot run 'clear name' command due to the empty list.\n")
 
         elif data == "object":
-            # program data
-            self.ObjectsList.clear()
+            if self.ObjectsList:
+                # program data
+                self.ObjectsList.clear()
+                self.cur_ObjectsList.clear()
 
-            # save data
-            fm.ObjectsData['Objects'] = self.ObjectsList
-            with open(os.path.join("UserData", "Objects.json"), "w") as file:
-                json.dump(fm.ObjectsData, file)
+                # save data
+                fm.ObjectsData['Objects'] = self.ObjectsList
+                with open(os.path.join("UserData", "Objects.json"), "w") as file:
+                    json.dump(fm.ObjectsData, file)
+
+                AbleToPrint = True
+            else:
+                print("\nCannot run 'clear object' command due to the empty list.\n")
 
         elif data == "all":
-            # program data
-            self.NamesList.clear()
-            self.ObjectsList.clear()
+            if self.NamesList and self.ObjectsList:
+                # program data
+                self.NamesList.clear()
+                self.ObjectsList.clear()
+                self.cur_NamesList.clear()
+                self.cur_ObjectsList.clear()
 
-            # save data
-            fm.NamesData['Names'] = self.NamesList
-            with open(os.path.join("UserData", "Names.json"), "w") as file:
-                json.dump(fm.NamesData, file)
+                # save data
+                fm.NamesData['Names'] = self.NamesList
+                with open(os.path.join("UserData", "Names.json"), "w") as file:
+                    json.dump(fm.NamesData, file)
 
-            fm.ObjectsData['Objects'] = self.ObjectsList
-            with open(os.path.join("UserData", "Objects.json"), "w") as file:
-                json.dump(fm.ObjectsData, file)
+                fm.ObjectsData['Objects'] = self.ObjectsList
+                with open(os.path.join("UserData", "Objects.json"), "w") as file:
+                    json.dump(fm.ObjectsData, file)
+
+                AbleToPrint = True
+            else:
+                print("\nCannot run 'clear all' command due to the empty list(s).\n")
 
         else:
             print(f"\nUnexpected arg names {data}.\nPlease make sure that you entered correct command.\n")
-            self.isDataCorrect = False
+            isDataCorrect = False
 
-        if self.isDataCorrect:
+        if isDataCorrect and AbleToPrint:
             print(f"\n====================\nCleared {data}\n====================\n")
 
-        # reset data
-        self.isDataCorrect = True
-
     def help(self, command):
+        IndexCheck: int = None
+
         if command is None:
             print("\n- Commands List -")
             for i in range(len(fm.CmdList['cmds'])):
@@ -177,34 +202,55 @@ class Core:
             # check if command is found and record its index
             for i in range(len(fm.CmdList['cmds'])):
                 if command == fm.CmdList['cmds'][i]:
-                    self.IndexCheck = i
+                    IndexCheck = i
 
-            if self.IndexCheck is not None:
-                print(f"\nCommand - {fm.CmdList['cmds'][self.IndexCheck]}\n{fm.CmdExpl['detail'][self.IndexCheck]}\n")
+            if IndexCheck is not None:
+                print(f"\nCommand - {fm.CmdList['cmds'][IndexCheck]}\n{fm.CmdExpl['detail'][IndexCheck]}\n")
             else:
-                print(f"\nCommand {command} is not found.\n")
+                print(f"\nCommand '{command}' is not found.\n")
 
-        # reset data
-        self.IndexCheck = None
-
-    def ListLenType(self, TargetList: list):
-        if len(TargetList) > 1:
-            return "are"
-        else:
-            return "is"
-
-    def CurListDataSetup(self):
+    def CurrentListDataSetup(self):
+        # clear exist data
         self.cur_NamesList.clear()
         self.cur_ObjectsList.clear()
 
-        for i in range(len(self.NamesList)):
-            self.cur_NamesList.append(self.NamesList[i])
+        # name
+        if self.NamesList:
+            for idx, digit in enumerate(self.NamesList):
+                self.cur_NamesList.append(digit)
 
-        for i in range(len(self.ObjectsList)):
-            self.cur_ObjectsList.append(self.ObjectsList[i])
+        # object
+        if self.ObjectsList:
+            for idx, digit in enumerate(self.ObjectsList):
+                self.cur_ObjectsList.append(digit)
 
-    def PrintListContent(self):
-        print(f"Names List: {self.NamesList}\n"
-              f"Objects List: {self.ObjectsList}\n"
-              f"Current Names List: {self.cur_NamesList}\n"
-              f"Current Objects List: {self.cur_ObjectsList}")
+    def LoadFromData(self, list_name: str, File: str):
+        # load file
+        with open(File, "r", encoding='utf8') as file:
+            Data = list(map(str, file.read().strip().split()))
+
+        if list_name == "name":
+            # cover data
+            self.NamesList = Data
+
+            # save data
+            fm.NamesData['Names'] = self.NamesList
+            with open(os.path.join("UserData", "Names.json"), "w") as file:
+                json.dump(fm.NamesData, file)
+
+            # print data
+            PrintOutData(self.NamesList, "names")
+
+        elif list_name == "object":
+            # cover data
+            self.ObjectsList = Data
+
+            # save data
+            fm.ObjectsData['Objects'] = self.ObjectsList
+            with open(os.path.join("UserData", "Objects.json"), "w") as file:
+                json.dump(fm.ObjectsData, file)
+
+            # print data
+            PrintOutData(self.ObjectsList, "objects")
+
+        self.CurrentListDataSetup()
