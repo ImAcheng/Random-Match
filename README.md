@@ -10,13 +10,14 @@ Enter the commands below to use it.
 - load {target} {path}. Load content to the list(name / object) from a file. **[new!]**
 - clear {data} - Clear data(name / object / all) from the database.
 - print {target} - Show all content in the list(name / object). **[new!]**
-- quit / stop - Stop program.
+- stop - Stop program.
 
 ## Version
-- Release 1.2.1
-  * Fixed the problem of "remove object" command (wrong message).
-  * Improved the performance for a little bit.
-- Release date: 2024-07-26
+- Release 1.2.2
+  * Fixed the entering nothing causes program crash problem. [Bug 005]
+  * Added "load" command to the help commands list.
+  * Removed "quit" command.
+- Release date: Jul. 29th, 2024
     
 #
 ©2024 Lonely Acheng All Rights Reserved.
