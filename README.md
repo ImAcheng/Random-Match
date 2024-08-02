@@ -2,6 +2,9 @@
 This is a simple program which is designed to be a teaching tool.
 
 ## Warning
+* Because the pygame module, you might not able to open the python file in file explore.
+* To open the py file, please open this stuff in IDE.
+---
 * This is an early test version which is incomplete.
 * It contains both the console and window version.
 * To formally start running it, please enter the version you want to use.
