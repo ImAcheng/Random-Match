@@ -1,40 +1,54 @@
 # import other python files
 import core
-import fileManager
+from fileManager import FileManager
 import time
+import window
+import gloabalVars as gv
 
 # setup
 corefn = core.Core()
-fM = fileManager.FileManager()
+fM = FileManager()
+window = window.Window()
 
 # main
 class Main:
     def __init__(self):
-        self.isRunning: bool = True
-
         self.ArgsList: list = []
         self.Args0 = None
         self.Args1 = None
         self.Args2 = None
+        self.LaunchMode: str = ""
 
         corefn.CurrentListDataSetup()
 
     def Update(self):
-        while self.isRunning:
-            # get command
-            self.ArgsList = list(map(str, input("Enter command\n> ").strip().split()))
-
-            # distribute args
-            try:
-                self.Args0 = self.ArgsList[0]
-                self.Args1 = self.ArgsList[1]
-                self.Args2 = self.ArgsList[2]
-            except IndexError:
-                pass
-
+        self.LaunchMode = input("Enter launch mode (console / window) > ")
+        while gv.isProgramRunning:
             # process command
-            if self.Args0 is not None:
-                if self.Args0 == "add":
+            match self.LaunchMode:
+                case "console":
+                    self.Console()
+                case "window":
+                    window.update()
+                case _:
+                    gv.isProgramRunning = False
+
+    def Console(self):
+        # get command
+        self.ArgsList = list(map(str, input("Enter command\n> ").strip().split()))
+
+        # distribute args
+        try:
+            self.Args0 = self.ArgsList[0]
+            self.Args1 = self.ArgsList[1]
+            self.Args2 = self.ArgsList[2]
+        except IndexError:
+            pass
+
+        # process command
+        if self.Args0 is not None:
+            match self.Args0:
+                case "add":
                     if self.Args1 is not None:
                         if self.Args1 == "name":
                             if self.Args2 is not None:
@@ -47,11 +61,12 @@ class Main:
                             else:
                                 print("\nMissing args.\nCorrect usage > add <target> <name>\n")
                         else:
-                            print(f"\nUnexpected arg names {self.Args1}.\nPlease make sure that you entered correct command.\n")
+                            print(
+                                f"\nUnexpected arg names {self.Args1}.\nPlease make sure that you entered correct command.\n")
                     else:
                         print("\nMissing args.\nCorrect usage > add <target> <name>\n")
 
-                elif self.Args0 == "remove":
+                case "remove":
                     if self.Args1 is not None:
                         if self.Args1 == "name":
                             if self.Args2 is not None:
@@ -64,17 +79,18 @@ class Main:
                             else:
                                 print("\nMissing args.\nCorrect usage > remove <target> <name>\n")
                         else:
-                            print(f"\nUnexpected arg names {self.Args1}.\nPlease make sure that you entered correct command.\n")
+                            print(
+                                f"\nUnexpected arg names {self.Args1}.\nPlease make sure that you entered correct command.\n")
                     else:
                         print("\nMissing args.\nCorrect usage > remove <target> <name>\n")
 
-                elif self.Args0 == "match":
+                case "match":
                     if self.Args1 is None and self.Args2 is None:
                         corefn.Match()
                     else:
                         print("\nUnexpected additional arg.\nThis command only requires Arg0.\n")
 
-                elif self.Args0 == "clear":
+                case "clear":
                     if self.Args2 is None:
                         if self.Args1 is not None:
                             corefn.clear(self.Args1)
@@ -83,26 +99,27 @@ class Main:
                     else:
                         print("\nUnexpected additional arg.\nThis command only requires Arg0 and Arg1.\n")
 
-                elif self.Args0 == "help":
+                case "help":
                     if self.Args2 is None:
                         corefn.help(self.Args1)
                     else:
                         print("\nUnexpected additional arg.\nThis command only requires Arg0.\n")
 
-                elif self.Args0 == "load":
+                case "load":
                     if self.Args1 is not None and self.Args2 is not None:
                         try:
                             if any([self.Args1 == "name", self.Args1 == "object"]):
                                 corefn.LoadFromData(self.Args1, self.Args2)
                             else:
-                                print(f"\nUnknown list names {self.Args1}.\nPlease check if you entered a correct list name.\n")
+                                print(
+                                    f"\nUnknown list names {self.Args1}.\nPlease check if you entered a correct list name.\n")
 
                         except FileNotFoundError:
                             print(f"\nFile {self.Args2} is not found.\nPlease check if you entered a correct path.\n")
                     else:
                         print("\nMissing args.\nCorrect usage > load <List Name> <File Path>\n")
 
-                elif self.Args0 == "print":
+                case "print":
                     if self.Args1 is not None:
                         if self.Args2 is None:
                             if self.Args1 == "name":
@@ -110,33 +127,34 @@ class Main:
                             elif self.Args1 == "object":
                                 core.PrintOutData(corefn.ObjectsList, "object")
                             else:
-                                print(f"\nUnknown list names {self.Args1}. \nPlease check if entered a correct list name.\n")
+                                print(
+                                    f"\nUnknown list names {self.Args1}. \nPlease check if entered a correct list name.\n")
                         else:
                             print("\nUnexpected additional arg.\nThis command only requires Arg0 and Arg1.\n")
                     else:
                         print("\nMissing args.\nCorrect usage > print <list name>\n")
 
-                elif any([self.Args0 == "quit", self.Args0 == "stop"]):
+                case "stop":
                     if self.Args1 is None and self.Args2 is None:
                         print("\nThanks for using! \nThis program will be automatically stopped in 3 seconds...\n")
                         time.sleep(3)
-                        self.isRunning = False
+                        gv.isProgramRunning = False
                     else:
                         print("\nUnexpected additional arg.\nThis command only requires Arg0.\n")
 
-                elif self.Args0 == "debug":
+                case "debug":
                     print("\nIt seems like that you entered a developer command.\n"
                           "This command might do something if the developer forgot to remove it from this place.\n")
 
-                else:
+                case _:
                     print("\nUnknown command.\nPlease make sure that you entered correct command (or use help command).\n")
-            else:
-                print("\nCommand cannot be None.\n")
+        else:
+            print("\nCommand cannot be None.\n")
 
-            # reset vars
-            self.Args0 = None
-            self.Args1 = None
-            self.Args2 = None
+        # reset vars
+        self.Args0 = None
+        self.Args1 = None
+        self.Args2 = None
 
 main = Main()
 if __name__ == "__main__":

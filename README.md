@@ -1,6 +1,11 @@
 # Random Match
 This is a simple program which is designed to be a teaching tool.
 
+## Warning
+* This is an early test version which is incomplete.
+* It contains both the console and window version.
+* To formally start running it, please enter the version you want to use.
+
 ## Usage
 Enter the commands below to use it.
 - help ({command}) - Show all commands (or specific command's details).
@@ -13,11 +18,8 @@ Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- Release 1.2.2
-  * Fixed the entering nothing causes program crash problem. [Bug 005]
-  * Added "load" command to the help commands list.
-  * Removed "quit" command.
-- Release date: Jul. 29th, 2024
+- Alpha 2.0.0 (Early Test Build Number: 113080301)
+  * This is an early test build of Alpha 2.0.0, which is going to be release soon.
     
 #
 ©2024 Lonely Acheng All Rights Reserved.

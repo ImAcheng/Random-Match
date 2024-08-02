@@ -3,8 +3,11 @@ import os
 import json
 import random
 
-# import json files
+# import other python files
 import fileManager
+import gloabalVars as gv
+
+# setup
 fm = fileManager.FileManager()
 
 # functions
@@ -146,6 +149,7 @@ class Core:
                 AbleToPrint = True
             else:
                 print("\nCannot run 'clear name' command due to the empty list.\n")
+                gv.ResultMessage = gv.ResultMessage = "\nCannot Run 'clear name' Function\n"
 
         elif data == "object":
             if self.ObjectsList:
@@ -161,6 +165,7 @@ class Core:
                 AbleToPrint = True
             else:
                 print("\nCannot run 'clear object' command due to the empty list.\n")
+                gv.ResultMessage = "\nCannot Run 'clear object' Function\n"
 
         elif data == "all":
             if self.NamesList and self.ObjectsList:
@@ -182,6 +187,7 @@ class Core:
                 AbleToPrint = True
             else:
                 print("\nCannot run 'clear all' command due to the empty list(s).\n")
+                gv.ResultMessage = "\nCannot Run 'clear all' Function\n"
 
         else:
             print(f"\nUnexpected arg names {data}.\nPlease make sure that you entered correct command.\n")
@@ -189,6 +195,7 @@ class Core:
 
         if isDataCorrect and AbleToPrint:
             print(f"\n====================\nCleared {data}\n====================\n")
+            gv.ResultMessage = f"\nCleared {data}\n"
 
     def help(self, command):
         IndexCheck: int = None
