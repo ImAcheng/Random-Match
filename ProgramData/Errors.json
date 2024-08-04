@@ -3,6 +3,7 @@
     "-1": "Unknown Code Test",
     "0": "Unknown Error",
     "1": "Displaying Unknown Pages",
-    "2": "Function Not Available"
+    "2": "Function Not Available",
+    "3": "Missing Details"
   }
 }

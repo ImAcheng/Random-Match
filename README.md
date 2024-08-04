@@ -12,14 +12,14 @@ Enter the commands below to use it.
 - match - Main function. Use it to match random name to random object.
 - add {target} {name} - Add a new name / object to the database.
 - remove {target} {name} - Remove a name / object from the database.
-- load {target} {path}. Load content to the list(name / object) from a file. **[new!]**
+- load {target} {path}. Load content to the list(name / object) from a file.
 - clear {data} - Clear data(name / object / all) from the database.
-- print {target} - Show all content in the list(name / object). **[new!]**
+- print {target} - Show all content in the list(name / object).
 - stop - Stop program.
 
 ## Version
-- Alpha 2.0.0 (Early Test Build Number: 113080301)
-  * This is an early test build of Alpha 2.0.0, which is going to be release soon.
+- Early Test Build ver-002
+  * This is an early test version of Random Match UI update (2.x.x)
     
 #
 ©2024 Lonely Acheng All Rights Reserved.

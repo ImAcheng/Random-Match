@@ -17,12 +17,13 @@ class Main:
         self.Args0 = None
         self.Args1 = None
         self.Args2 = None
-        self.LaunchMode: str = ""
-
-        corefn.CurrentListDataSetup()
+        self.LaunchMode: str = fM.Settings['Preferred_Startup_Mode']
 
     def Update(self):
-        self.LaunchMode = input("Enter launch mode (console / window) > ")
+        corefn.CurrentListDataSetup()
+        if self.LaunchMode == "":
+            self.LaunchMode = input("Enter launch mode (console / window) > ")
+
         while gv.isProgramRunning:
             # process command
             match self.LaunchMode:

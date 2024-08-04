@@ -31,6 +31,7 @@ class Core:
         self.ObjectsList: list = fm.ObjectsData['Objects']
         self.cur_NamesList: list = []
         self.cur_ObjectsList: list = []
+        self.CurrentListDataSetup()
 
     def AddNewStudent(self, name: str):
         # program data
@@ -43,6 +44,7 @@ class Core:
             json.dump(fm.NamesData, file)
 
         # print messages
+        gv.ResultMessage = f"\nSuccessfully added '{name}' to the names list.\n"
         print(f"\nSuccessfully added '{name}' to the names list.")
         PrintOutData(self.NamesList, "names")
 
@@ -58,6 +60,7 @@ class Core:
                 json.dump(fm.NamesData, file)
 
             # print messages
+            gv.ResultMessage = f"\nSuccessfully removed '{name}' from the names list.\n"
             print(f"\nSuccessfully removed '{name}' from the names list.")
             PrintOutData(self.NamesList, "names")
         except ValueError:
@@ -74,6 +77,7 @@ class Core:
             json.dump(fm.ObjectsData, file)
 
         # print messages
+        gv.ResultMessage = f"\nSuccessfully added '{name}' to the objects list.\n"
         print(f"\nSuccessfully added '{name}' to the objects list.")
         PrintOutData(self.ObjectsList, "objects")
 
@@ -89,6 +93,7 @@ class Core:
                 json.dump(fm.ObjectsData, file)
 
                 # print messages
+                gv.ResultMessage = f"\nSuccessfully removed '{name}' from the objects list.\n"
                 print(f"\nSuccessfully removed '{name}' from the objects list.")
                 PrintOutData(self.NamesList, "objects")
         except ValueError:
@@ -121,11 +126,13 @@ class Core:
                 self.cur_ObjectsList.remove(RandomObject)
 
             # print result
+            gv.ResultMessage = "\nResult shows in the console due to skill issues :(\n"
             print("\n======================")
             for i in range(len(Matched)):
                 print(", ".join(Matched[i]))
             print("======================\n")
         else:
+            gv.ResultMessage = "\nCannot Run 'match' Function\n"
             print("\nCannot run match command due to the empty list(s).\n")
 
         # reset

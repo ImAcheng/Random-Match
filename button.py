@@ -78,3 +78,39 @@ class Button():
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
         newText(surface, ctx, fM.default_text_font, self.textColor, self.textPos[0], self.textPos[1], 1, 'center')
+
+class EnterButton():
+    def __init__(self, posX: float, posY: float, scale: list, function):
+        self.posX = posX
+        self.posY = posY
+        self.Scale = scale
+        self.function = function
+        self.image = fM.button_enter_normal
+        self.image = pygame.transform.scale(self.image, (scale[0], scale[1]))
+        self.rect = self.image.get_rect()
+        self.rect.center = (posX, posY)
+        self.isFunctionExecuted: bool = False
+        self.PressingTime: int = 0
+
+    def draw(self, surface, ctx):
+        # handle mouse
+        mousePos = pygame.mouse.get_pos()
+
+        if self.rect.collidepoint(mousePos):
+            if pygame.mouse.get_pressed()[0]:
+                self.image = fM.button_enter_pressed
+                self.image = pygame.transform.scale(self.image, (self.Scale[0], self.Scale[1]))
+
+                if gv.LeftButtonPressingTime == 0:
+                    self.function()
+            else:
+                self.image = fM.button_enter_chose
+                self.image = pygame.transform.scale(self.image, (self.Scale[0], self.Scale[1]))
+                self.isFunctionExecuted = False
+
+        else:
+            self.image = fM.button_enter_normal
+            self.image = pygame.transform.scale(self.image, (self.Scale[0], self.Scale[1]))
+
+        # draw
+        surface.blit(self.image, (self.rect.x, self.rect.y))

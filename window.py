@@ -12,6 +12,7 @@ from commandLogic import ProcessCommand
 # setup
 fM = fileManager.FileManager()
 Button = button.Button
+EnterButton = button.EnterButton
 newText = text.newText
 inputField = inputField.InputField
 
@@ -19,9 +20,6 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Random Match")
 pygame.display.set_icon(fM.icon)
-
-def test():
-    print("Hello, world")
 
 class Window:
     def __init__(self):
@@ -42,7 +40,7 @@ class Window:
         self.bt_GoToMainFn = Button(400, 200, [350, 80], self.GoToMainFnPage, True)
         self.bt_GoToHelp = Button(400, 300, [350, 80], self.GoToHelpPage, True)
         self.bt_StopProgram = Button(400, 400, [350, 80], self.StopProgram, True)
-        self.bt_Match = Button(400, 200, [350, 80], self.FunctionNotAvailable, True)
+        self.bt_Match = Button(400, 200, [350, 80], self.Command_Match, True)
         self.bt_Add = Button(300, 300, [150, 80], self.GoToAddPage, True)
         self.bt_Remove = Button(500, 300, [150, 80], self.GoToRemovePage, True)
         self.bt_Load = Button(300, 400, [150, 80], self.FunctionNotAvailable, True)
@@ -55,6 +53,7 @@ class Window:
         self.bt_clear_ChooseAll = Button(400, 400, [350, 80], self.Command_Clear_All, True)
         self.bt_Cancel = Button(400, 500, [350, 80], self.Command_Cancel, True)
         self.bt_Confirm = Button(400, 300, [350, 80], self.Command_Process, True)
+        self.bt_InputEnter = EnterButton(573, 260, [54, 54], self.Process_Input_Field_Ctx)
 
         self.InputField = inputField(400, 200)
 
@@ -145,7 +144,7 @@ class Window:
 
         newText(screen, "Random Match", fM.default_text_font, (0, 0, 0), 400, 100, 2, 'center')
         newText(screen, "©2024 Lonely Work All Rights Reserved. DO NOT DISTRIBUTE.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright')
-        newText(screen, "rm-early-test(UI demo) build number: 113080301", fM.dev_text_font, "#FFFFFF", 10, 10, 1, 'topleft')
+        newText(screen, "rm-early-test(UI demo) build test-ver-002", fM.dev_text_font, "#FFFFFF", 10, 10, 1, 'topleft')
         # update
         pygame.display.update()
 
@@ -174,6 +173,8 @@ class Window:
             case "FnDisabled":
                 self.draw_ErrorPage()
                 self.ErrorCode = 2
+            case "Error":
+                self.draw_ErrorPage()
             case _:
                 self.draw_ErrorPage()
                 self.ErrorCode = 1
@@ -266,10 +267,18 @@ class Window:
 
     def draw_InputPage(self):
         self.InputField.draw(screen, "".join(self.userInputString))
+        self.bt_InputEnter.draw(screen, "Enter")
         self.bt_Cancel.draw(screen, "Cancel")
 
     def Process_Input_Field_Ctx(self):
-        self.command += "".join(self.userInputString)
+        if "".join(self.userInputString) != "":
+            self.command += "".join(self.userInputString)
+            self.PageName = "Confirm"
+        else:
+            self.ErrorCode = 3
+            self.PageName = "Error"
+
+        # I'm so freakin smart. I complete the whole input and process system with this shit.
 
     def GoToCleanPage(self):
         self.command = "clear "
@@ -330,8 +339,12 @@ class Window:
         self.PageName = "MainFn"
 
     def Command_Process(self):
-        ProcessCommand(self.command)
-        self.GoToResultPage()
+        try:
+            ProcessCommand(self.command)
+            self.GoToResultPage()
+        except TypeError:
+            self.ErrorCode = 3
+            self.PageName = "Error"
 
     def GoToConfirmPage(self):
         self.PageName = "Confirm"

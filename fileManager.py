@@ -26,6 +26,9 @@ class FileManager:
         self.button_short_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_short_chose.png"))
         self.button_short_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_short_pressed.png"))
         self.input_field = pygame.image.load(os.path.join("ProgramData", "resources", "input_field.png"))
+        self.button_enter_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_normal.png"))
+        self.button_enter_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_chose.png"))
+        self.button_enter_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_pressed.png"))
 
         # fonts
         self.default_text_font = pygame.font.Font(os.path.join("ProgramData", "resources", "default.ttf"), 35)
@@ -37,6 +40,7 @@ class FileManager:
         self.rf_Commands = open(os.path.join("ProgramData", "Commands.json"))
         self.rf_CmdExplanation = open(os.path.join("ProgramData", "CommandsExplanation.json"))
         self.rf_Errors = open(os.path.join("ProgramData", "Errors.json"))
+        self.rf_Settings = open(os.path.join("UserData", "Settings.json"))
 
         # json load
         self.NamesData = json.load(self.rf_Names)
@@ -44,6 +48,7 @@ class FileManager:
         self.CmdList = json.load(self.rf_Commands)
         self.CmdExpl = json.load(self.rf_CmdExplanation)
         self.Errors = json.load(self.rf_Errors)
+        self.Settings = json.load(self.rf_Settings)
 
         # close file
         self.rf_Names.close()
@@ -51,3 +56,4 @@ class FileManager:
         self.rf_Commands.close()
         self.rf_CmdExplanation.close()
         self.rf_Errors.close()
+        self.rf_Settings.close()
