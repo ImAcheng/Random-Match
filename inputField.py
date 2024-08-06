@@ -1,6 +1,7 @@
 import pygame
 import fileManager
 import text
+import gloabalVars as gv
 
 fM = fileManager.FileManager()
 newText = text.newText
@@ -18,6 +19,9 @@ class InputField():
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
         if ctx == "":
-            newText(surface, "Enter something here.", fM.default_text_font, (200, 200, 200), self.posX - 190, self.posY - 14, 0.5, 'topleft')
+            if gv.InputFieldType == "name":
+                newText(surface, "Enter name here.", fM.default_text_font, (200, 200, 200), self.posX - 190, self.posY - 14, 0.5, 'topleft')
+            elif gv.InputFieldType == "path":
+                newText(surface, "Enter file path here.", fM.default_text_font, (200, 200, 200), self.posX - 190, self.posY - 14, 0.5, 'topleft')
         else:
             newText(surface, ctx, fM.default_text_font, (0, 0, 0), self.posX - 190, self.posY - 14, 0.5, 'topleft')

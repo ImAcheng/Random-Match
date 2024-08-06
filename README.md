@@ -1,16 +1,21 @@
 # Random Match
 This is a simple program which is designed to be a teaching tool.
 
-## Warning
-* Because the pygame module, you might not able to open the python file in file explore.
+## IMPORTANT
+Something you need to know before using.
+* Because of the pygame module, you might not able to open the python file in file explore.
 * To open the py file, please open this stuff in IDE.
----
-* This is an early test version which is incomplete.
-* It contains both the console and window version.
+* Now, the program includes both of the console and window version.
 * To formally start running it, please enter the version you want to use.
 
 ## Usage
-Enter the commands below to use it.
+Launch
+* Enter window or console to launch the version you want to use!
+
+Window Mode
+* Just click on the UI elements!
+
+Console Mode - Enter the commands below to use it.
 - help ({command}) - Show all commands (or specific command's details).
 - match - Main function. Use it to match random name to random object.
 - add {target} {name} - Add a new name / object to the database.
@@ -21,8 +26,11 @@ Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- Early Test Build ver-002
-  * This is an early test version of Random Match UI update (2.x.x)
+- 2.0.0 Pre-Release 1
+  * Introducing, the brand new face of Random Match!
+  * Almost all the functions can now be used in the Random Match UI (window mode).
+  * You can still use the old way which you have to enter commands (console mode).
+  * Improved the performance.
     
 #
 ©2024 Lonely Acheng All Rights Reserved.

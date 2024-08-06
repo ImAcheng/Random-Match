@@ -36,3 +36,6 @@ def ProcessCommand(command: str):
 
         case "match":
             corefn.Match()
+
+        case "load":
+            corefn.LoadFromData(Arg1, Arg2)

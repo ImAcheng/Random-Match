@@ -43,7 +43,7 @@ class Window:
         self.bt_Match = Button(400, 200, [350, 80], self.Command_Match, True)
         self.bt_Add = Button(300, 300, [150, 80], self.GoToAddPage, True)
         self.bt_Remove = Button(500, 300, [150, 80], self.GoToRemovePage, True)
-        self.bt_Load = Button(300, 400, [150, 80], self.FunctionNotAvailable, True)
+        self.bt_Load = Button(300, 400, [150, 80], self.GoToLoadPage, True)
         self.bt_Clear = Button(500, 400, [150, 80], self.GoToCleanPage, True)
         self.bt_BackToHome = Button(400, 500, [350, 80], self.GoToHomePage, True)
         self.bt_ChooseName = Button(400, 200, [350, 80], self.GoToInputWithName, True)
@@ -59,7 +59,6 @@ class Window:
 
     def update(self):
         self.clock.tick(60)
-        # print(self.command)
 
         # get input
         if pygame.mouse.get_pressed()[0]:
@@ -141,10 +140,11 @@ class Window:
 
         # draw pages
         self.DrawPages()
+        # self.draw_DevInfo()
 
         newText(screen, "Random Match", fM.default_text_font, (0, 0, 0), 400, 100, 2, 'center')
         newText(screen, "©2024 Lonely Work All Rights Reserved. DO NOT DISTRIBUTE.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright')
-        newText(screen, "rm-early-test(UI demo) build test-ver-002", fM.dev_text_font, "#FFFFFF", 10, 10, 1, 'topleft')
+        newText(screen, "Random Match 2.0.0 Pre-Release 1", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
         # update
         pygame.display.update()
 
@@ -242,19 +242,21 @@ class Window:
     def GoToAddPage(self):
         self.command = "add "
         self.PageName = "Add"
+        gv.InputFieldType = "name"
 
     def draw_AddPage(self):
-        self.bt_ChooseName.draw(screen, "Name")
-        self.bt_ChooseObject.draw(screen, "Object")
+        self.bt_ChooseName.draw(screen, "To Names")
+        self.bt_ChooseObject.draw(screen, "To Objects")
         self.bt_Cancel.draw(screen, "Cancel")
 
     def GoToRemovePage(self):
         self.command = "remove "
         self.PageName = "Remove"
+        gv.InputFieldType = "name"
 
     def draw_RemovePage(self):
-        self.bt_ChooseName.draw(screen, "Name")
-        self.bt_ChooseObject.draw(screen, "Object")
+        self.bt_ChooseName.draw(screen, "From Names")
+        self.bt_ChooseObject.draw(screen, "From Objects")
         self.bt_Cancel.draw(screen, "Cancel")
 
     def GoToInputWithName(self):
@@ -269,6 +271,10 @@ class Window:
         self.InputField.draw(screen, "".join(self.userInputString))
         self.bt_InputEnter.draw(screen, "Enter")
         self.bt_Cancel.draw(screen, "Cancel")
+
+        if gv.InputFieldType == "path":
+            newText(screen, "You can't use copy & paste due to some skill issues.", fM.default_text_font, "#0F0F0F", 400, 320, 0.6, 'center')
+            newText(screen, "But, we're trying to develop a new way to explore files now.", fM.default_text_font, "#0F0F0F", 400, 350, 0.6, 'center')
 
     def Process_Input_Field_Ctx(self):
         if "".join(self.userInputString) != "":
@@ -303,10 +309,14 @@ class Window:
         self.bt_Cancel.draw(screen, "Continue")
 
     def GoToLoadPage(self):
+        self.command = "load "
         self.PageName = "Load"
+        gv.InputFieldType = "path"
 
     def draw_LoadPage(self):
-        pass
+        self.bt_ChooseName.draw(screen, "To Names")
+        self.bt_ChooseObject.draw(screen, "To Objects")
+        self.bt_Cancel.draw(screen, "Cancel")
 
     def draw_ErrorPage(self):
         newText(screen, ":(", fM.default_text_font, (255, 255, 255), 150, 230, 4, 'center')
@@ -348,6 +358,9 @@ class Window:
 
     def GoToConfirmPage(self):
         self.PageName = "Confirm"
+
+    def draw_DevInfo(self):
+        newText(screen, f"command: {self.command}", fM.dev_text_font, "#FFFFFF", 10, 30, 1, 'topleft')
 
     def PrintTestMessage(self):
         self.TestTime += 1

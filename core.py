@@ -268,3 +268,5 @@ class Core:
             PrintOutData(self.ObjectsList, "objects")
 
         self.CurrentListDataSetup()
+
+        gv.ResultMessage = f"\nSuccessfully loaded data from '{File}'\n"
