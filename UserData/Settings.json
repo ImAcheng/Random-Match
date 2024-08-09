@@ -1,4 +1,5 @@
 {
   "Language": "en_us",
-  "Preferred_Startup_Mode": ""
+  "Preferred_Startup_Mode": "window",
+  "Develop_Info": false
 }

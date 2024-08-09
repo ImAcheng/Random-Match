@@ -1,4 +1,6 @@
 # import modules
+import os.path
+
 import pygame
 
 # import other python files
@@ -35,11 +37,14 @@ class Window:
         self.TestTime: int = 0
         self.ErrorCode: int = -1
         self.ErrorExplanation = fM.Errors['errors']
+        self.LoadDirIndex: int = 0
+        self.DevInfo = fM.Settings['Develop_Info']
 
         # UI elements
         self.bt_GoToMainFn = Button(400, 200, [350, 80], self.GoToMainFnPage, True)
         self.bt_GoToHelp = Button(400, 300, [350, 80], self.GoToHelpPage, True)
-        self.bt_StopProgram = Button(400, 400, [350, 80], self.StopProgram, True)
+        self.bt_GoToSetting = Button(400, 400, [350, 80], self.FunctionNotAvailable, False)
+        self.bt_StopProgram = Button(400, 500, [350, 80], self.StopProgram, True)
         self.bt_Match = Button(400, 200, [350, 80], self.Command_Match, True)
         self.bt_Add = Button(300, 300, [150, 80], self.GoToAddPage, True)
         self.bt_Remove = Button(500, 300, [150, 80], self.GoToRemovePage, True)
@@ -54,7 +59,11 @@ class Window:
         self.bt_Cancel = Button(400, 500, [350, 80], self.Command_Cancel, True)
         self.bt_Confirm = Button(400, 300, [350, 80], self.Command_Process, True)
         self.bt_InputEnter = EnterButton(573, 260, [54, 54], self.Process_Input_Field_Ctx)
-
+        self.bt_Browse_File_Next = Button(500, 300, [150, 80], self.LoadDirNext, True)
+        self.bt_Browse_File_Previous = Button(300, 300, [150, 80], self.LoadDirPrevious, True)
+        self.bt_Load_File_Select = Button(400, 400, [350, 80], self.Command_Load_Target_File, True)
+        self.bt_load_ChooseName = Button(400, 200, [350, 80], self.GoToFileBrowserWithName, True)
+        self.bt_load_ChooseObject = Button(400, 300, [350, 80], self.GoToFileBrowserWithObject, True)
         self.InputField = inputField(400, 200)
 
     def update(self):
@@ -140,11 +149,13 @@ class Window:
 
         # draw pages
         self.DrawPages()
-        # self.draw_DevInfo()
+
+        if self.DevInfo:
+            self.draw_DevInfo()
 
         newText(screen, "Random Match", fM.default_text_font, (0, 0, 0), 400, 100, 2, 'center')
         newText(screen, "©2024 Lonely Work All Rights Reserved. DO NOT DISTRIBUTE.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright')
-        newText(screen, "Random Match 2.0.0 Pre-Release 1", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+        newText(screen, "Random Match Release 2.0.0", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
         # update
         pygame.display.update()
 
@@ -170,6 +181,8 @@ class Window:
                 self.draw_ResultPage()
             case "Load":
                 self.draw_LoadPage()
+            case "Browse":
+                self.draw_LoadFileBrowser()
             case "FnDisabled":
                 self.draw_ErrorPage()
                 self.ErrorCode = 2
@@ -212,9 +225,10 @@ class Window:
         self.PageName = "Home"
 
     def draw_HomePage(self):
-        self.bt_GoToMainFn.draw(screen, "Main Functions")
-        self.bt_GoToHelp.draw(screen, "Help")
-        self.bt_StopProgram.draw(screen, "Exit")
+        self.bt_GoToMainFn.draw(screen, fM.LangFile_ui['bt_mainFn'])
+        self.bt_GoToHelp.draw(screen, fM.LangFile_ui['bt_help'])
+        self.bt_GoToSetting.draw(screen, fM.LangFile_ui['bt_setting'])
+        self.bt_StopProgram.draw(screen, fM.LangFile_ui['bt_stop'])
 
     def GoToMainFnPage(self):
         self.PageName = "MainFn"
@@ -297,7 +311,7 @@ class Window:
         self.bt_Cancel.draw(screen, "Cancel")
 
     def draw_ConfirmPage(self):
-        newText(screen, "Is that all? If is, press confirm button.", fM.default_text_font, (0, 0, 0), 400, 200, 1, 'center')
+        newText(screen, "Press 'confirm' button to process.", fM.default_text_font, (0, 0, 0), 400, 200, 1, 'center')
         self.bt_Confirm.draw(screen, "Confirm")
         self.bt_Cancel.draw(screen, "Cancel")
 
@@ -312,11 +326,27 @@ class Window:
         self.command = "load "
         self.PageName = "Load"
         gv.InputFieldType = "path"
+        fM.LoadFolder = os.listdir(os.path.join("Load"))
 
     def draw_LoadPage(self):
-        self.bt_ChooseName.draw(screen, "To Names")
-        self.bt_ChooseObject.draw(screen, "To Objects")
+        self.bt_load_ChooseName.draw(screen, "To Names")
+        self.bt_load_ChooseObject.draw(screen, "To Objects")
         self.bt_Cancel.draw(screen, "Cancel")
+
+    def GoToBrowseFilePage(self):
+        self.PageName = "Browse"
+
+    def draw_LoadFileBrowser(self):
+        try:
+            newText(screen, fM.LoadFolder[self.LoadDirIndex], fM.default_text_font, "#FFFFFF", 400, 200, 1, 'center')
+            newText(screen, "File(s) in 'Load' Folder", fM.default_text_font, "#000000", 400, 165, 0.8, 'center')
+            self.bt_Browse_File_Next.draw(screen, "→")
+            self.bt_Browse_File_Previous.draw(screen, "←")
+            self.bt_Load_File_Select.draw(screen, "Select")
+            self.bt_Cancel.draw(screen, "Cancel")
+        except IndexError:
+            self.ErrorCode = 4
+            self.PageName = "Error"
 
     def draw_ErrorPage(self):
         newText(screen, ":(", fM.default_text_font, (255, 255, 255), 150, 230, 4, 'center')
@@ -356,11 +386,34 @@ class Window:
             self.ErrorCode = 3
             self.PageName = "Error"
 
+    def LoadDirNext(self):
+        if self.LoadDirIndex < len(fM.LoadFolder) - 1:
+            self.LoadDirIndex += 1
+
+    def LoadDirPrevious(self):
+        if self.LoadDirIndex > 0:
+            self.LoadDirIndex -= 1
+
+    def Command_Load_Target_File(self):
+        self.command += fM.LoadFolder[self.LoadDirIndex]
+
+        self.GoToConfirmPage()
+
+    def GoToFileBrowserWithName(self):
+        self.command += "name "
+        self.PageName = "Browse"
+
+    def GoToFileBrowserWithObject(self):
+        self.command += "object "
+        self.PageName = "Browse"
+
     def GoToConfirmPage(self):
+
         self.PageName = "Confirm"
 
     def draw_DevInfo(self):
-        newText(screen, f"command: {self.command}", fM.dev_text_font, "#FFFFFF", 10, 30, 1, 'topleft')
+        newText(screen, f"[Dev Info]", fM.dev_text_font, "#d8d8d8", 790, 30, 1, 'bottomright')
+        newText(screen, f"command: {self.command}", fM.dev_text_font, "#d8d8d8", 790, 50, 1, 'bottomright')
 
     def PrintTestMessage(self):
         self.TestTime += 1

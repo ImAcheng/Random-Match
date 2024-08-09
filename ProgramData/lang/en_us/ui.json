@@ -1,0 +1,22 @@
+{
+  "bt_mainFn": "Main Functions",
+  "bt_help": "Help",
+  "bt_setting": "Settings",
+  "bt_stop": "Exit",
+  "bt_match": "Match",
+  "bt_add": "Add",
+  "bt_remove": "Remove",
+  "bt_load": "Load",
+  "bt_clear": "Clear",
+  "bt_return": "Return",
+  "bt_confirm": "Confirm",
+  "bt_toName": "To Names",
+  "bt_toObj": "To Objects",
+  "bt_fromName": "From Names",
+  "bt_fromObj": "From Objects",
+  "bt_justName": "Names",
+  "bt_justObj": "Objects",
+  "bt_all": "All",
+  "bt_cancel": "Cancel",
+  "bt_select": "Select"
+}

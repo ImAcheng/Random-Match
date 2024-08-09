@@ -240,7 +240,7 @@ class Core:
 
     def LoadFromData(self, list_name: str, File: str):
         # load file
-        with open(File, "r", encoding='utf8') as file:
+        with open(os.path.join("Load", File), "r", encoding='utf8') as file:
             Data = list(map(str, file.read().strip().split()))
 
         if list_name == "name":

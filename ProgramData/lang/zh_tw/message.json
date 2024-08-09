@@ -1,0 +1,10 @@
+{
+  "msg_confirm": "按下「確認」按鈕進行處理。",
+  "msg_error_appears": "糟糕，似乎出了點問題。",
+  "msg_error_code": "錯誤代碼",
+  "help_match": "將隨機物件匹配到隨機名稱。",
+  "help_add": "新增一個名稱或物件。",
+  "help_remove": "移除一個名稱或物件。",
+  "help_clear": "清除目標資料。",
+  "help_load": "從檔案讀取資料到目標。"
+}

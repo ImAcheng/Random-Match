@@ -1,0 +1,22 @@
+{
+  "bt_mainFn": "主要功能",
+  "bt_help": "幫助",
+  "bt_setting": "設定",
+  "bt_stop": "退出",
+  "bt_match": "隨機配對",
+  "bt_add": "新增",
+  "bt_remove": "移除",
+  "bt_load": "讀取",
+  "bt_clear": "清除",
+  "bt_return": "返回",
+  "bt_confirm": "確認",
+  "bt_toName": "到名稱",
+  "bt_toObj": "到物件",
+  "bt_fromName": "從名稱",
+  "bt_fromObj": "從物件",
+  "bt_justName": "名稱",
+  "bt_justObj": "物件",
+  "bt_all": "全部",
+  "bt_cancel": "取消",
+  "bt_select": "選擇"
+}

@@ -1,0 +1,11 @@
+{
+  "msg_confirm": "Press 'Confirm' Button to Process.",
+  "msg_error_appears": "Oops, it seems like something went wrong.",
+  "msg_error_code": "Error Code",
+  "help_match": "Match a random object to a random name.",
+  "help_add": "Add a new name or object.",
+  "help_remove": "Remove a name or object.",
+  "help_clear": "Clear the target data.",
+  "help_load": "Load data to the target from a file.",
+  "dev's_msg": "Jesus Christ, I don't really want to make multi-lang."
+}

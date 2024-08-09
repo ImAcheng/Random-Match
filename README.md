@@ -10,7 +10,8 @@ Something you need to know before using.
 
 ## Usage
 Launch
-* Enter window or console to launch the version you want to use!
+* The program now automatically starts in windowed mode.
+* You can change to launch mode by modifying [Settings.json -> Language] in "UserData" folder.
 
 Window Mode
 * Just click on the UI elements!
@@ -26,11 +27,13 @@ Console Mode - Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- 2.0.0 Pre-Release 1
-  * Introducing, the brand new face of Random Match!
+- Release 2.0.0
+  * Introducing, the brand-new face of Random Match!
   * Almost all the functions can now be used in the Random Match UI (window mode).
   * You can still use the old way which you have to enter commands (console mode).
   * Improved the performance.
+  * A new file explore for "load" function.
+  * To prepare for the next update, we added the "setting" button.
     
 #
-©2024 Lonely Acheng All Rights Reserved.
+©2024 Lonely Work (Lonely Acheng) All Rights Reserved.

@@ -29,10 +29,14 @@ class FileManager:
         self.button_enter_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_normal.png"))
         self.button_enter_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_chose.png"))
         self.button_enter_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_pressed.png"))
+        self.button_disabled = pygame.image.load(os.path.join("ProgramData", "resources", "button_disabled.png"))
 
         # fonts
         self.default_text_font = pygame.font.Font(os.path.join("ProgramData", "resources", "default.ttf"), 35)
         self.dev_text_font = pygame.font.SysFont("Arial", 20, italic=True)
+
+        # additional stuff
+        self.LoadFolder = os.listdir(os.path.join("Load"))
 
         # open file
         self.rf_Names = open(os.path.join("UserData", "Names.json"), encoding='utf8')
@@ -57,3 +61,9 @@ class FileManager:
         self.rf_CmdExplanation.close()
         self.rf_Errors.close()
         self.rf_Settings.close()
+
+        # lang file
+        self.LangFile_msg = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "message.json"), encoding='utf8'))
+        self.LangFile_ui = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "ui.json"), encoding='utf8'))
+
+print(FileManager().LoadFolder)
