@@ -30,6 +30,7 @@ class FileManager:
         self.button_enter_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_chose.png"))
         self.button_enter_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_pressed.png"))
         self.button_disabled = pygame.image.load(os.path.join("ProgramData", "resources", "button_disabled.png"))
+        self.button_short_disabled = pygame.image.load(os.path.join("ProgramData", "resources", "button_short_disabled.png"))
 
         # fonts
         self.default_text_font = pygame.font.Font(os.path.join("ProgramData", "resources", "default.ttf"), 35)

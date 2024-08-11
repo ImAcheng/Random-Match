@@ -18,5 +18,7 @@
   "bt_justObj": "Objects",
   "bt_all": "All",
   "bt_cancel": "Cancel",
-  "bt_select": "Select"
+  "bt_select": "Select",
+  "bt_continue": "Continue",
+  "title_allFn": "All Functions"
 }

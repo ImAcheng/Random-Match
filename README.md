@@ -27,13 +27,10 @@ Console Mode - Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- Release 2.0.0
-  * Introducing, the brand-new face of Random Match!
-  * Almost all the functions can now be used in the Random Match UI (window mode).
-  * You can still use the old way which you have to enter commands (console mode).
-  * Improved the performance.
-  * A new file explore for "load" function.
-  * To prepare for the next update, we added the "setting" button.
+- Release 2.0.1
+  * Added more features of multi-lang.
+  * Fixed the texts position of disabled buttons.
+- Release date: Aug. 11th, 2024
     
 #
-©2024 Lonely Work (Lonely Acheng) All Rights Reserved.
+©2024 Lonely Work All Rights Reserved.

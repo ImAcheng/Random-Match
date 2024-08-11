@@ -71,8 +71,11 @@ class Button():
                 self.image = fM.button_disabled
                 self.image = pygame.transform.scale(self.image, (self.Scale[0], self.Scale[1]))
             elif self.Scale[0] == 150:
-                self.image = fM.button_short_chose
+                self.image = fM.button_short_disabled
                 self.image = pygame.transform.scale(self.image, (self.Scale[0], self.Scale[1]))
+
+            self.textPos = [self.posX, self.posY - 5]
+            self.textColor = self.textColor_normal
 
         # draw
         surface.blit(self.image, (self.rect.x, self.rect.y))

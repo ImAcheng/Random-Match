@@ -1,5 +1,13 @@
 {
   "Language": "en_us",
   "Preferred_Startup_Mode": "window",
-  "Develop_Info": false
+  "Develop_Info": false,
+
+  "comments":
+  {
+    "lang_notice":"Multi-Lang only supports English [en_us] & Chinese (Tranditional) [zh_tw]"
+  }
 }
+
+
+ 

@@ -1,6 +1,6 @@
 {
   "bt_mainFn": "主要功能",
-  "bt_help": "幫助",
+  "bt_help": "說明",
   "bt_setting": "設定",
   "bt_stop": "退出",
   "bt_match": "隨機配對",
@@ -18,5 +18,7 @@
   "bt_justObj": "物件",
   "bt_all": "全部",
   "bt_cancel": "取消",
-  "bt_select": "選擇"
+  "bt_select": "選擇",
+  "bt_continue": "繼續",
+  "title_allFn": "所有功能"
 }

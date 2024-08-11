@@ -234,24 +234,24 @@ class Window:
         self.PageName = "MainFn"
 
     def draw_MainFnPage(self):
-        self.bt_Match.draw(screen, "Match")
-        self.bt_Add.draw(screen, "Add")
-        self.bt_Remove.draw(screen, "Remove")
-        self.bt_Load.draw(screen, "Load")
-        self.bt_Clear.draw(screen, "Clear")
-        self.bt_BackToHome.draw(screen, "Back")
+        self.bt_Match.draw(screen, fM.LangFile_ui['bt_match'])
+        self.bt_Add.draw(screen, fM.LangFile_ui['bt_add'])
+        self.bt_Remove.draw(screen, fM.LangFile_ui['bt_remove'])
+        self.bt_Load.draw(screen, fM.LangFile_ui['bt_load'])
+        self.bt_Clear.draw(screen, fM.LangFile_ui['bt_clear'])
+        self.bt_BackToHome.draw(screen, fM.LangFile_ui['bt_return'])
 
     def GoToHelpPage(self):
         self.PageName = "Help"
 
     def draw_HelpPage(self):
-        newText(screen, "All Functions", fM.default_text_font, (0, 0, 0), 400, 175, 1.25, 'center')
-        newText(screen, "- match: Match a random object to a random name.", fM.default_text_font, (0, 0, 0), 20, 200, 0.8, 'topleft')
-        newText(screen, "- add : Add a new name or object.", fM.default_text_font, (0, 0, 0), 20, 230, 0.8, 'topleft')
-        newText(screen, "- remove : Remove a name or object.", fM.default_text_font, (0, 0, 0), 20, 260, 0.8, 'topleft')
-        newText(screen, "- clear : Clear the target data.", fM.default_text_font, (0, 0, 0), 20, 290, 0.8, 'topleft')
-        newText(screen, "- load: Load data to the target from a file.", fM.default_text_font, (0, 0, 0), 20, 320, 0.8, 'topleft')
-        self.bt_BackToHome.draw(screen, "Back")
+        newText(screen, fM.LangFile_ui['title_allFn'], fM.default_text_font, (0, 0, 0), 400, 175, 1.25, 'center')
+        newText(screen, f"- {fM.LangFile_ui['bt_match']}: {fM.LangFile_msg['help_match']}", fM.default_text_font, (0, 0, 0), 20, 200, 0.8, 'topleft')
+        newText(screen, f"- {fM.LangFile_ui['bt_add']}: {fM.LangFile_msg['help_add']}", fM.default_text_font, (0, 0, 0), 20, 230, 0.8, 'topleft')
+        newText(screen, f"- {fM.LangFile_ui['bt_remove']}: {fM.LangFile_msg['help_remove']}", fM.default_text_font, (0, 0, 0), 20, 260, 0.8, 'topleft')
+        newText(screen, f"- {fM.LangFile_ui['bt_clear']}: {fM.LangFile_msg['help_clear']}", fM.default_text_font, (0, 0, 0), 20, 290, 0.8, 'topleft')
+        newText(screen, f"- {fM.LangFile_ui['bt_load']}: {fM.LangFile_msg['help_load']}", fM.default_text_font, (0, 0, 0), 20, 320, 0.8, 'topleft')
+        self.bt_BackToHome.draw(screen, fM.LangFile_ui['bt_return'])
 
     def GoToAddPage(self):
         self.command = "add "
@@ -259,9 +259,9 @@ class Window:
         gv.InputFieldType = "name"
 
     def draw_AddPage(self):
-        self.bt_ChooseName.draw(screen, "To Names")
-        self.bt_ChooseObject.draw(screen, "To Objects")
-        self.bt_Cancel.draw(screen, "Cancel")
+        self.bt_ChooseName.draw(screen, fM.LangFile_ui['bt_toName'])
+        self.bt_ChooseObject.draw(screen, fM.LangFile_ui['bt_toObj'])
+        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_cancel'])
 
     def GoToRemovePage(self):
         self.command = "remove "
@@ -269,9 +269,9 @@ class Window:
         gv.InputFieldType = "name"
 
     def draw_RemovePage(self):
-        self.bt_ChooseName.draw(screen, "From Names")
-        self.bt_ChooseObject.draw(screen, "From Objects")
-        self.bt_Cancel.draw(screen, "Cancel")
+        self.bt_ChooseName.draw(screen, fM.LangFile_ui['bt_fromName'])
+        self.bt_ChooseObject.draw(screen, fM.LangFile_ui['bt_fromObj'])
+        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_cancel'])
 
     def GoToInputWithName(self):
         self.command += "name "
@@ -284,7 +284,7 @@ class Window:
     def draw_InputPage(self):
         self.InputField.draw(screen, "".join(self.userInputString))
         self.bt_InputEnter.draw(screen, "Enter")
-        self.bt_Cancel.draw(screen, "Cancel")
+        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_cancel'])
 
         if gv.InputFieldType == "path":
             newText(screen, "You can't use copy & paste due to some skill issues.", fM.default_text_font, "#0F0F0F", 400, 320, 0.6, 'center')
@@ -305,22 +305,22 @@ class Window:
         self.PageName = "Clean"
 
     def draw_ClearPage(self):
-        self.bt_clear_ChooseName.draw(screen, "Name")
-        self.bt_clear_ChooseObject.draw(screen, "Object")
-        self.bt_clear_ChooseAll.draw(screen, "All")
-        self.bt_Cancel.draw(screen, "Cancel")
+        self.bt_clear_ChooseName.draw(screen, fM.LangFile_ui['bt_justName'])
+        self.bt_clear_ChooseObject.draw(screen, fM.LangFile_ui['bt_justObj'])
+        self.bt_clear_ChooseAll.draw(screen, fM.LangFile_ui['bt_all'])
+        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_cancel'])
 
     def draw_ConfirmPage(self):
-        newText(screen, "Press 'confirm' button to process.", fM.default_text_font, (0, 0, 0), 400, 200, 1, 'center')
-        self.bt_Confirm.draw(screen, "Confirm")
-        self.bt_Cancel.draw(screen, "Cancel")
+        newText(screen, fM.LangFile_msg['msg_confirm'], fM.default_text_font, (0, 0, 0), 400, 200, 1, 'center')
+        self.bt_Confirm.draw(screen, fM.LangFile_ui['bt_confirm'])
+        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_cancel'])
 
     def GoToResultPage(self):
         self.PageName = "Result"
 
     def draw_ResultPage(self):
         newText(screen, gv.ResultMessage, fM.default_text_font, (0, 0, 0), 400, 200, 0.8, 'center')
-        self.bt_Cancel.draw(screen, "Continue")
+        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_continue'])
 
     def GoToLoadPage(self):
         self.command = "load "
@@ -329,30 +329,40 @@ class Window:
         fM.LoadFolder = os.listdir(os.path.join("Load"))
 
     def draw_LoadPage(self):
-        self.bt_load_ChooseName.draw(screen, "To Names")
-        self.bt_load_ChooseObject.draw(screen, "To Objects")
-        self.bt_Cancel.draw(screen, "Cancel")
+        self.bt_load_ChooseName.draw(screen, fM.LangFile_ui['bt_toName'])
+        self.bt_load_ChooseObject.draw(screen, fM.LangFile_ui['bt_toObj'])
+        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_cancel'])
 
     def GoToBrowseFilePage(self):
         self.PageName = "Browse"
 
     def draw_LoadFileBrowser(self):
         try:
-            newText(screen, fM.LoadFolder[self.LoadDirIndex], fM.default_text_font, "#FFFFFF", 400, 200, 1, 'center')
-            newText(screen, "File(s) in 'Load' Folder", fM.default_text_font, "#000000", 400, 165, 0.8, 'center')
+            newText(screen, fM.LoadFolder[self.LoadDirIndex], fM.default_text_font, "#FFFFFF", 400, 220, 1, 'center')
+            newText(screen, fM.LangFile_msg['msg_fileBrowser'], fM.default_text_font, "#000000", 400, 165, 0.8, 'center')
             self.bt_Browse_File_Next.draw(screen, "→")
             self.bt_Browse_File_Previous.draw(screen, "←")
-            self.bt_Load_File_Select.draw(screen, "Select")
-            self.bt_Cancel.draw(screen, "Cancel")
+            self.bt_Load_File_Select.draw(screen, fM.LangFile_ui['bt_select'])
+            self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_cancel'])
         except IndexError:
             self.ErrorCode = 4
             self.PageName = "Error"
 
+        if self.LoadDirIndex == 0:
+            self.bt_Browse_File_Previous = Button(300, 300, [150, 80], self.LoadDirPrevious, False)
+        else:
+            self.bt_Browse_File_Previous = Button(300, 300, [150, 80], self.LoadDirPrevious, True)
+
+        if self.LoadDirIndex == len(fM.LoadFolder) - 1:
+            self.bt_Browse_File_Next = Button(500, 300, [150, 80], self.LoadDirNext, False)
+        else:
+            self.bt_Browse_File_Next = Button(500, 300, [150, 80], self.LoadDirNext, True)
+
     def draw_ErrorPage(self):
         newText(screen, ":(", fM.default_text_font, (255, 255, 255), 150, 230, 4, 'center')
-        newText(screen, "Oops, it seems like that something went wrong.", fM.default_text_font, (255, 255, 255), 100, 320, 0.75, 'topleft')
-        newText(screen, f"Error code: [{self.ErrorCode} ({self.ErrorExplanation[str(self.ErrorCode)]})]", fM.default_text_font, (255, 255, 255), 100, 350, 0.75, 'topleft')
-        self.bt_Cancel.draw(screen, "Continue")
+        newText(screen, fM.LangFile_msg['msg_error_appears'], fM.default_text_font, (255, 255, 255), 100, 320, 0.75, 'topleft')
+        newText(screen, f"{fM.LangFile_msg['msg_error_code']}: [{self.ErrorCode} ({self.ErrorExplanation[str(self.ErrorCode)]})]", fM.default_text_font, (255, 255, 255), 100, 350, 0.75, 'topleft')
+        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_continue'])
 
     def FunctionNotAvailable(self):
         self.PageName = "FnDisabled"
