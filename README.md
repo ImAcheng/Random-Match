@@ -27,9 +27,10 @@ Console Mode - Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- Release 2.0.1
+- Release 2.0.1 - Fixed
   * Added more features of multi-lang.
   * Fixed the texts position of disabled buttons.
+  * Fixed something embarrassing.
 - Release date: Aug. 11th, 2024
     
 #

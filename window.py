@@ -64,6 +64,7 @@ class Window:
         self.bt_Load_File_Select = Button(400, 400, [350, 80], self.Command_Load_Target_File, True)
         self.bt_load_ChooseName = Button(400, 200, [350, 80], self.GoToFileBrowserWithName, True)
         self.bt_load_ChooseObject = Button(400, 300, [350, 80], self.GoToFileBrowserWithObject, True)
+        self.bt_easter_egg = Button(700, 500, [150, 80], self.GoToFixesPage, True)
         self.InputField = inputField(400, 200)
 
     def update(self):
@@ -155,7 +156,7 @@ class Window:
 
         newText(screen, "Random Match", fM.default_text_font, (0, 0, 0), 400, 100, 2, 'center')
         newText(screen, "©2024 Lonely Work All Rights Reserved. DO NOT DISTRIBUTE.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright')
-        newText(screen, "Random Match Release 2.0.0", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+        newText(screen, "Random Match Release 2.0.1 - fixed", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
         # update
         pygame.display.update()
 
@@ -183,6 +184,9 @@ class Window:
                 self.draw_LoadPage()
             case "Browse":
                 self.draw_LoadFileBrowser()
+            case "Fixes":
+                self.draw_FixesPage()
+
             case "FnDisabled":
                 self.draw_ErrorPage()
                 self.ErrorCode = 2
@@ -221,6 +225,15 @@ class Window:
     def StopProgram(self):
         gv.isProgramRunning = False
 
+    def GoToFixesPage(self):
+        self.PageName = "Fixes"
+
+    def draw_FixesPage(self):
+        newText(screen, "Uhh... I just removed something that I forgot to delete.", fM.default_text_font, (0, 0, 0), 400, 200, 0.7, 'center')
+        newText(screen, "Also, I do actually forgot to rename the version, too.", fM.default_text_font, (0, 0, 0), 400, 230, 0.7, 'center')
+        newText(screen, "Anyways, I fixed them.", fM.default_text_font, (0, 0, 0), 400, 260, 0.7, 'center')
+        self.bt_BackToHome.draw(screen, fM.LangFile_ui['bt_return'])
+
     def GoToHomePage(self):
         self.PageName = "Home"
 
@@ -229,6 +242,7 @@ class Window:
         self.bt_GoToHelp.draw(screen, fM.LangFile_ui['bt_help'])
         self.bt_GoToSetting.draw(screen, fM.LangFile_ui['bt_setting'])
         self.bt_StopProgram.draw(screen, fM.LangFile_ui['bt_stop'])
+        self.bt_easter_egg.draw(screen, "Fixes?")
 
     def GoToMainFnPage(self):
         self.PageName = "MainFn"
@@ -362,7 +376,7 @@ class Window:
         newText(screen, ":(", fM.default_text_font, (255, 255, 255), 150, 230, 4, 'center')
         newText(screen, fM.LangFile_msg['msg_error_appears'], fM.default_text_font, (255, 255, 255), 100, 320, 0.75, 'topleft')
         newText(screen, f"{fM.LangFile_msg['msg_error_code']}: [{self.ErrorCode} ({self.ErrorExplanation[str(self.ErrorCode)]})]", fM.default_text_font, (255, 255, 255), 100, 350, 0.75, 'topleft')
-        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_continue'])
+        self.bt_BackToHome.draw(screen, fM.LangFile_ui['bt_continue'])
 
     def FunctionNotAvailable(self):
         self.PageName = "FnDisabled"
