@@ -117,3 +117,53 @@ class EnterButton():
 
         # draw
         surface.blit(self.image, (self.rect.x, self.rect.y))
+
+class LangChoosingButton():
+    def __init__(self, posX: float, posY: float, type: str, function):
+        self.posX = posX
+        self.posY = posY
+        self.function = function
+
+        if type == "next":
+            self.image = fM.button_lang_next_normal
+        else:
+            self.image = fM.button_lang_previous_normal
+
+        self.image = pygame.transform.scale(self.image, (30, 70))
+        self.rect = self.image.get_rect()
+        self.rect.center = (posX, posY)
+        self.isFunctionExecuted: bool = False
+        self.PressingTime: int = 0
+        self.type = type
+
+    def draw(self, surface):
+        # handle mouse
+        mousePos = pygame.mouse.get_pos()
+
+        if self.rect.collidepoint(mousePos):
+            if pygame.mouse.get_pressed()[0]:
+                if self.type == "next":
+                    self.image = fM.button_lang_next_pressed
+                elif self.type == "previous":
+                    self.image = fM.button_lang_previous_pressed
+                self.image = pygame.transform.scale(self.image, (30, 70))
+
+                if gv.LeftButtonPressingTime == 0:
+                    self.function()
+            else:
+                if self.type == "next":
+                    self.image = fM.button_lang_next_chose
+                elif self.type == "previous":
+                    self.image = fM.button_lang_previous_chose
+                self.image = pygame.transform.scale(self.image, (30, 70))
+                self.isFunctionExecuted = False
+
+        else:
+            if self.type == "next":
+                self.image = fM.button_lang_next_normal
+            elif self.type == "previous":
+                self.image = fM.button_lang_previous_normal
+            self.image = pygame.transform.scale(self.image, (30, 70))
+
+        # draw
+        surface.blit(self.image, (self.rect.x, self.rect.y))

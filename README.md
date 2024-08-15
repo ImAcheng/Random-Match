@@ -6,7 +6,6 @@ Something you need to know before using.
 * Because of the pygame module, you might not able to open the python file in file explore.
 * To open the py file, please open this stuff in IDE.
 * Now, the program includes both of the console and window version.
-* To formally start running it, please enter the version you want to use.
 
 ## Usage
 Launch
@@ -27,11 +26,12 @@ Console Mode - Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- Release 2.0.1 - Fixed
-  * Added more features of multi-lang.
-  * Fixed the texts position of disabled buttons.
-  * Fixed something embarrassing.
-- Release date: Aug. 11th, 2024
+- 2.1.X Beta 1
+  * Added the "Lonely Work" splash.
+  * Added "Settings" page.
+  * Added language setting.
+  * Remove "Fixes?" page button.
+- Release date: Aug. 15th, 2024
     
 #
 ©2024 Lonely Work All Rights Reserved.

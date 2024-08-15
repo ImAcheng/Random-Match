@@ -19,6 +19,7 @@ class FileManager:
     def __init__(self):
         # images
         self.icon = pygame.image.load(os.path.join("ProgramData", "resources", "icon_original.png"))
+        self.splash_Lonely_Work = pygame.image.load(os.path.join("ProgramData", "resources", "splash_Lonely_Work.png"))
         self.button_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_normal.png"))
         self.button_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_chose.png"))
         self.button_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_pressed.png"))
@@ -31,6 +32,12 @@ class FileManager:
         self.button_enter_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_pressed.png"))
         self.button_disabled = pygame.image.load(os.path.join("ProgramData", "resources", "button_disabled.png"))
         self.button_short_disabled = pygame.image.load(os.path.join("ProgramData", "resources", "button_short_disabled.png"))
+        self.button_lang_next_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_next_normal.png"))
+        self.button_lang_next_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_next_chose.png"))
+        self.button_lang_next_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_next_pressed.png"))
+        self.button_lang_previous_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_previous_normal.png"))
+        self.button_lang_previous_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_previous_chose.png"))
+        self.button_lang_previous_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_previous_pressed.png"))
 
         # fonts
         self.default_text_font = pygame.font.Font(os.path.join("ProgramData", "resources", "default.ttf"), 35)
@@ -38,6 +45,8 @@ class FileManager:
 
         # additional stuff
         self.LoadFolder = os.listdir(os.path.join("Load"))
+        self.LoadFolder.remove("info")
+        self.LangFolder = os.listdir(os.path.join("ProgramData", "lang"))
 
         # open file
         self.rf_Names = open(os.path.join("UserData", "Names.json"), encoding='utf8')
@@ -67,4 +76,6 @@ class FileManager:
         self.LangFile_msg = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "message.json"), encoding='utf8'))
         self.LangFile_ui = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "ui.json"), encoding='utf8'))
 
-print(FileManager().LoadFolder)
+    def Lang_Reload(self):
+        self.LangFile_msg = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "message.json"), encoding='utf8'))
+        self.LangFile_ui = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "ui.json"), encoding='utf8'))

@@ -20,5 +20,7 @@
   "bt_cancel": "取消",
   "bt_select": "選擇",
   "bt_continue": "繼續",
-  "title_allFn": "所有功能"
+  "bt_lang": "語言",
+  "title_allFn": "所有功能",
+  "title_setting": "設定"
 }

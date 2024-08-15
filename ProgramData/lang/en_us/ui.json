@@ -20,5 +20,7 @@
   "bt_cancel": "Cancel",
   "bt_select": "Select",
   "bt_continue": "Continue",
-  "title_allFn": "All Functions"
+  "bt_lang": "Languages",
+  "title_allFn": "All Functions",
+  "title_setting": "Settings"
 }

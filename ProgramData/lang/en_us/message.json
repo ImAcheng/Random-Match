@@ -3,6 +3,7 @@
   "msg_error_appears": "Oops, it seems like something went wrong.",
   "msg_error_code": "Error Code",
   "msg_fileBrowser": "File(s) in 'load' folder.",
+  "msg_lang": "All supported languages.",
   "help_match": "Match a random object to a random name.",
   "help_add": "Add a new name or object.",
   "help_remove": "Remove a name or object.",

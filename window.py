@@ -1,4 +1,5 @@
 # import modules
+import json
 import os.path
 
 import pygame
@@ -15,6 +16,7 @@ from commandLogic import ProcessCommand
 fM = fileManager.FileManager()
 Button = button.Button
 EnterButton = button.EnterButton
+LangButton = button.LangChoosingButton
 newText = text.newText
 inputField = inputField.InputField
 
@@ -33,17 +35,20 @@ class Window:
         self.BackSpaceHoldingTime: int = 0
         self.AbleToAutoDeletingWords: bool = False
         self.AutoDeletingWordsDelay: int = 0
-        self.PageName: str = "Home"
+        self.PageName: str = "Splash"
         self.TestTime: int = 0
         self.ErrorCode: int = -1
         self.ErrorExplanation = fM.Errors['errors']
         self.LoadDirIndex: int = 0
+        self.LangDirIndex: int = 0
         self.DevInfo = fM.Settings['Develop_Info']
+        self.SplashPlayingTime: int = 0
+        self.inProgram: bool = False
 
         # UI elements
         self.bt_GoToMainFn = Button(400, 200, [350, 80], self.GoToMainFnPage, True)
         self.bt_GoToHelp = Button(400, 300, [350, 80], self.GoToHelpPage, True)
-        self.bt_GoToSetting = Button(400, 400, [350, 80], self.FunctionNotAvailable, False)
+        self.bt_GoToSetting = Button(400, 400, [350, 80], self.GoToSettingsPage, True)
         self.bt_StopProgram = Button(400, 500, [350, 80], self.StopProgram, True)
         self.bt_Match = Button(400, 200, [350, 80], self.Command_Match, True)
         self.bt_Add = Button(300, 300, [150, 80], self.GoToAddPage, True)
@@ -65,7 +70,15 @@ class Window:
         self.bt_load_ChooseName = Button(400, 200, [350, 80], self.GoToFileBrowserWithName, True)
         self.bt_load_ChooseObject = Button(400, 300, [350, 80], self.GoToFileBrowserWithObject, True)
         self.bt_easter_egg = Button(700, 500, [150, 80], self.GoToFixesPage, True)
+        self.bt_setting_lang = Button(400, 200, [350, 80], self.GoToSettingLangPage, True)
+        self.bt_return_settings = Button(400, 500, [350, 80], self.ReturnToSettings, True)
+        self.bt_lang_select = Button(400, 400, [350, 80], self.LangSelect, True)
+        self.bt_previous_lang = LangButton(500, 230, "previous", self.PreviousLang)
+        self.bt_next_lang = LangButton(500, 305, "next", self.NextLang)
         self.InputField = inputField(400, 200)
+
+        # settings
+        self.settings_content = fM.Settings
 
     def update(self):
         self.clock.tick(60)
@@ -154,14 +167,17 @@ class Window:
         if self.DevInfo:
             self.draw_DevInfo()
 
-        newText(screen, "Random Match", fM.default_text_font, (0, 0, 0), 400, 100, 2, 'center')
-        newText(screen, "©2024 Lonely Work All Rights Reserved. DO NOT DISTRIBUTE.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright')
-        newText(screen, "Random Match Release 2.0.1 - fixed", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+        if self.inProgram:
+            newText(screen, "Random Match", fM.default_text_font, (0, 0, 0), 400, 100, 2, 'center')
+            newText(screen, "©2024 Lonely Work All Rights Reserved. DO NOT DISTRIBUTE.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright')
+            newText(screen, "Random Match 2.1 Beta 1", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
         # update
         pygame.display.update()
 
     def DrawPages(self):
         match self.PageName:
+            case "Splash":
+                self.draw_Splash()
             case "Home":
                 self.draw_HomePage()
             case "MainFn":
@@ -186,6 +202,10 @@ class Window:
                 self.draw_LoadFileBrowser()
             case "Fixes":
                 self.draw_FixesPage()
+            case "Settings":
+                self.draw_SettingsPage()
+            case "Settings_Lang":
+                self.draw_LangPage()
 
             case "FnDisabled":
                 self.draw_ErrorPage()
@@ -222,6 +242,15 @@ class Window:
                 pass
             self.AutoDeletingWordsDelay = 0
 
+    def draw_Splash(self):
+        if self.SplashPlayingTime < 180:
+            screen.blit(fM.splash_Lonely_Work, (0, 0))
+        self.SplashPlayingTime += 1
+
+        if self.SplashPlayingTime >= 180:
+            self.inProgram = True
+            self.PageName = "Home"
+
     def StopProgram(self):
         gv.isProgramRunning = False
 
@@ -242,7 +271,7 @@ class Window:
         self.bt_GoToHelp.draw(screen, fM.LangFile_ui['bt_help'])
         self.bt_GoToSetting.draw(screen, fM.LangFile_ui['bt_setting'])
         self.bt_StopProgram.draw(screen, fM.LangFile_ui['bt_stop'])
-        self.bt_easter_egg.draw(screen, "Fixes?")
+        # self.bt_easter_egg.draw(screen, "Fixes?")
 
     def GoToMainFnPage(self):
         self.PageName = "MainFn"
@@ -442,3 +471,47 @@ class Window:
     def PrintTestMessage(self):
         self.TestTime += 1
         print(f"[{self.TestTime}] Test passed!")
+
+    def GoToSettingsPage(self):
+        self.PageName = "Settings"
+
+    def draw_SettingsPage(self):
+        self.bt_setting_lang.draw(screen, fM.LangFile_ui['bt_lang'])
+        self.bt_BackToHome.draw(screen, fM.LangFile_ui['bt_return'])
+
+    def GoToSettingLangPage(self):
+        self.PageName = "Settings_Lang"
+
+    def ReturnToSettings(self):
+        self.PageName = "Settings"
+
+    def draw_LangPage(self):
+        newText(screen, fM.LangFile_msg['msg_lang'], fM.default_text_font, "#000000", 400, 165, 0.8, 'center')
+
+        # draw langs
+        if self.LangDirIndex > 0:
+            newText(screen, fM.LangFolder[self.LangDirIndex - 1], fM.default_text_font, "#F0F0F0", 400, 210, 0.75, 'center')
+        newText(screen, fM.LangFolder[self.LangDirIndex], fM.default_text_font, "#FFFFFF", 400, 250, 1.2, 'center')
+        if self.LangDirIndex < len(fM.LangFolder) - 1:
+            newText(screen, fM.LangFolder[self.LangDirIndex + 1], fM.default_text_font, "#F0F0F0", 400, 290, 0.75, 'center')
+
+        self.bt_previous_lang.draw(screen)
+        self.bt_next_lang.draw(screen)
+        self.bt_lang_select.draw(screen, fM.LangFile_ui['bt_select'])
+        self.bt_return_settings.draw(screen, fM.LangFile_ui['bt_return'])
+
+    def LangSelect(self):
+        self.settings_content['Language'] = fM.LangFolder[self.LangDirIndex]
+
+        with open(os.path.join("UserData", "Settings.json"), mode='w') as file:
+            json.dump(self.settings_content, file)
+
+        fM.Lang_Reload()
+
+    def NextLang(self):
+        if self.LangDirIndex < len(fM.LangFolder) - 1:
+            self.LangDirIndex += 1
+
+    def PreviousLang(self):
+        if self.LangDirIndex > 0:
+            self.LangDirIndex -= 1
