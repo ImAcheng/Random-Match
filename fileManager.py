@@ -13,10 +13,14 @@ else:
 os.chdir(ScriptDirection)
 
 pygame.font.init()
+pygame.mixer.init()
 
 class FileManager:
     # rf means the original file
     def __init__(self):
+        # data
+
+
         # images
         self.icon = pygame.image.load(os.path.join("ProgramData", "resources", "icon_original.png"))
         self.splash_Lonely_Work = pygame.image.load(os.path.join("ProgramData", "resources", "splash_Lonely_Work.png"))
@@ -47,6 +51,8 @@ class FileManager:
         self.LoadFolder = os.listdir(os.path.join("Load"))
         self.LoadFolder.remove("info")
         self.LangFolder = os.listdir(os.path.join("ProgramData", "lang"))
+        self.LangFolder.remove("info.json")
+        self.LangInfo = json.load(open(os.path.join("ProgramData", "lang", "info.json"), encoding='utf8'))
 
         # open file
         self.rf_Names = open(os.path.join("UserData", "Names.json"), encoding='utf8')
@@ -75,7 +81,19 @@ class FileManager:
         # lang file
         self.LangFile_msg = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "message.json"), encoding='utf8'))
         self.LangFile_ui = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "ui.json"), encoding='utf8'))
+        self.LangDisplayNames: list = []
+        self.Lang_DisplayNameSetup()
+
+        # sound
+        self.mus_Static = os.path.join("ProgramData", "resources", "en_es.ogg")    # copyright by Steve Lacy
 
     def Lang_Reload(self):
         self.LangFile_msg = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "message.json"), encoding='utf8'))
         self.LangFile_ui = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "ui.json"), encoding='utf8'))
+
+    def Lang_DisplayNameSetup(self):
+        self.LangDisplayNames.clear()
+        for idx, digit in enumerate(self.LangFolder):
+            self.LangDisplayNames.append(self.LangInfo[digit])
+
+        return False

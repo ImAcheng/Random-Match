@@ -4,7 +4,7 @@
   "msg_error_code": "Código de error",
   "msg_fileBrowser": "Archivo(s) en la carpeta 'load'.",
   "msg_lang": "Todos los idiomas soportados.",
-  "help_match": "Emparejar un objeto aleatorio con un nombre aleatorio.",
+  "help_match": "Haga coincidir A con B aleatoriamente.",
   "help_add": "Agregar un nuevo nombre u objeto.",
   "help_remove": "Eliminar un nombre u objeto.",
   "help_clear": "Limpiar los datos objetivo.",

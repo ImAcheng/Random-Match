@@ -26,12 +26,10 @@ Console Mode - Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- 2.1.X Beta 1
-  * Added the "Lonely Work" splash.
-  * Added "Settings" page.
-  * Added language setting.
-  * Remove "Fixes?" page button.
-- Release date: Aug. 15th, 2024
+- 2.1.X Beta 2
+  * Improved the way of displaying language setting page.
+  * Added something ;)
+- Release date: Aug. 16th, 2024
     
 #
 ©2024 Lonely Work All Rights Reserved.

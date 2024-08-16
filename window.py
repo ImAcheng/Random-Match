@@ -11,6 +11,7 @@ import text
 import gloabalVars as gv
 import inputField
 from commandLogic import ProcessCommand
+import enores
 
 # setup
 fM = fileManager.FileManager()
@@ -21,6 +22,7 @@ newText = text.newText
 inputField = inputField.InputField
 
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Random Match")
 pygame.display.set_icon(fM.icon)
@@ -44,6 +46,8 @@ class Window:
         self.DevInfo = fM.Settings['Develop_Info']
         self.SplashPlayingTime: int = 0
         self.inProgram: bool = False
+        self.isStaticPlayed: bool = False
+        self.selected_lang = fM.Settings['Language']
 
         # UI elements
         self.bt_GoToMainFn = Button(400, 200, [350, 80], self.GoToMainFnPage, True)
@@ -73,14 +77,21 @@ class Window:
         self.bt_setting_lang = Button(400, 200, [350, 80], self.GoToSettingLangPage, True)
         self.bt_return_settings = Button(400, 500, [350, 80], self.ReturnToSettings, True)
         self.bt_lang_select = Button(400, 400, [350, 80], self.LangSelect, True)
-        self.bt_previous_lang = LangButton(500, 230, "previous", self.PreviousLang)
-        self.bt_next_lang = LangButton(500, 305, "next", self.NextLang)
+        self.bt_previous_lang = LangButton(600, 230, "previous", self.PreviousLang)
+        self.bt_next_lang = LangButton(600, 305, "next", self.NextLang)
         self.InputField = inputField(400, 200)
 
         # settings
         self.settings_content = fM.Settings
 
     def update(self):
+        if not self.isStaticPlayed and self.selected_lang == "es_sp" and self.PageName == "Settings_Lang":
+            enores.play()
+            self.isStaticPlayed = True
+        elif self.selected_lang != "es_sp" or self.PageName != "Settings_Lang":
+            enores.stop()
+            self.isStaticPlayed = False
+
         self.clock.tick(60)
 
         # get input
@@ -170,7 +181,8 @@ class Window:
         if self.inProgram:
             newText(screen, "Random Match", fM.default_text_font, (0, 0, 0), 400, 100, 2, 'center')
             newText(screen, "©2024 Lonely Work All Rights Reserved. DO NOT DISTRIBUTE.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright')
-            newText(screen, "Random Match 2.1 Beta 1", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+            newText(screen, "Random Match 2.1 Beta 2", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+
         # update
         pygame.display.update()
 
@@ -490,10 +502,10 @@ class Window:
 
         # draw langs
         if self.LangDirIndex > 0:
-            newText(screen, fM.LangFolder[self.LangDirIndex - 1], fM.default_text_font, "#F0F0F0", 400, 210, 0.75, 'center')
-        newText(screen, fM.LangFolder[self.LangDirIndex], fM.default_text_font, "#FFFFFF", 400, 250, 1.2, 'center')
+            newText(screen, fM.LangDisplayNames[self.LangDirIndex - 1], fM.default_text_font, "#dbe1e5", 400, 210, 0.7, 'center')
+        newText(screen, fM.LangDisplayNames[self.LangDirIndex], fM.default_text_font, "#FFFFFF", 400, 250, 1.1, 'center')
         if self.LangDirIndex < len(fM.LangFolder) - 1:
-            newText(screen, fM.LangFolder[self.LangDirIndex + 1], fM.default_text_font, "#F0F0F0", 400, 290, 0.75, 'center')
+            newText(screen, fM.LangDisplayNames[self.LangDirIndex + 1], fM.default_text_font, "#dbe1e5", 400, 290, 0.7, 'center')
 
         self.bt_previous_lang.draw(screen)
         self.bt_next_lang.draw(screen)
@@ -502,6 +514,7 @@ class Window:
 
     def LangSelect(self):
         self.settings_content['Language'] = fM.LangFolder[self.LangDirIndex]
+        self.selected_lang = fM.LangFolder[self.LangDirIndex]
 
         with open(os.path.join("UserData", "Settings.json"), mode='w') as file:
             json.dump(self.settings_content, file)
