@@ -22,5 +22,6 @@
   "bt_continue": "Continue",
   "bt_lang": "Languages",
   "title_allFn": "All Functions",
-  "title_setting": "Settings"
+  "title_setting": "Settings",
+  "input_name": "Type a name here."
 }

@@ -15,12 +15,12 @@ class InputField():
         self.posX = posX
         self.posY = posY
 
-    def draw(self, surface, ctx):
+    def draw(self, surface, ctx, get_lang):
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
         if ctx == "":
             if gv.InputFieldType == "name":
-                newText(surface, "Enter name here.", fM.default_text_font, (200, 200, 200), self.posX - 190, self.posY - 14, 0.5, 'topleft')
+                newText(surface, get_lang, fM.default_text_font, (200, 200, 200), self.posX - 190, self.posY - 14, 0.5, 'topleft')
             elif gv.InputFieldType == "path":
                 newText(surface, "Enter file path here.", fM.default_text_font, (200, 200, 200), self.posX - 190, self.posY - 14, 0.5, 'topleft')
         else:

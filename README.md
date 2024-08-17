@@ -26,10 +26,10 @@ Console Mode - Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- 2.1.X Beta 2
-  * Improved the way of displaying language setting page.
-  * Added something ;)
-- Release date: Aug. 16th, 2024
+- 2.1.X Beta 3
+  * Working on the multi-lang.
+  * "A audio track" is not originally playable now.
+- Release date: Aug. 18th, 2024
     
 #
 ©2024 Lonely Work All Rights Reserved.

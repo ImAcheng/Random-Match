@@ -18,9 +18,6 @@ pygame.mixer.init()
 class FileManager:
     # rf means the original file
     def __init__(self):
-        # data
-
-
         # images
         self.icon = pygame.image.load(os.path.join("ProgramData", "resources", "icon_original.png"))
         self.splash_Lonely_Work = pygame.image.load(os.path.join("ProgramData", "resources", "splash_Lonely_Work.png"))
@@ -49,7 +46,11 @@ class FileManager:
 
         # additional stuff
         self.LoadFolder = os.listdir(os.path.join("Load"))
-        self.LoadFolder.remove("info")
+        try:
+            self.LoadFolder.remove("info")
+        except ValueError:
+            pass    # remove the note from the list
+
         self.LangFolder = os.listdir(os.path.join("ProgramData", "lang"))
         self.LangFolder.remove("info.json")
         self.LangInfo = json.load(open(os.path.join("ProgramData", "lang", "info.json"), encoding='utf8'))
@@ -96,4 +97,11 @@ class FileManager:
         for idx, digit in enumerate(self.LangFolder):
             self.LangDisplayNames.append(self.LangInfo[digit])
 
-        return False
+        return False    # why the fuck return False here?
+
+    def LoadDir_Reload(self):
+        self.LoadFolder = os.listdir(os.path.join("Load"))
+        try:
+            self.LoadFolder.remove("info")
+        except ValueError:
+            pass

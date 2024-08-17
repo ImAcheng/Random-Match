@@ -85,13 +85,6 @@ class Window:
         self.settings_content = fM.Settings
 
     def update(self):
-        if not self.isStaticPlayed and self.selected_lang == "es_sp" and self.PageName == "Settings_Lang":
-            enores.play()
-            self.isStaticPlayed = True
-        elif self.selected_lang != "es_sp" or self.PageName != "Settings_Lang":
-            enores.stop()
-            self.isStaticPlayed = False
-
         self.clock.tick(60)
 
         # get input
@@ -185,6 +178,7 @@ class Window:
 
         # update
         pygame.display.update()
+        self.SolveEnglishOrSpanish()
 
     def DrawPages(self):
         match self.PageName:
@@ -337,7 +331,7 @@ class Window:
         self.PageName = "Input"
 
     def draw_InputPage(self):
-        self.InputField.draw(screen, "".join(self.userInputString))
+        self.InputField.draw(screen, "".join(self.userInputString), fM.LangFile_ui['input_name'])
         self.bt_InputEnter.draw(screen, "Enter")
         self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_cancel'])
 
@@ -374,14 +368,14 @@ class Window:
         self.PageName = "Result"
 
     def draw_ResultPage(self):
-        newText(screen, gv.ResultMessage, fM.default_text_font, (0, 0, 0), 400, 200, 0.8, 'center')
+        newText(screen, fM.LangFile_msg[gv.ResultMessage], fM.default_text_font, (0, 0, 0), 400, 200, 0.8, 'center')
         self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_continue'])
 
     def GoToLoadPage(self):
         self.command = "load "
         self.PageName = "Load"
         gv.InputFieldType = "path"
-        fM.LoadFolder = os.listdir(os.path.join("Load"))
+        fM.LoadDir_Reload()
 
     def draw_LoadPage(self):
         self.bt_load_ChooseName.draw(screen, fM.LangFile_ui['bt_toName'])
@@ -441,6 +435,7 @@ class Window:
     def Command_Cancel(self):
         self.command = None
         self.userInputString.clear()
+        gv.ResultMessage = None
         self.PageName = "MainFn"
 
     def Command_Process(self):
@@ -528,3 +523,15 @@ class Window:
     def PreviousLang(self):
         if self.LangDirIndex > 0:
             self.LangDirIndex -= 1
+
+    def SolveEnglishOrSpanish(self):
+        try:
+            if fM.Settings['en_es']:
+                if not self.isStaticPlayed and self.selected_lang == "es_sp" and self.PageName == "Settings_Lang":
+                    enores.play()
+                    self.isStaticPlayed = True
+                elif self.selected_lang != "es_sp" or self.PageName != "Settings_Lang":
+                    enores.stop()
+                    self.isStaticPlayed = False
+        except KeyError:
+            pass

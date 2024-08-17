@@ -44,7 +44,7 @@ class Core:
             json.dump(fm.NamesData, file)
 
         # print messages
-        gv.ResultMessage = f"\nSuccessfully added '{name}' to the names list.\n"
+        gv.ResultMessage = "msg_fn_ran_successfully"
         print(f"\nSuccessfully added '{name}' to the names list.")
         PrintOutData(self.NamesList, "names")
 
@@ -60,10 +60,11 @@ class Core:
                 json.dump(fm.NamesData, file)
 
             # print messages
-            gv.ResultMessage = f"\nSuccessfully removed '{name}' from the names list.\n"
+            gv.ResultMessage = "msg_fn_ran_successfully"
             print(f"\nSuccessfully removed '{name}' from the names list.")
             PrintOutData(self.NamesList, "names")
         except ValueError:
+            gv.ResultMessage = "msg_cannot_run_function"
             print(f"Data '{name}' doesn't exist.")
 
     def AddNewObject(self, name: str):
@@ -77,7 +78,7 @@ class Core:
             json.dump(fm.ObjectsData, file)
 
         # print messages
-        gv.ResultMessage = f"\nSuccessfully added '{name}' to the objects list.\n"
+        gv.ResultMessage = "msg_fn_ran_successfully"
         print(f"\nSuccessfully added '{name}' to the objects list.")
         PrintOutData(self.ObjectsList, "objects")
 
@@ -97,6 +98,7 @@ class Core:
                 print(f"\nSuccessfully removed '{name}' from the objects list.")
                 PrintOutData(self.NamesList, "objects")
         except ValueError:
+            gv.ResultMessage = "msg_cannot_run_function"
             print(f"Data '{name}' doesn't exist.")
 
     def Match(self):
@@ -126,13 +128,13 @@ class Core:
                 self.cur_ObjectsList.remove(RandomObject)
 
             # print result
-            gv.ResultMessage = "\nResult shows in the console due to skill issues :(\n"
+            gv.ResultMessage = "msg_result_shows_in_console"
             print("\n======================")
             for i in range(len(Matched)):
                 print(", ".join(Matched[i]))
             print("======================\n")
         else:
-            gv.ResultMessage = "\nCannot Run 'match' Function\n"
+            gv.ResultMessage = "msg_cannot_run_function"
             print("\nCannot run match command due to the empty list(s).\n")
 
         # reset
@@ -156,7 +158,7 @@ class Core:
                 AbleToPrint = True
             else:
                 print("\nCannot run 'clear name' command due to the empty list.\n")
-                gv.ResultMessage = gv.ResultMessage = "\nCannot Run 'clear name' Function\n"
+                gv.ResultMessage = "msg_cannot_run_function"
 
         elif data == "object":
             if self.ObjectsList:
@@ -172,7 +174,7 @@ class Core:
                 AbleToPrint = True
             else:
                 print("\nCannot run 'clear object' command due to the empty list.\n")
-                gv.ResultMessage = "\nCannot Run 'clear object' Function\n"
+                gv.ResultMessage = "msg_cannot_run_function"
 
         elif data == "all":
             if self.NamesList and self.ObjectsList:
@@ -194,7 +196,7 @@ class Core:
                 AbleToPrint = True
             else:
                 print("\nCannot run 'clear all' command due to the empty list(s).\n")
-                gv.ResultMessage = "\nCannot Run 'clear all' Function\n"
+                gv.ResultMessage = "msg_cannot_run_function"
 
         else:
             print(f"\nUnexpected arg names {data}.\nPlease make sure that you entered correct command.\n")
@@ -202,7 +204,7 @@ class Core:
 
         if isDataCorrect and AbleToPrint:
             print(f"\n====================\nCleared {data}\n====================\n")
-            gv.ResultMessage = f"\nCleared {data}\n"
+            gv.ResultMessage = "msg_fn_ran_successfully"
 
     def help(self, command):
         IndexCheck: int = None
@@ -269,4 +271,4 @@ class Core:
 
         self.CurrentListDataSetup()
 
-        gv.ResultMessage = f"\nSuccessfully loaded data from '{File}'\n"
+        gv.ResultMessage = "msg_fn_ran_successfully"
