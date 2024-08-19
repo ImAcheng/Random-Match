@@ -26,9 +26,10 @@ Console Mode - Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- 2.1.X Beta 3
-  * Working on the multi-lang.
-  * "A audio track" is not originally playable now.
+- 2.1 Pre-1
+  * Increased the playing time of the splash (3s -> 4s).
+  * Added star icon next to those langs which are verified.
+  * Working on an animation.
 - Release date: Aug. 18th, 2024
     
 #

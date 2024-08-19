@@ -12,6 +12,7 @@ import gloabalVars as gv
 import inputField
 from commandLogic import ProcessCommand
 import enores
+from animation import LonelyWorkMark
 
 # setup
 fM = fileManager.FileManager()
@@ -26,6 +27,7 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Random Match")
 pygame.display.set_icon(fM.icon)
+LW_mark = LonelyWorkMark()
 
 class Window:
     def __init__(self):
@@ -174,7 +176,7 @@ class Window:
         if self.inProgram:
             newText(screen, "Random Match", fM.default_text_font, (0, 0, 0), 400, 100, 2, 'center')
             newText(screen, "©2024 Lonely Work All Rights Reserved. DO NOT DISTRIBUTE.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright')
-            newText(screen, "Random Match 2.1 Beta 2", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+            newText(screen, "Random Match 2.1 Pre-1", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
 
         # update
         pygame.display.update()
@@ -249,11 +251,13 @@ class Window:
             self.AutoDeletingWordsDelay = 0
 
     def draw_Splash(self):
-        if self.SplashPlayingTime < 180:
+        if self.SplashPlayingTime < 240:
+            # screen.blit(pygame.transform.scale(fM.splash_black_block, (800, 600)), (0, 0))
+            # LW_mark.draw(screen)
             screen.blit(fM.splash_Lonely_Work, (0, 0))
         self.SplashPlayingTime += 1
 
-        if self.SplashPlayingTime >= 180:
+        if self.SplashPlayingTime >= 240:
             self.inProgram = True
             self.PageName = "Home"
 
@@ -498,9 +502,12 @@ class Window:
         # draw langs
         if self.LangDirIndex > 0:
             newText(screen, fM.LangDisplayNames[self.LangDirIndex - 1], fM.default_text_font, "#dbe1e5", 400, 210, 0.7, 'center')
+            newText(screen, fM.Lang_isVerified(fM.LangFolder[self.LangDirIndex - 1]), fM.default_text_font, "#dac500", 200, 210, 0.4, 'center')
         newText(screen, fM.LangDisplayNames[self.LangDirIndex], fM.default_text_font, "#FFFFFF", 400, 250, 1.1, 'center')
+        newText(screen, fM.Lang_isVerified(fM.LangFolder[self.LangDirIndex]), fM.default_text_font, "#ffe600", 200, 250, 0.8, 'center')
         if self.LangDirIndex < len(fM.LangFolder) - 1:
             newText(screen, fM.LangDisplayNames[self.LangDirIndex + 1], fM.default_text_font, "#dbe1e5", 400, 290, 0.7, 'center')
+            newText(screen, fM.Lang_isVerified(fM.LangFolder[self.LangDirIndex + 1]), fM.default_text_font, "#dac500", 200, 290, 0.4, 'center')
 
         self.bt_previous_lang.draw(screen)
         self.bt_next_lang.draw(screen)

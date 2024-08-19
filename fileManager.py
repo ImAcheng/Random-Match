@@ -21,6 +21,10 @@ class FileManager:
         # images
         self.icon = pygame.image.load(os.path.join("ProgramData", "resources", "icon_original.png"))
         self.splash_Lonely_Work = pygame.image.load(os.path.join("ProgramData", "resources", "splash_Lonely_Work.png"))
+        self.splash_lw_mark = pygame.image.load(os.path.join("ProgramData", "resources", "LonelyWork_Mark.png"))
+        self.splash_black_block = pygame.image.load(os.path.join("ProgramData", "resources", "splash_black_block.png"))
+        self.splash_black_block = pygame.transform.scale(self.splash_black_block, (400, 500))
+        self.splash_lw_text = pygame.image.load(os.path.join("ProgramData", "resources", "LonelyWork_Text.png"))
         self.button_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_normal.png"))
         self.button_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_chose.png"))
         self.button_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_pressed.png"))
@@ -105,3 +109,11 @@ class FileManager:
             self.LoadFolder.remove("info")
         except ValueError:
             pass
+
+    def Lang_isVerified(self, lang_code) -> str:
+        if self.LangInfo['isVerified'][lang_code]:
+            return "★"
+        else:
+            return ""
+
+        # this method returns the verified icon if the target lang is verified
