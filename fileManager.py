@@ -43,6 +43,14 @@ class FileManager:
         self.button_lang_previous_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_previous_normal.png"))
         self.button_lang_previous_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_previous_chose.png"))
         self.button_lang_previous_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_previous_pressed.png"))
+        self.check_box_normal = pygame.image.load(os.path.join("ProgramData", "resources", "check_box_normal.png"))
+        self.check_box_normal = pygame.transform.scale(self.check_box_normal, (55, 55))
+        self.check_box_chose = pygame.image.load(os.path.join("ProgramData", "resources", "check_box_chose.png"))
+        self.check_box_chose = pygame.transform.scale(self.check_box_chose, (55, 55))
+        self.check_box_normal_checked = pygame.image.load(os.path.join("ProgramData", "resources", "check_box_normal_checked.png"))
+        self.check_box_normal_checked = pygame.transform.scale(self.check_box_normal_checked, (55, 55))
+        self.check_box_chose_checked = pygame.image.load(os.path.join("ProgramData", "resources", "check_box_chose_checked.png"))
+        self.check_box_chose_checked = pygame.transform.scale(self.check_box_chose_checked, (55, 55))
 
         # fonts
         self.default_text_font = pygame.font.Font(os.path.join("ProgramData", "resources", "default.ttf"), 35)

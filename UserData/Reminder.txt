@@ -1,1 +1,0 @@
-* To enable English or Spanish meme, add <"en_es": true> to Settings.json

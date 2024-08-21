@@ -13,6 +13,7 @@ import inputField
 from commandLogic import ProcessCommand
 import enores
 from animation import LonelyWorkMark
+from checkBox import CheckBox
 
 # setup
 fM = fileManager.FileManager()
@@ -21,6 +22,7 @@ EnterButton = button.EnterButton
 LangButton = button.LangChoosingButton
 newText = text.newText
 inputField = inputField.InputField
+checkBox = CheckBox
 
 pygame.init()
 pygame.mixer.init()
@@ -50,6 +52,11 @@ class Window:
         self.inProgram: bool = False
         self.isStaticPlayed: bool = False
         self.selected_lang = fM.Settings['Language']
+        self.PlayNewSplash: bool = fM.Settings['New_Splash']
+        self.play_enores_snd: bool = fM.Settings['enores_snd']
+
+        # settings
+        self.settings_content = fM.Settings
 
         # UI elements
         self.bt_GoToMainFn = Button(400, 200, [350, 80], self.GoToMainFnPage, True)
@@ -81,10 +88,12 @@ class Window:
         self.bt_lang_select = Button(400, 400, [350, 80], self.LangSelect, True)
         self.bt_previous_lang = LangButton(600, 230, "previous", self.PreviousLang)
         self.bt_next_lang = LangButton(600, 305, "next", self.NextLang)
+        self.bt_GoToSettingAdvanced = Button(400, 300, [350, 80], self.GoToSettingsAdvancedPage, True)
         self.InputField = inputField(400, 200)
-
-        # settings
-        self.settings_content = fM.Settings
+        # self.testCheckBox = checkBox(50, 50, False, None, None, None, None)
+        self.cb_DevInfo = checkBox(175, 170, "Dev Info", self.settings_content, 'Develop_Info', os.path.join("UserData", "Settings.json"))
+        self.cb_NewSplashAnimation = checkBox(175, 240, "New Splash Animation", self.settings_content, "New_Splash", os.path.join("UserData", "Settings.json"))
+        self.cb_enoresSound = checkBox(175, 310, "Super secret sound", self.settings_content, "enores_snd", os.path.join("UserData", "Settings.json"))
 
     def update(self):
         self.clock.tick(60)
@@ -176,7 +185,7 @@ class Window:
         if self.inProgram:
             newText(screen, "Random Match", fM.default_text_font, (0, 0, 0), 400, 100, 2, 'center')
             newText(screen, "©2024 Lonely Work All Rights Reserved. DO NOT DISTRIBUTE.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright')
-            newText(screen, "Random Match 2.1 Pre-1", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+            newText(screen, "Random Match 2.1 Pre-2", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
 
         # update
         pygame.display.update()
@@ -214,6 +223,8 @@ class Window:
                 self.draw_SettingsPage()
             case "Settings_Lang":
                 self.draw_LangPage()
+            case "Settings_Advanced":
+                self.draw_SettingsAdvanced()
 
             case "FnDisabled":
                 self.draw_ErrorPage()
@@ -252,9 +263,11 @@ class Window:
 
     def draw_Splash(self):
         if self.SplashPlayingTime < 240:
-            # screen.blit(pygame.transform.scale(fM.splash_black_block, (800, 600)), (0, 0))
-            # LW_mark.draw(screen)
-            screen.blit(fM.splash_Lonely_Work, (0, 0))
+            if self.PlayNewSplash:
+                screen.blit(pygame.transform.scale(fM.splash_black_block, (800, 600)), (0, 0))
+                LW_mark.draw(screen)
+            else:
+                screen.blit(fM.splash_Lonely_Work, (0, 0))
         self.SplashPlayingTime += 1
 
         if self.SplashPlayingTime >= 240:
@@ -281,6 +294,7 @@ class Window:
         self.bt_GoToHelp.draw(screen, fM.LangFile_ui['bt_help'])
         self.bt_GoToSetting.draw(screen, fM.LangFile_ui['bt_setting'])
         self.bt_StopProgram.draw(screen, fM.LangFile_ui['bt_stop'])
+        # self.testCheckBox.draw(screen)
         # self.bt_easter_egg.draw(screen, "Fixes?")
 
     def GoToMainFnPage(self):
@@ -488,6 +502,7 @@ class Window:
 
     def draw_SettingsPage(self):
         self.bt_setting_lang.draw(screen, fM.LangFile_ui['bt_lang'])
+        self.bt_GoToSettingAdvanced.draw(screen, "Advanced")
         self.bt_BackToHome.draw(screen, fM.LangFile_ui['bt_return'])
 
     def GoToSettingLangPage(self):
@@ -532,13 +547,21 @@ class Window:
             self.LangDirIndex -= 1
 
     def SolveEnglishOrSpanish(self):
-        try:
-            if fM.Settings['en_es']:
-                if not self.isStaticPlayed and self.selected_lang == "es_sp" and self.PageName == "Settings_Lang":
-                    enores.play()
-                    self.isStaticPlayed = True
-                elif self.selected_lang != "es_sp" or self.PageName != "Settings_Lang":
-                    enores.stop()
-                    self.isStaticPlayed = False
-        except KeyError:
-            pass
+        if self.play_enores_snd:
+            if not self.isStaticPlayed and self.selected_lang == "es_sp" and self.PageName == "Settings_Lang":
+                enores.play()
+                self.isStaticPlayed = True
+            elif self.selected_lang != "es_sp" or self.PageName != "Settings_Lang":
+                enores.stop()
+                self.isStaticPlayed = False
+
+    def GoToSettingsAdvancedPage(self):
+        self.PageName = "Settings_Advanced"
+
+    def draw_SettingsAdvanced(self):
+        self.cb_DevInfo.draw(screen)
+        self.DevInfo = self.cb_DevInfo.isChecked
+        self.cb_NewSplashAnimation.draw(screen)
+        self.cb_enoresSound.draw(screen)
+        self.play_enores_snd = self.cb_enoresSound.isChecked
+        self.bt_return_settings.draw(screen, fM.LangFile_ui['bt_return'])

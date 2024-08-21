@@ -26,11 +26,15 @@ Console Mode - Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- 2.1 Pre-1
-  * Increased the playing time of the splash (3s -> 4s).
-  * Added star icon next to those langs which are verified.
-  * Working on an animation.
-- Release date: Aug. 18th, 2024
+- 2.1 Pre-2
+  * Added "Advanced" setting page.
+  * Added "Dev Info" setting option under "Advanced".
+  * Added "New Splash Animation" setting option under "Advanced".
+  * Added "Super Secret Sound" setting option under "Advanced".
+  * New splash animation is now formally in the program.
+  * Added a new interactive element (check box).
+  
+- Release date: Aug. 21th, 2024
     
 #
 ©2024 Lonely Work All Rights Reserved.
