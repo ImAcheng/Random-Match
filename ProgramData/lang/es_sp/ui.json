@@ -21,7 +21,13 @@
   "bt_select": "Seleccionar",
   "bt_continue": "Continuar",
   "bt_lang": "Idiomas",
+  "bt_setting_advanced": "Avanzado",
+  "bt_setting_respack": "Paquete de recursos",
   "title_allFn": "Todas las Funciones",
   "title_setting": "Configuraciones",
-  "input_name": "Introduzca un nombre aquí."
+  "title_allRes": "Todos los paquetes de recursos",
+  "input_name": "Introduzca un nombre aquí.",
+  "cb_dev_info": "Información del desarrollador",
+  "cb_new_splash": "Nueva animación de presentación",
+  "cb_en_or_es_snd": "Sonido súper secreto"
 }

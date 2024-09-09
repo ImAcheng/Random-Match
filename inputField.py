@@ -8,15 +8,16 @@ newText = text.newText
 
 class InputField():
     def __init__(self, posX, posY):
-        self.image = fM.input_field
+        self.image = fM.Textures['input_field']
         self.image = pygame.transform.scale(self.image, (400, 48))
         self.rect = self.image.get_rect()
         self.rect.center = (posX, posY)
         self.posX = posX
         self.posY = posY
 
-    def draw(self, surface, ctx, get_lang):
+    def draw(self, surface, ctx, get_lang, texture: tuple):
         surface.blit(self.image, (self.rect.x, self.rect.y))
+        self.image = pygame.transform.scale(self.image, (400, 48))
 
         if ctx == "":
             if gv.InputFieldType == "name":

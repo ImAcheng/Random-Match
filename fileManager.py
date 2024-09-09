@@ -18,40 +18,6 @@ pygame.mixer.init()
 class FileManager:
     # rf means the original file
     def __init__(self):
-        # images
-        self.icon = pygame.image.load(os.path.join("ProgramData", "resources", "icon_original.png"))
-        self.splash_Lonely_Work = pygame.image.load(os.path.join("ProgramData", "resources", "splash_Lonely_Work.png"))
-        self.splash_lw_mark = pygame.image.load(os.path.join("ProgramData", "resources", "LonelyWork_Mark.png"))
-        self.splash_black_block = pygame.image.load(os.path.join("ProgramData", "resources", "splash_black_block.png"))
-        self.splash_black_block = pygame.transform.scale(self.splash_black_block, (400, 500))
-        self.splash_lw_text = pygame.image.load(os.path.join("ProgramData", "resources", "LonelyWork_Text.png"))
-        self.button_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_normal.png"))
-        self.button_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_chose.png"))
-        self.button_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_pressed.png"))
-        self.button_short_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_short_normal.png"))
-        self.button_short_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_short_chose.png"))
-        self.button_short_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_short_pressed.png"))
-        self.input_field = pygame.image.load(os.path.join("ProgramData", "resources", "input_field.png"))
-        self.button_enter_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_normal.png"))
-        self.button_enter_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_chose.png"))
-        self.button_enter_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_enter_pressed.png"))
-        self.button_disabled = pygame.image.load(os.path.join("ProgramData", "resources", "button_disabled.png"))
-        self.button_short_disabled = pygame.image.load(os.path.join("ProgramData", "resources", "button_short_disabled.png"))
-        self.button_lang_next_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_next_normal.png"))
-        self.button_lang_next_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_next_chose.png"))
-        self.button_lang_next_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_next_pressed.png"))
-        self.button_lang_previous_normal = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_previous_normal.png"))
-        self.button_lang_previous_chose = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_previous_chose.png"))
-        self.button_lang_previous_pressed = pygame.image.load(os.path.join("ProgramData", "resources", "button_lang_previous_pressed.png"))
-        self.check_box_normal = pygame.image.load(os.path.join("ProgramData", "resources", "check_box_normal.png"))
-        self.check_box_normal = pygame.transform.scale(self.check_box_normal, (55, 55))
-        self.check_box_chose = pygame.image.load(os.path.join("ProgramData", "resources", "check_box_chose.png"))
-        self.check_box_chose = pygame.transform.scale(self.check_box_chose, (55, 55))
-        self.check_box_normal_checked = pygame.image.load(os.path.join("ProgramData", "resources", "check_box_normal_checked.png"))
-        self.check_box_normal_checked = pygame.transform.scale(self.check_box_normal_checked, (55, 55))
-        self.check_box_chose_checked = pygame.image.load(os.path.join("ProgramData", "resources", "check_box_chose_checked.png"))
-        self.check_box_chose_checked = pygame.transform.scale(self.check_box_chose_checked, (55, 55))
-
         # fonts
         self.default_text_font = pygame.font.Font(os.path.join("ProgramData", "resources", "default.ttf"), 35)
         self.dev_text_font = pygame.font.SysFont("Arial", 20, italic=True)
@@ -97,10 +63,31 @@ class FileManager:
         self.LangDisplayNames: list = []
         self.Lang_DisplayNameSetup()
 
+        # resources
+        self.ResourcePackFolder = os.listdir(os.path.join("Resource Packs"))
+        self.CurrentResourcePackName: str = self.Settings['using_resource_packs']
+        try:
+            self.ResourcePackFolderIndex: int = self.ResourcePackFolder.index(self.CurrentResourcePackName)
+        except ValueError:
+            self.ResourcePackFolderIndex: int = self.ResourcePackFolder.index("Random Match (Default)")
+        self.Textures: dict = json.load(open(os.path.join("ProgramData", "texturesData.json")))
+        self.ResPacksIcons: list = []
+        self.ResPacksDatas: list = []
+        self.Resource_Pack_Reload()
+        self.ResourcesFolder_Reload()
+
+        self.icon = pygame.image.load(os.path.join("ProgramData", "resources", "icon_original.png"))
+        self.splash_Lonely_Work = pygame.image.load(os.path.join("ProgramData", "resources", "splash_Lonely_Work.png"))
+        self.splash_lw_mark = pygame.image.load(os.path.join("ProgramData", "resources", "LonelyWork_Mark.png"))
+        self.splash_black_block = pygame.image.load(os.path.join("ProgramData", "resources", "splash_black_block.png"))
+        self.splash_black_block = pygame.transform.scale(self.splash_black_block, (400, 500))
+        self.splash_lw_text = pygame.image.load(os.path.join("ProgramData", "resources", "LonelyWork_Text.png"))
+
         # sound
         self.mus_Static = os.path.join("ProgramData", "resources", "en_es.ogg")    # copyright by Steve Lacy
 
     def Lang_Reload(self):
+        # self.Settings = json.load(open(os.path.join("UserData", "Settings.json")))
         self.LangFile_msg = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "message.json"), encoding='utf8'))
         self.LangFile_ui = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "ui.json"), encoding='utf8'))
 
@@ -125,3 +112,31 @@ class FileManager:
             return ""
 
         # this method returns the verified icon if the target lang is verified
+
+    def ResourcesFolder_Reload(self):
+        self.ResourcePackFolder = os.listdir(os.path.join("Resource Packs"))
+
+        self.ResPacksIcons.clear()
+        self.ResPacksDatas.clear()
+        for idx, digit in enumerate(self.ResourcePackFolder):
+            self.ResPacksIcons.append(pygame.image.load(os.path.join("Resource Packs", self.ResourcePackFolder[idx], "icon.png")))
+            self.ResPacksDatas.append(json.load(open(os.path.join("Resource Packs", self.ResourcePackFolder[idx], "data.json"), encoding='utf8')))
+
+            if self.Settings['Develop_Info']:
+                print(f"Founded Icons: {self.ResPacksIcons}")
+
+    def Resource_Pack_Reload(self):
+        self.Settings: dict = json.load(open(os.path.join("UserData", "Settings.json")))
+
+        self.CurrentResourcePackName = self.Settings['using_resource_packs']
+
+        for idx, digit in enumerate(self.Textures):
+            try:
+                self.Textures[digit] = pygame.image.load(os.path.join("Resource Packs", self.CurrentResourcePackName, "textures", f"{digit}.png"))
+            except FileNotFoundError:
+                try:
+                    self.Textures[digit] = pygame.image.load(os.path.join("ProgramData", "resources", f"{digit}.png"))
+                    if self.Settings['Develop_Info']:
+                        print(f"\nCouldn't find {digit}.png from the resource pack, {self.CurrentResourcePackName}.\nUsing the original texture instead.")
+                except FileNotFoundError:
+                    self.Textures[digit] = pygame.image.load(os.path.join("ProgramData", "CouldNotFindFileAnywhere.png"))

@@ -2,7 +2,7 @@
   "bt_mainFn": "Main Functions",
   "bt_help": "Help",
   "bt_setting": "Settings",
-  "bt_stop": "Exit",
+  "bt_stop": "Quit Program",
   "bt_match": "Match",
   "bt_add": "Add",
   "bt_remove": "Remove",
@@ -21,7 +21,13 @@
   "bt_select": "Select",
   "bt_continue": "Continue",
   "bt_lang": "Languages",
+  "bt_setting_advanced": "Advanced",
+  "bt_setting_respack": "Resource Pack",
   "title_allFn": "All Functions",
   "title_setting": "Settings",
-  "input_name": "Type a name here."
+  "title_allRes": "All Resource Pack(s)",
+  "input_name": "Type a name here.",
+  "cb_dev_info": "Developer info",
+  "cb_new_splash": "New splash animation",
+  "cb_en_or_es_snd": "Super secret sound"
 }
