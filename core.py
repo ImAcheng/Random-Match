@@ -94,7 +94,7 @@ class Core:
                 json.dump(fm.ObjectsData, file)
 
                 # print messages
-                gv.ResultMessage = f"\nSuccessfully removed '{name}' from the objects list.\n"
+                gv.ResultMessage = "msg_fn_ran_successfully"
                 print(f"\nSuccessfully removed '{name}' from the objects list.")
                 PrintOutData(self.NamesList, "objects")
         except ValueError:
@@ -122,6 +122,7 @@ class Core:
 
                 # add to list
                 Matched.append([RandomName, RandomObject])
+                gv.Matched_Groups.append([RandomName, RandomObject])
 
                 # remove from list
                 self.cur_NamesList.remove(RandomName)

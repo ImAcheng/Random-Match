@@ -6,7 +6,7 @@ import gloabalVars as gv
 fM = fileManager.FileManager()
 newText = text.newText
 
-class Button():
+class Button:
     def __init__(self, posX: float, posY: float, scale: list, function, isEnabled: bool):
         self.posX = posX
         self.posY = posY
@@ -87,7 +87,7 @@ class Button():
         surface.blit(self.image, (self.rect.x, self.rect.y))
         newText(surface, ctx, fM.default_text_font, self.textColor, self.textPos[0], self.textPos[1], 1, 'center')
 
-class EnterButton():
+class EnterButton:
     def __init__(self, posX: float, posY: float, scale: list, function):
         self.posX = posX
         self.posY = posY
@@ -129,7 +129,7 @@ class EnterButton():
         # draw
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
-class LangChoosingButton():
+class LangChoosingButton:
     def __init__(self, posX: float, posY: float, type: str, function):
         self.posX = posX
         self.posY = posY
@@ -184,7 +184,7 @@ class LangChoosingButton():
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
 class ResChoosingButton:
-    def __init__(self, posX, posY, direction, function):
+    def __init__(self, posX, posY, direction, function, **kwargs):
         if direction == "up":
             self.image = fM.Textures['button_go_previous_normal']
         elif direction == "down":
@@ -198,33 +198,42 @@ class ResChoosingButton:
         self.fn = function
 
         self.CursorInButton: bool = False
+        self.isEnabled = kwargs.get("isEnabled", True)
 
     def draw(self, surface, texture):
         mouse_pos = pygame.mouse.get_pos()
 
-        if self.rect.collidepoint(mouse_pos):
-            self.CursorInButton = True
+        if self.isEnabled:
+            if self.rect.collidepoint(mouse_pos):
+                self.CursorInButton = True
 
-            if pygame.mouse.get_pressed()[0]:
-                if self.direction == "up":
-                    self.image = texture[2]
+                if pygame.mouse.get_pressed()[0]:
+                    if self.direction == "up":
+                        self.image = texture[2]
+                    else:
+                        self.image = texture[5]
+
+                    if gv.LeftButtonPressingTime == 0:
+                        self.fn()
                 else:
-                    self.image = texture[5]
-
-                if gv.LeftButtonPressingTime == 0:
-                    self.fn()
+                    if self.direction == "up":
+                        self.image = texture[1]
+                    else:
+                        self.image = texture[4]
             else:
+                self.CursorInButton = False
+
                 if self.direction == "up":
-                    self.image = texture[1]
+                    self.image = texture[0]
                 else:
-                    self.image = texture[4]
+                    self.image = texture[3]
         else:
-            self.CursorInButton = False
-
             if self.direction == "up":
-                self.image = texture[0]
+                self.image = texture[1]
             else:
-                self.image = texture[3]
+                self.image = texture[4]
+
+            self.CursorInButton = False
 
         self.image = pygame.transform.scale(self.image, (64, 64))
         surface.blit(self.image, (self.rect.x, self.rect.y))

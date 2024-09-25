@@ -3,14 +3,19 @@ import os
 import json
 import sys
 import pygame
+import logging
 
 # setup
-if getattr(sys, 'frozen', False):
-    ScriptDirection = os.path.dirname(sys.executable)
-else:
-    ScriptDirection = os.path.dirname(os.path.realpath(__file__))
+try:
+    if getattr(sys, 'frozen', False):
+        ScriptDirection = os.path.dirname(sys.executable)
+    else:
+        ScriptDirection = os.path.dirname(os.path.realpath(__file__))
 
-os.chdir(ScriptDirection)
+    os.chdir(ScriptDirection)
+except Exception:
+    os.chdir(os.path.realpath(__file__))
+
 
 pygame.font.init()
 pygame.mixer.init()

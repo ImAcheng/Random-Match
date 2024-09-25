@@ -2,8 +2,9 @@
 import json
 import os.path
 import time
-
 import pygame
+
+from pygame import set_error
 
 # import other python files
 import fileManager
@@ -57,6 +58,7 @@ class Window:
         self.selected_lang = fM.Settings['Language']
         self.PlayNewSplash: bool = fM.Settings['New_Splash']
         self.play_enores_snd: bool = fM.Settings['enores_snd']
+        self.MatchedListIndex: int = 0
 
         self.NormalButtonTextures: tuple = (fM.Textures['button_normal'], fM.Textures['button_chose'], fM.Textures['button_pressed'],
                                             fM.Textures['button_short_normal'], fM.Textures['button_short_chose'], fM.Textures['button_short_pressed'],
@@ -83,7 +85,8 @@ class Window:
         self.bt_GoToHelp = Button(400, 300, [350, 80], self.GoToHelpPage, True)
         self.bt_GoToSetting = Button(400, 400, [350, 80], self.GoToSettingsPage, True)
         self.bt_StopProgram = Button(400, 500, [350, 80], self.StopProgram, True)
-        self.bt_Match = Button(400, 200, [350, 80], self.Command_Match, True)
+        self.bt_Match = Button(400, 200, [350, 80], self.GoToMatchPage, True)
+        self.bt_Match_AtoB = Button(400, 200, [350, 80], self.Command_Match, True)
         self.bt_Add = Button(300, 300, [150, 80], self.GoToAddPage, True)
         self.bt_Remove = Button(500, 300, [150, 80], self.GoToRemovePage, True)
         self.bt_Load = Button(300, 400, [150, 80], self.GoToLoadPage, True)
@@ -112,6 +115,8 @@ class Window:
         self.bt_GoToResourcePacks = Button(400, 300, [350, 80], self.GoToSettingsResourcePacksPage, True)
         self.bt_ResPrevious = ResButton(700, 200, "up", self.ResPrevious)
         self.bt_ResNext = ResButton(700, 400, "down", self.ResNext)
+        self.bt_MatchedPrevious = ResButton(700, 250, "up", self.MatchedList_Previous)
+        self.bt_MatchedNext = ResButton(700, 350, "down", self.MatchedList_Next)
         self.InputField = inputField(400, 200)
         self.cb_DevInfo = checkBox(175, 170, "Dev Info", self.settings_content, 'Develop_Info', os.path.join("UserData", "Settings.json"))
         self.cb_NewSplashAnimation = checkBox(175, 240, "New Splash Animation", self.settings_content, "New_Splash", os.path.join("UserData", "Settings.json"))
@@ -119,41 +124,6 @@ class Window:
         self.cb_Res1 = resCB(57, 178, 0)
         self.cb_Res2 = resCB(57, 263, 0)
         self.cb_Res3 = resCB(57, 348, 0)
-
-        # UI list
-        self.buttons = [
-            self.bt_GoToMainFn,
-            self.bt_GoToHelp,
-            self.bt_GoToSetting,
-            self.bt_StopProgram,
-            self.bt_Match,
-            self.bt_Add,
-            self.bt_Remove,
-            self.bt_Load,
-            self.bt_Clear,
-            self.bt_BackToHome,
-            self.bt_ChooseName,
-            self.bt_ChooseObject,
-            self.bt_clear_ChooseName,
-            self.bt_clear_ChooseObject,
-            self.bt_clear_ChooseAll,
-            self.bt_Cancel,
-            self.bt_Confirm,
-            # self.bt_InputEnter,
-            self.bt_Browse_File_Next,
-            self.bt_Browse_File_Previous,
-            self.bt_Load_File_Select,
-            self.bt_load_ChooseName,
-            self.bt_load_ChooseObject,
-            self.bt_easter_egg,
-            self.bt_setting_lang,
-            self.bt_return_settings,
-            self.bt_lang_select,
-            # self.bt_previous_lang,
-            # self.bt_next_lang,
-            self.bt_GoToSettingAdvanced,
-            self.bt_GoToResourcePacks
-        ]
 
     def update(self):
         self.clock.tick(60)
@@ -246,10 +216,9 @@ class Window:
         self.DrawPages()
 
         if self.inProgram:
-            # newText(screen, "Random Match", fM.default_text_font, (0, 0, 0), 400, 100, 2, 'center')
             screen.blit(fM.Textures['title_random_match'], (163, 60))
-            newText(screen, "©2024 Lonely Work All Rights Reserved. DO NOT DISTRIBUTE.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright')
-            newText(screen, f"Random Match Release 2.1.0", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+            newText(screen, "©2024 Lonely Work (Lonely Acheng) All Rights Reserved.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright', shaderOn=False)
+            newText(screen, f"Random Match Release 2.1.1", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
 
         if self.DevInfo:
             self.draw_DevInfo()
@@ -261,50 +230,59 @@ class Window:
         self.SolveEnglishOrSpanish()
 
     def DrawPages(self):
-        match self.PageName:
-            case "Splash":
-                self.draw_Splash()
-            case "Home":
-                self.draw_HomePage()
-            case "MainFn":
-                self.draw_MainFnPage()
-            case "Help":
-                self.draw_HelpPage()
-            case "Add":
-                self.draw_AddPage()
-            case "Remove":
-                self.draw_RemovePage()
-            case "Input":
-                self.draw_InputPage()
-            case "Clean":
-                self.draw_ClearPage()
-            case "Confirm":
-                self.draw_ConfirmPage()
-            case "Result":
-                self.draw_ResultPage()
-            case "Load":
-                self.draw_LoadPage()
-            case "Browse":
-                self.draw_LoadFileBrowser()
-            case "Fixes":
-                self.draw_FixesPage()
-            case "Settings":
-                self.draw_SettingsPage()
-            case "Settings_Lang":
-                self.draw_LangPage()
-            case "Settings_Advanced":
-                self.draw_SettingsAdvanced()
-            case "Settings_ResourcePacks":
-                self.draw_SettingsResourcePacks()
+        try:
+            match self.PageName:
+                case "Splash":
+                    self.draw_Splash()
+                case "Home":
+                    self.draw_HomePage()
+                case "MainFn":
+                    self.draw_MainFnPage()
+                case "Help":
+                    self.draw_HelpPage()
+                case "Add":
+                    self.draw_AddPage()
+                case "Remove":
+                    self.draw_RemovePage()
+                case "Input":
+                    self.draw_InputPage()
+                case "Clean":
+                    self.draw_ClearPage()
+                case "Confirm":
+                    self.draw_ConfirmPage()
+                case "Result":
+                    self.draw_ResultPage()
+                case "Load":
+                    self.draw_LoadPage()
+                case "Browse":
+                    self.draw_LoadFileBrowser()
+                case "Fixes":
+                    self.draw_FixesPage()
+                case "Settings":
+                    self.draw_SettingsPage()
+                case "Settings_Lang":
+                    self.draw_LangPage()
+                case "Settings_Advanced":
+                    self.draw_SettingsAdvanced()
+                case "Settings_ResourcePacks":
+                    self.draw_SettingsResourcePacks()
+                case "Match_Options":
+                    self.draw_MatchOptions()
+                case "Match_AtoB":
+                    self.draw_Match_AtoB_RandResult_Page()
 
-            case "FnDisabled":
-                self.draw_ErrorPage()
-                self.ErrorCode = 2
-            case "Error":
-                self.draw_ErrorPage()
-            case _:
-                self.draw_ErrorPage()
-                self.ErrorCode = 1
+                case "FnDisabled":
+                    self.draw_ErrorPage()
+                    self.ErrorCode = 2
+                case "Error":
+                    self.draw_ErrorPage()
+                case _:
+                    self.draw_ErrorPage()
+                    self.ErrorCode = 1
+        except Exception as error:
+            self.draw_ErrorPage()
+            self.ErrorCode = 0
+            gv.detected_unknown_error = error
 
     def isShiftHolding(self) -> bool:
         return pygame.key.get_mods() & pygame.KMOD_SHIFT
@@ -365,8 +343,6 @@ class Window:
         self.bt_GoToHelp.draw(screen, fM.LangFile_ui['bt_help'], self.NormalButtonTextures)
         self.bt_GoToSetting.draw(screen, fM.LangFile_ui['bt_setting'], self.NormalButtonTextures)
         self.bt_StopProgram.draw(screen, fM.LangFile_ui['bt_stop'], self.NormalButtonTextures)
-        # self.testCheckBox.draw(screen)
-        # self.bt_easter_egg.draw(screen, "Fixes?")
 
     def GoToMainFnPage(self):
         self.PageName = "MainFn"
@@ -383,12 +359,12 @@ class Window:
         self.PageName = "Help"
 
     def draw_HelpPage(self):
-        newText(screen, fM.LangFile_ui['title_allFn'], fM.default_text_font, (0, 0, 0), 400, 175, 1.25, 'center')
-        newText(screen, f"- {fM.LangFile_ui['bt_match']}: {fM.LangFile_msg['help_match']}", fM.default_text_font, (0, 0, 0), 20, 200, 0.8, 'topleft')
-        newText(screen, f"- {fM.LangFile_ui['bt_add']}: {fM.LangFile_msg['help_add']}", fM.default_text_font, (0, 0, 0), 20, 230, 0.8, 'topleft')
-        newText(screen, f"- {fM.LangFile_ui['bt_remove']}: {fM.LangFile_msg['help_remove']}", fM.default_text_font, (0, 0, 0), 20, 260, 0.8, 'topleft')
-        newText(screen, f"- {fM.LangFile_ui['bt_clear']}: {fM.LangFile_msg['help_clear']}", fM.default_text_font, (0, 0, 0), 20, 290, 0.8, 'topleft')
-        newText(screen, f"- {fM.LangFile_ui['bt_load']}: {fM.LangFile_msg['help_load']}", fM.default_text_font, (0, 0, 0), 20, 320, 0.8, 'topleft')
+        newText(screen, fM.LangFile_ui['title_allFn'], fM.default_text_font, (0, 0, 0), 400, 175, 1.25, 'center', shaderOn=False)
+        newText(screen, f"- {fM.LangFile_ui['bt_match']}: {fM.LangFile_msg['help_match']}", fM.default_text_font, "#FFFFFF", 20, 200, 0.8, 'topleft')
+        newText(screen, f"- {fM.LangFile_ui['bt_add']}: {fM.LangFile_msg['help_add']}", fM.default_text_font, "#FFFFFF", 20, 230, 0.8, 'topleft')
+        newText(screen, f"- {fM.LangFile_ui['bt_remove']}: {fM.LangFile_msg['help_remove']}", fM.default_text_font, "#FFFFFF", 20, 260, 0.8, 'topleft')
+        newText(screen, f"- {fM.LangFile_ui['bt_clear']}: {fM.LangFile_msg['help_clear']}", fM.default_text_font, "#FFFFFF", 20, 290, 0.8, 'topleft')
+        newText(screen, f"- {fM.LangFile_ui['bt_load']}: {fM.LangFile_msg['help_load']}", fM.default_text_font, "#FFFFFF", 20, 320, 0.8, 'topleft')
         self.bt_BackToHome.draw(screen, fM.LangFile_ui['bt_return'], self.NormalButtonTextures)
 
     def GoToAddPage(self):
@@ -449,7 +425,7 @@ class Window:
         self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_cancel'], self.NormalButtonTextures)
 
     def draw_ConfirmPage(self):
-        newText(screen, fM.LangFile_msg['msg_confirm'], fM.default_text_font, (0, 0, 0), 400, 200, 1, 'center')
+        newText(screen, fM.LangFile_msg['msg_confirm'], fM.default_text_font, "#FFFFFF", 400, 200, 1, 'center')
         self.bt_Confirm.draw(screen, fM.LangFile_ui['bt_confirm'], self.NormalButtonTextures)
         self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_cancel'], self.NormalButtonTextures)
 
@@ -457,7 +433,7 @@ class Window:
         self.PageName = "Result"
 
     def draw_ResultPage(self):
-        newText(screen, fM.LangFile_msg[gv.ResultMessage], fM.default_text_font, (0, 0, 0), 400, 200, 0.8, 'center')
+        newText(screen, fM.LangFile_msg[gv.ResultMessage], fM.default_text_font, "#FFFFFF", 400, 200, 0.8, 'center')
         self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_continue'], self.NormalButtonTextures)
 
     def GoToLoadPage(self):
@@ -477,7 +453,7 @@ class Window:
     def draw_LoadFileBrowser(self):
         try:
             newText(screen, fM.LoadFolder[self.LoadDirIndex], fM.default_text_font, "#FFFFFF", 400, 220, 1, 'center')
-            newText(screen, fM.LangFile_msg['msg_fileBrowser'], fM.default_text_font, "#000000", 400, 165, 0.8, 'center')
+            newText(screen, fM.LangFile_msg['msg_fileBrowser'], fM.default_text_font, "#000000", 400, 165, 0.8, 'center', shaderOn=False)
             self.bt_Browse_File_Next.draw(screen, "→", self.NormalButtonTextures)
             self.bt_Browse_File_Previous.draw(screen, "←", self.NormalButtonTextures)
             self.bt_Load_File_Select.draw(screen, fM.LangFile_ui['bt_select'], self.NormalButtonTextures)
@@ -497,7 +473,8 @@ class Window:
             self.bt_Browse_File_Next.isEnabled = True
 
     def draw_ErrorPage(self):
-        newText(screen, ":(", fM.default_text_font, (255, 255, 255), 150, 230, 4, 'center')
+        screen.fill('#aabdc1')
+        newText(screen, ":(", fM.default_text_font, (255, 255, 255), 150, 230, 4, 'center', shaderOn=False)
         newText(screen, fM.LangFile_msg['msg_error_appears'], fM.default_text_font, (255, 255, 255), 100, 320, 0.75, 'topleft')
         newText(screen, f"{fM.LangFile_msg['msg_error_code']}: [{self.ErrorCode} ({self.ErrorExplanation[str(self.ErrorCode)]})]", fM.default_text_font, (255, 255, 255), 100, 350, 0.75, 'topleft')
         self.bt_BackToHome.draw(screen, fM.LangFile_ui['bt_continue'], self.NormalButtonTextures)
@@ -519,12 +496,14 @@ class Window:
 
     def Command_Match(self):
         self.command = "match"
-        self.GoToConfirmPage()
+        self.GoToMatchAtoB_Result_Page()
 
     def Command_Cancel(self):
         self.command = None
         self.userInputString.clear()
         gv.ResultMessage = None
+        gv.Matched_Groups.clear()
+        self.MatchedListIndex = 0
         self.PageName = "MainFn"
 
     def Command_Process(self):
@@ -559,11 +538,12 @@ class Window:
         self.PageName = "Confirm"
 
     def draw_DevInfo(self):
-        newText(screen, f"[Dev Info]", fM.dev_text_font, "#d8d8d8", 790, 30, 1, 'bottomright')
-        newText(screen, f"command: {self.command}", fM.dev_text_font, "#d8d8d8", 790, 50, 1, 'bottomright')
-        newText(screen, f"LeftButtonPressingTime: {gv.LeftButtonPressingTime}", fM.dev_text_font, "#d8d8d8", 790, 70, 1, 'bottomright')
-        newText(screen, f"isCursorInAnyButton: {self.CursorStatementCheckAndChange()}", fM.dev_text_font, "#d8d8d8", 790, 90, 1, 'bottomright')
-        newText(screen, f"PageName: {self.PageName}", fM.dev_text_font, "#d8d8d8", 790, 110, 1, 'bottomright')
+        newText(screen, f"[Dev Info]", fM.dev_text_font, "#d8d8d8", 790, 30, 1, 'bottomright', shaderOn=False)
+        newText(screen, f"command: {self.command}", fM.dev_text_font, "#d8d8d8", 790, 50, 1, 'bottomright', shaderOn=False)
+        newText(screen, f"LeftButtonPressingTime: {gv.LeftButtonPressingTime}", fM.dev_text_font, "#d8d8d8", 790, 70, 1, 'bottomright', shaderOn=False)
+        newText(screen, f"isCursorInAnyButton: {self.CursorStatementCheckAndChange()}", fM.dev_text_font, "#d8d8d8", 790, 90, 1, 'bottomright', shaderOn=False)
+        newText(screen, f"PageName: {self.PageName}", fM.dev_text_font, "#d8d8d8", 790, 110, 1, 'bottomright', shaderOn=False)
+        newText(screen, f"LastDetectedUnknownError: {gv.detected_unknown_error}", fM.dev_text_font, "#d8d8d8", 790, 130, 1, 'bottomright', shaderOn=False)
 
     def PrintTestMessage(self):
         self.TestTime += 1
@@ -589,7 +569,7 @@ class Window:
         self.PageName = "Settings"
 
     def draw_LangPage(self):
-        newText(screen, fM.LangFile_msg['msg_lang'], fM.default_text_font, "#000000", 400, 165, 0.8, 'center')
+        newText(screen, fM.LangFile_msg['msg_lang'], fM.default_text_font, "#000000", 400, 165, 0.8, 'center', shaderOn=False)
 
         # draw langs
         if self.LangDirIndex > 0:
@@ -650,7 +630,7 @@ class Window:
         self.PageName = "Settings_ResourcePacks"
 
     def draw_SettingsResourcePacks(self):
-        newText(screen, fM.LangFile_ui['title_allRes'], fM.default_text_font, "#000000", 400, 155, 0.75, 'center')
+        newText(screen, fM.LangFile_ui['title_allRes'], fM.default_text_font, "#000000", 400, 155, 0.75, 'center', shaderOn=False)
 
         self.bt_ResPrevious.draw(screen, self.ResButtonTextures)
         self.bt_ResNext.draw(screen, self.ResButtonTextures)
@@ -673,18 +653,18 @@ class Window:
         try:
             screen.blit(pygame.transform.scale(fM.ResPacksIcons[fM.ResourcePackFolderIndex], (80, 80)), (150, 180))
             newText(screen, fM.ResourcePackFolder[fM.ResourcePackFolderIndex], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex]['name_color'], 240, 180, 0.7, 'topleft')
-            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex]['introduction_line1'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex]['introduction_color_line1'], 240, 210, 0.5, 'topleft')
-            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex]['introduction_line2'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex]['introduction_color_line2'], 240, 230, 0.5, 'topleft')
+            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex]['introduction_line1'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex]['introduction_color_line1'], 240, 210, 0.5, 'topleft', shaderOn=False)
+            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex]['introduction_line2'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex]['introduction_color_line2'], 240, 230, 0.5, 'topleft', shaderOn=False)
 
             screen.blit(pygame.transform.scale(fM.ResPacksIcons[fM.ResourcePackFolderIndex + 1], (80, 80)), (150, 265))
             newText(screen, fM.ResourcePackFolder[fM.ResourcePackFolderIndex + 1], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 1]['name_color'], 240, 265, 0.7, 'topleft')
-            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 1]['introduction_line1'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 1]['introduction_color_line1'], 240, 295, 0.5, 'topleft')
-            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 1]['introduction_line2'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 1]['introduction_color_line2'], 240, 315, 0.5, 'topleft')
+            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 1]['introduction_line1'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 1]['introduction_color_line1'], 240, 295, 0.5, 'topleft', shaderOn=False)
+            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 1]['introduction_line2'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 1]['introduction_color_line2'], 240, 315, 0.5, 'topleft', shaderOn=False)
 
             screen.blit(pygame.transform.scale(fM.ResPacksIcons[fM.ResourcePackFolderIndex + 2], (80, 80)), (150, 350))
             newText(screen, fM.ResourcePackFolder[fM.ResourcePackFolderIndex + 2], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 2]['name_color'], 240, 350, 0.7, 'topleft')
-            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 2]['introduction_line1'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 2]['introduction_color_line1'], 240, 380, 0.5, 'topleft')
-            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 2]['introduction_line2'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 2]['introduction_color_line2'], 240, 400, 0.5, 'topleft')
+            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 2]['introduction_line1'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 2]['introduction_color_line1'], 240, 380, 0.5, 'topleft', shaderOn=False)
+            newText(screen, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 2]['introduction_line2'], fM.default_text_font, fM.ResPacksDatas[fM.ResourcePackFolderIndex + 2]['introduction_color_line2'], 240, 400, 0.5, 'topleft', shaderOn=False)
         except IndexError:
             pass
 
@@ -740,7 +720,10 @@ class Window:
             self.bt_ResPrevious.CursorInButton,
             self.cb_Res1.CursorInButton,
             self.cb_Res2.CursorInButton,
-            self.cb_Res3.CursorInButton
+            self.cb_Res3.CursorInButton,
+            self.bt_Match_AtoB.CursorInButton,
+            self.bt_MatchedPrevious.CursorInButton,
+            self.bt_MatchedNext.CursorInButton,
         ]
 
         if any(scsList):
@@ -769,3 +752,50 @@ class Window:
                                            fM.Textures['check_box_res_using'])
 
         print("\nTextures Updated\n")
+
+    def GoToMatchPage(self):
+        self.PageName = "Match_Options"
+
+    def draw_MatchOptions(self):
+        self.bt_Match_AtoB.draw(screen, fM.LangFile_ui['bt_match_a_to_b'], self.NormalButtonTextures)
+        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_return'], self.NormalButtonTextures)
+
+    def GoToMatchAtoB_Result_Page(self):
+        ProcessCommand(self.command)
+        self.PageName = "Match_AtoB"
+
+    def draw_Match_AtoB_RandResult_Page(self):
+        newText(screen, fM.LangFile_ui['title_matched_result'], fM.default_text_font, "#000000", 400, 165, 1, 'center', shaderOn=False)
+        self.bt_MatchedPrevious.draw(screen, self.ResButtonTextures)
+        self.bt_MatchedNext.draw(screen, self.ResButtonTextures)
+
+        try:
+            if self.MatchedListIndex > 0:
+                newText(screen, gv.Matched_Groups[self.MatchedListIndex - 1][0], fM.default_text_font, "#F0F0F0", 390, 250, 0.75, 'bottomright')
+                newText(screen, gv.Matched_Groups[self.MatchedListIndex - 1][1], fM.default_text_font, "#F0F0F0", 410, 250, 0.75, 'bottomleft')
+            newText(screen, gv.Matched_Groups[self.MatchedListIndex][0], fM.default_text_font, "#FFFFFF", 390, 300, 1, 'bottomright')
+            newText(screen, gv.Matched_Groups[self.MatchedListIndex][1], fM.default_text_font, "#FFFFFF", 410, 300, 1, 'bottomleft')
+            if self.MatchedListIndex < len(gv.Matched_Groups) - 1:
+                newText(screen, gv.Matched_Groups[self.MatchedListIndex + 1][0], fM.default_text_font, "#F0F0F0", 390, 340, 0.75, 'bottomright')
+                newText(screen, gv.Matched_Groups[self.MatchedListIndex + 1][1], fM.default_text_font, "#F0F0F0", 410, 340, 0.75, 'bottomleft')
+        except IndexError:
+            self.PageName = "Error"
+            self.ErrorCode = 5
+
+        if self.MatchedListIndex == 0:
+            self.bt_MatchedPrevious.isEnabled = False
+        else:
+            self.bt_MatchedPrevious.isEnabled = True
+
+        if self.MatchedListIndex == len(gv.Matched_Groups) - 1:
+            self.bt_MatchedNext.isEnabled = False
+        else:
+            self.bt_MatchedNext.isEnabled = True
+
+        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_continue'], self.NormalButtonTextures)
+
+    def MatchedList_Previous(self):
+        self.MatchedListIndex -= 1
+
+    def MatchedList_Next(self):
+        self.MatchedListIndex += 1

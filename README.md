@@ -26,29 +26,9 @@ Console Mode - Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- Release 2.1.0 (All additions / changes / removes / improvements)
-  - Added Multi-Language system [ Supports English (us) / Spanish / Chinese (Traditional) ].
-  - Added Resource Packs system [ You can change the textures of the program ].
-  - Added Advanced Settings system [ You can change some details of the program ].
-  - Added a new title image.
-  - Added Cursor Statement system [ The cursor would be changed if it were in the buttons ].
-  - Added a debug icon (CouldNotFindFileAnywhere.png) [ Please DO NOT remove it ].
-  - Added a new splash animation.
-  - Improved the textures loading performance.
-  - Changed some texts.
-  - Some technical details (which means I've already forgotten.)
-
-- Explanations
-  - What is Resource Packs system?
-    - Well, if you didn't like the original textures, you could draw new ones and apply them to the program easily!
-  - What is Advanced Settings system?
-    - It means some settings that I use while developing. I think they're useful, so I put them into the program.
-  - Why can't we delete the debug icon?
-    - It's the last texture the program can load, which means if you ACCIDENTALLY DELETED the textures from Program Data,
-    the program could load this texture. 
-    If you ACCIDENTALLY DELETED this texture, too, you might not able to open the program anymore.
-  
-- Release date: Sep. 9th, 2024
-    
-#
-©2024 Lonely Work (Lonely Acheng a.k.a. ChengDev) All Rights Reserved.
+- Release 2.1.1
+  - Added text shadow.
+  - Fixed [Bug 008] & [Bug 009]
+- Release date: Sep. 26th, 2024
+##
+©2024 Lonely Work (Lonely Acheng) All Rights Reserved.

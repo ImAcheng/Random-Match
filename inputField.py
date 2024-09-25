@@ -6,7 +6,7 @@ import gloabalVars as gv
 fM = fileManager.FileManager()
 newText = text.newText
 
-class InputField():
+class InputField:
     def __init__(self, posX, posY):
         self.image = fM.Textures['input_field']
         self.image = pygame.transform.scale(self.image, (400, 48))
@@ -21,8 +21,8 @@ class InputField():
 
         if ctx == "":
             if gv.InputFieldType == "name":
-                newText(surface, get_lang, fM.default_text_font, (200, 200, 200), self.posX - 190, self.posY - 14, 0.5, 'topleft')
+                newText(surface, get_lang, fM.default_text_font, (200, 200, 200), self.posX - 190, self.posY - 14, 0.5, 'topleft', shaderOn=False)
             elif gv.InputFieldType == "path":
-                newText(surface, "Enter file path here.", fM.default_text_font, (200, 200, 200), self.posX - 190, self.posY - 14, 0.5, 'topleft')
+                newText(surface, "Enter file path here.", fM.default_text_font, (200, 200, 200), self.posX - 190, self.posY - 14, 0.5, 'topleft', shaderOn=False)
         else:
-            newText(surface, ctx, fM.default_text_font, (0, 0, 0), self.posX - 190, self.posY - 14, 0.5, 'topleft')
+            newText(surface, ctx, fM.default_text_font, (0, 0, 0), self.posX - 190, self.posY - 14, 0.5, 'topleft', shaderOn=False)

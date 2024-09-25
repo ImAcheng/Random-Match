@@ -35,6 +35,10 @@ class Main:
                     gv.isProgramRunning = False
 
     def Console(self):
+        # I'm planning to remove console mode as it's harder to use and I haven't done anything new for it since the window mode was released.
+        # uhh... I think the only thing I did for it is improving its performance.
+        # anyway, I may remove it or keep it in another way.
+
         # get command
         self.ArgsList = list(map(str, input("Enter command\n> ").strip().split()))
 
