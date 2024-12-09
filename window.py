@@ -4,8 +4,6 @@ import os.path
 import time
 import pygame
 
-from pygame import set_error
-
 # import other python files
 import fileManager
 import button
@@ -147,6 +145,10 @@ class Window:
                     fM.Resource_Pack_Reload()
                     self.ReloadTextures()
 
+                if ev.key == pygame.K_o and self.inProgram:
+                    self.inProgram = False
+                    self.PageName = "Splash"
+
             # user input
             # keyboard input system
             if self.PageName == "Input":
@@ -218,7 +220,7 @@ class Window:
         if self.inProgram:
             screen.blit(fM.Textures['title_random_match'], (163, 60))
             newText(screen, "©2024 Lonely Work (Lonely Acheng) All Rights Reserved.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright', shaderOn=False)
-            newText(screen, f"Random Match Release 2.1.1", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+            newText(screen, f"Random Match Release 2.1.2", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
 
         if self.DevInfo:
             self.draw_DevInfo()
@@ -322,6 +324,7 @@ class Window:
         if self.SplashPlayingTime >= 240:
             self.inProgram = True
             self.PageName = "Home"
+            self.SplashPlayingTime = 0
 
     def StopProgram(self):
         gv.isProgramRunning = False

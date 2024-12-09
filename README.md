@@ -27,8 +27,8 @@ Console Mode - Enter the commands below to use it.
 
 ## Version
 - Release 2.1.1
-  - Added text shadow.
-  - Fixed [Bug 008] & [Bug 009]
-- Release date: Sep. 26th, 2024
+  - Truly useless update.
+  - Fixed some dumb code.
+- Release date: Dec. 9th, 2024
 ##
 ©2024 Lonely Work (Lonely Acheng) All Rights Reserved.

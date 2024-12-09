@@ -233,13 +233,13 @@ class Core:
 
         # name
         if self.NamesList:
-            for idx, digit in enumerate(self.NamesList):
-                self.cur_NamesList.append(digit)
+            for element in self.NamesList:
+                self.cur_NamesList.append(element)
 
         # object
         if self.ObjectsList:
-            for idx, digit in enumerate(self.ObjectsList):
-                self.cur_ObjectsList.append(digit)
+            for element in self.ObjectsList:
+                self.cur_ObjectsList.append(element)
 
     def LoadFromData(self, list_name: str, File: str):
         # load file

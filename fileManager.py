@@ -3,7 +3,6 @@ import os
 import json
 import sys
 import pygame
-import logging
 
 # setup
 try:
@@ -13,7 +12,8 @@ try:
         ScriptDirection = os.path.dirname(os.path.realpath(__file__))
 
     os.chdir(ScriptDirection)
-except Exception:
+except Exception as e:
+    print(e)
     os.chdir(os.path.realpath(__file__))
 
 
@@ -74,7 +74,7 @@ class FileManager:
         try:
             self.ResourcePackFolderIndex: int = self.ResourcePackFolder.index(self.CurrentResourcePackName)
         except ValueError:
-            self.ResourcePackFolderIndex: int = self.ResourcePackFolder.index("Random Match (Default)")
+            self.ResourcePackFolderIndex: int = self.ResourcePackFolder.index("! Random Match (Default)")
         self.Textures: dict = json.load(open(os.path.join("ProgramData", "texturesData.json")))
         self.ResPacksIcons: list = []
         self.ResPacksDatas: list = []
@@ -98,10 +98,11 @@ class FileManager:
 
     def Lang_DisplayNameSetup(self):
         self.LangDisplayNames.clear()
-        for idx, digit in enumerate(self.LangFolder):
-            self.LangDisplayNames.append(self.LangInfo[digit])
+        for element in self.LangInfo:
+            self.LangDisplayNames.append(self.LangInfo[element])
 
         return False    # why the fuck return False here?
+        # After three months, I still don't know why the fuck return False here.
 
     def LoadDir_Reload(self):
         self.LoadFolder = os.listdir(os.path.join("Load"))
@@ -123,7 +124,7 @@ class FileManager:
 
         self.ResPacksIcons.clear()
         self.ResPacksDatas.clear()
-        for idx, digit in enumerate(self.ResourcePackFolder):
+        for idx in range(len(self.ResourcePackFolder)):
             self.ResPacksIcons.append(pygame.image.load(os.path.join("Resource Packs", self.ResourcePackFolder[idx], "icon.png")))
             self.ResPacksDatas.append(json.load(open(os.path.join("Resource Packs", self.ResourcePackFolder[idx], "data.json"), encoding='utf8')))
 
@@ -135,13 +136,13 @@ class FileManager:
 
         self.CurrentResourcePackName = self.Settings['using_resource_packs']
 
-        for idx, digit in enumerate(self.Textures):
+        for element in self.Textures:
             try:
-                self.Textures[digit] = pygame.image.load(os.path.join("Resource Packs", self.CurrentResourcePackName, "textures", f"{digit}.png"))
+                self.Textures[element] = pygame.image.load(os.path.join("Resource Packs", self.CurrentResourcePackName, "textures", f"{element}.png"))
             except FileNotFoundError:
                 try:
-                    self.Textures[digit] = pygame.image.load(os.path.join("ProgramData", "resources", f"{digit}.png"))
+                    self.Textures[element] = pygame.image.load(os.path.join("ProgramData", "resources", f"{element}.png"))
                     if self.Settings['Develop_Info']:
-                        print(f"\nCouldn't find {digit}.png from the resource pack, {self.CurrentResourcePackName}.\nUsing the original texture instead.")
+                        print(f"\nCouldn't find {element}.png from the resource pack, {self.CurrentResourcePackName}.\nUsing the original texture instead.")
                 except FileNotFoundError:
-                    self.Textures[digit] = pygame.image.load(os.path.join("ProgramData", "CouldNotFindFileAnywhere.png"))
+                    self.Textures[element] = pygame.image.load(os.path.join("ProgramData", "CouldNotFindFileAnywhere.png"))
