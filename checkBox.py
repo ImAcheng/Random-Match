@@ -11,7 +11,7 @@ from text import newText
 fM = fileManager.FileManager()
 
 class CheckBox:
-    def __init__(self, posX, posY, ctx, target_data, item_name, file: os.path):
+    def __init__(self, posX, posY , target_data, item_name, file: os.path):
         # I think this shit requires too many args,
         # I will fix that one day.
         # TODO: fix this shit (Acheng on Aug. 20th, 2024)
@@ -19,7 +19,6 @@ class CheckBox:
 
         self.posX = posX
         self.posY = posY
-        self.ctx = ctx
         self.target_data = target_data
         self.item_name = item_name
         self.file = file
@@ -67,7 +66,14 @@ class CheckBox:
         self.image = pygame.transform.scale(self.image, (54, 54))
 
         surface.blit(self.image, (self.rect.x, self.rect.y))
-        newText(surface, ctx, fM.default_text_font, "#FFFFFF", self.rect.x + 75, self.rect.y + 8, 1, 'topleft')
+        
+        str_ctx = None
+        try:
+            str_ctx = fM.LangFile_ui[ctx]
+        except:
+            str_ctx = ctx
+        
+        newText(surface, str_ctx, fM.default_text_font, "#FFFFFF", self.rect.x + 75, self.rect.y + 8, 1, 'topleft')
 
 class ResPacksCheckBox:
     def __init__(self, posX: float, posY: float, target_index: int):

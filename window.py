@@ -116,9 +116,10 @@ class Window:
         self.bt_MatchedPrevious = ResButton(700, 250, "up", self.MatchedList_Previous)
         self.bt_MatchedNext = ResButton(700, 350, "down", self.MatchedList_Next)
         self.InputField = inputField(400, 200)
-        self.cb_DevInfo = checkBox(175, 170, "Dev Info", self.settings_content, 'Develop_Info', os.path.join("UserData", "Settings.json"))
-        self.cb_NewSplashAnimation = checkBox(175, 240, "New Splash Animation", self.settings_content, "New_Splash", os.path.join("UserData", "Settings.json"))
-        self.cb_enoresSound = checkBox(175, 310, "Super secret sound", self.settings_content, "enores_snd", os.path.join("UserData", "Settings.json"))
+        self.cb_DevInfo = checkBox(175, 170, self.settings_content, 'Develop_Info', os.path.join("UserData", "Settings.json"))
+        self.cb_NewSplashAnimation = checkBox(175, 240, self.settings_content, "New_Splash", os.path.join("UserData", "Settings.json"))
+        self.cb_enoresSound = checkBox(175, 310, self.settings_content, "enores_snd", os.path.join("UserData", "Settings.json"))
+        self.cb_enable_splash = checkBox(175, 380, self.settings_content, "splash_enabled", os.path.join("UserData", "Settings.json"))
         self.cb_Res1 = resCB(57, 178, 0)
         self.cb_Res2 = resCB(57, 263, 0)
         self.cb_Res3 = resCB(57, 348, 0)
@@ -128,7 +129,7 @@ class Window:
 
         # get input
         if pygame.mouse.get_pressed()[0]:
-            gv.LeftButtonPressingTime += 1
+            gv.LeftButtonPressingTime = 1
         else:
             gv.LeftButtonPressingTime = 0   # handle the repeating executing command problem
 
@@ -197,7 +198,7 @@ class Window:
                                 if chr(ev.key) == ";":
                                     self.userInputString.append(":")
                                 if chr(ev.key) == "'":
-                                    self.userInputString.append(chr(34))
+                                    self.userInputString.append("\"")
                                 if chr(ev.key) == ",":
                                     self.userInputString.append("<")
                                 if chr(ev.key) == ".":
@@ -622,10 +623,11 @@ class Window:
         self.PageName = "Settings_Advanced"
 
     def draw_SettingsAdvanced(self):
-        self.cb_DevInfo.draw(screen, fM.LangFile_ui['cb_dev_info'], self.CheckBoxTextures)
+        self.cb_DevInfo.draw(screen, 'cb_dev_info', self.CheckBoxTextures)
         self.DevInfo = self.cb_DevInfo.isChecked
-        self.cb_NewSplashAnimation.draw(screen, fM.LangFile_ui['cb_new_splash'], self.CheckBoxTextures)
-        self.cb_enoresSound.draw(screen, fM.LangFile_ui['cb_en_or_es_snd'], self.CheckBoxTextures)
+        self.cb_NewSplashAnimation.draw(screen, 'cb_new_splash', self.CheckBoxTextures)
+        self.cb_enoresSound.draw(screen, 'cb_en_or_es_snd', self.CheckBoxTextures)
+        self.cb_enable_splash.draw(screen, 'cb_enable_splash', self.CheckBoxTextures)
         self.play_enores_snd = self.cb_enoresSound.isChecked
         self.bt_return_settings.draw(screen, fM.LangFile_ui['bt_return'], self.NormalButtonTextures)
 
