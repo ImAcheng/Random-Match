@@ -43,7 +43,7 @@ class Window:
         self.BackSpaceHoldingTime: int = 0
         self.AbleToAutoDeletingWords: bool = False
         self.AutoDeletingWordsDelay: int = 0
-        self.PageName: str = "Splash"
+        self.PageName: str = ""
         self.TestTime: int = 0
         self.ErrorCode: int = -1
         self.ErrorExplanation = fM.Errors['errors']
@@ -77,6 +77,10 @@ class Window:
 
         # settings
         self.settings_content = fM.Settings
+        if fM.Settings['splash_enabled']: self.PageName = "Splash"
+        else: 
+            self.PageName = "Home"
+            self.inProgram = True
 
         # UI elements
         self.bt_GoToMainFn = Button(400, 200, [350, 80], self.GoToMainFnPage, True)
@@ -221,7 +225,7 @@ class Window:
         if self.inProgram:
             screen.blit(fM.Textures['title_random_match'], (163, 60))
             newText(screen, "©2024 Lonely Work (Lonely Acheng) All Rights Reserved.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright', shaderOn=False)
-            newText(screen, f"Random Match Release 2.1.2", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+            newText(screen, f"Random Match 2.2.0 Pre-B", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
 
         if self.DevInfo:
             self.draw_DevInfo()
