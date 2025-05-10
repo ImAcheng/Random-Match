@@ -31,5 +31,6 @@
   "input_name": "Introduzca un nombre aquí.",
   "cb_dev_info": "Información del desarrollador",
   "cb_new_splash": "Nueva animación de presentación",
-  "cb_en_or_es_snd": "Sonido súper secreto"
+  "cb_en_or_es_snd": "Sonido súper secreto",
+  "cb_enable_splash": "Activar Splash"
 }

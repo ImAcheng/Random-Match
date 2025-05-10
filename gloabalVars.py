@@ -1,3 +1,4 @@
+# global used variables
 LeftButtonPressingTime: int = 0
 ResultMessage: str = ""
 isProgramRunning: bool = True
@@ -6,3 +7,7 @@ isCursorStatementChanged: bool = False
 ResNeedsUpdate: bool = False
 Matched_Groups: list = []
 detected_unknown_error = None
+
+# global used components
+import fileManager
+fM = fileManager.FileManager()

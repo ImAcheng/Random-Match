@@ -10,7 +10,7 @@ Something you need to know before using.
 ## Usage
 Launch
 * The program now automatically starts in windowed mode.
-* You can change to launch mode by modifying [Settings.json -> Language] in "UserData" folder.
+* You can change to launch mode by modifying [Settings.json -> Preferred_Startup_Mode] in "UserData" folder.
 
 Window Mode
 * Just click on the UI elements!
@@ -26,9 +26,16 @@ Console Mode - Enter the commands below to use it.
 - stop - Stop program.
 
 ## Version
-- Release 2.1.1
-  - Truly useless update.
-  - Fixed some dumb code.
-- Release date: Dec. 9th, 2024
+- Release 2.2.0
+  - Fixed some performance issues.
+  - Changed the way how program get language data.
+  - Added a splash switch in [Settings -> Advanced].
+  - Brought back the [News] page.
+  - Adjusted the time of old splash (240 ticks -> 120 ticks).
+####
+- Release date: May 10th, 2025.
+####
+- Note
+  - There are only few features I haven't done :D  
 ##
-©2024 Lonely Work (Lonely Acheng) All Rights Reserved.
+©2024-2025 Lonely Work (Lonely Acheng) All Rights Reserved.

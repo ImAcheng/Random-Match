@@ -83,38 +83,38 @@ class Window:
             self.inProgram = True
 
         # UI elements
-        self.bt_GoToMainFn = Button(400, 200, [350, 80], self.GoToMainFnPage, True)
-        self.bt_GoToHelp = Button(400, 300, [350, 80], self.GoToHelpPage, True)
-        self.bt_GoToSetting = Button(400, 400, [350, 80], self.GoToSettingsPage, True)
-        self.bt_StopProgram = Button(400, 500, [350, 80], self.StopProgram, True)
-        self.bt_Match = Button(400, 200, [350, 80], self.GoToMatchPage, True)
-        self.bt_Match_AtoB = Button(400, 200, [350, 80], self.Command_Match, True)
-        self.bt_Add = Button(300, 300, [150, 80], self.GoToAddPage, True)
-        self.bt_Remove = Button(500, 300, [150, 80], self.GoToRemovePage, True)
-        self.bt_Load = Button(300, 400, [150, 80], self.GoToLoadPage, True)
-        self.bt_Clear = Button(500, 400, [150, 80], self.GoToCleanPage, True)
-        self.bt_BackToHome = Button(400, 500, [350, 80], self.GoToHomePage, True)
-        self.bt_ChooseName = Button(400, 200, [350, 80], self.GoToInputWithName, True)
-        self.bt_ChooseObject = Button(400, 300, [350, 80], self.GoToInputWithObject, True)
-        self.bt_clear_ChooseName = Button(400, 200, [350, 80], self.Command_Clear_Name, True)
-        self.bt_clear_ChooseObject = Button(400, 300, [350, 80], self.Command_Clear_Object, True)
-        self.bt_clear_ChooseAll = Button(400, 400, [350, 80], self.Command_Clear_All, True)
-        self.bt_Cancel = Button(400, 500, [350, 80], self.Command_Cancel, True)
-        self.bt_Confirm = Button(400, 300, [350, 80], self.Command_Process, True)
+        self.bt_GoToMainFn = Button(400, 200, [350, 80], self.GoToMainFnPage, True, 'bt_mainFn')
+        self.bt_GoToHelp = Button(400, 300, [350, 80], self.GoToHelpPage, True, 'bt_help')
+        self.bt_GoToSetting = Button(400, 400, [350, 80], self.GoToSettingsPage, True, 'bt_setting')
+        self.bt_StopProgram = Button(400, 500, [350, 80], self.StopProgram, True, 'bt_stop')
+        self.bt_Match = Button(400, 200, [350, 80], self.GoToMatchPage, True, 'bt_match')
+        self.bt_Match_AtoB = Button(400, 200, [350, 80], self.Command_Match, True, 'bt_match_a_to_b')
+        self.bt_Add = Button(300, 300, [150, 80], self.GoToAddPage, True, 'bt_add')
+        self.bt_Remove = Button(500, 300, [150, 80], self.GoToRemovePage, True, 'bt_remove')
+        self.bt_Load = Button(300, 400, [150, 80], self.GoToLoadPage, True, 'bt_load')
+        self.bt_Clear = Button(500, 400, [150, 80], self.GoToCleanPage, True, 'bt_clear')
+        self.bt_BackToHome = Button(400, 500, [350, 80], self.GoToHomePage, True, 'bt_return')
+        self.bt_ChooseName = Button(400, 200, [350, 80], self.GoToInputWithName, True, 'bt_toName')
+        self.bt_ChooseObject = Button(400, 300, [350, 80], self.GoToInputWithObject, True, 'bt_toObj')
+        self.bt_clear_ChooseName = Button(400, 200, [350, 80], self.Command_Clear_Name, True, 'bt_justName')
+        self.bt_clear_ChooseObject = Button(400, 300, [350, 80], self.Command_Clear_Object, True, 'bt_justObj')
+        self.bt_clear_ChooseAll = Button(400, 400, [350, 80], self.Command_Clear_All, True, 'bt_all')
+        self.bt_Cancel = Button(400, 500, [350, 80], self.Command_Cancel, True, 'bt_cancel')
+        self.bt_Confirm = Button(400, 300, [350, 80], self.Command_Process, True, 'bt_confirm')
         self.bt_InputEnter = EnterButton(573, 260, [54, 54], self.Process_Input_Field_Ctx)
-        self.bt_Browse_File_Next = Button(500, 300, [150, 80], self.LoadDirNext, True)
-        self.bt_Browse_File_Previous = Button(300, 300, [150, 80], self.LoadDirPrevious, True)
-        self.bt_Load_File_Select = Button(400, 400, [350, 80], self.Command_Load_Target_File, True)
-        self.bt_load_ChooseName = Button(400, 200, [350, 80], self.GoToFileBrowserWithName, True)
-        self.bt_load_ChooseObject = Button(400, 300, [350, 80], self.GoToFileBrowserWithObject, True)
-        self.bt_easter_egg = Button(700, 500, [150, 80], self.GoToFixesPage, True)
-        self.bt_setting_lang = Button(400, 200, [350, 80], self.GoToSettingLangPage, True)
-        self.bt_return_settings = Button(400, 500, [350, 80], self.ReturnToSettings, True)
-        self.bt_lang_select = Button(400, 400, [350, 80], self.LangSelect, True)
+        self.bt_Browse_File_Next = Button(500, 300, [150, 80], self.LoadDirNext, True, '→')
+        self.bt_Browse_File_Previous = Button(300, 300, [150, 80], self.LoadDirPrevious, True, '←')
+        self.bt_Load_File_Select = Button(400, 400, [350, 80], self.Command_Load_Target_File, True, 'bt_select')
+        self.bt_load_ChooseName = Button(400, 200, [350, 80], self.GoToFileBrowserWithName, True, 'bt_toName')
+        self.bt_load_ChooseObject = Button(400, 300, [350, 80], self.GoToFileBrowserWithObject, True, 'bt_toObj')
+        self.bt_news = Button(700, 500, [150, 80], self.GoToNewsPage, True, 'News!')
+        self.bt_setting_lang = Button(400, 200, [350, 80], self.GoToSettingLangPage, True, 'bt_lang')
+        self.bt_return_settings = Button(400, 500, [350, 80], self.ReturnToSettings, True, 'bt_return')
+        self.bt_lang_select = Button(400, 400, [350, 80], self.LangSelect, True, 'bt_select')
         self.bt_previous_lang = LangButton(600, 230, "previous", self.PreviousLang)
         self.bt_next_lang = LangButton(600, 305, "next", self.NextLang)
-        self.bt_GoToSettingAdvanced = Button(400, 400, [350, 80], self.GoToSettingsAdvancedPage, True)
-        self.bt_GoToResourcePacks = Button(400, 300, [350, 80], self.GoToSettingsResourcePacksPage, True)
+        self.bt_GoToSettingAdvanced = Button(400, 400, [350, 80], self.GoToSettingsAdvancedPage, True, 'bt_setting_advanced')
+        self.bt_GoToResourcePacks = Button(400, 300, [350, 80], self.GoToSettingsResourcePacksPage, True, 'bt_setting_respack')
         self.bt_ResPrevious = ResButton(700, 200, "up", self.ResPrevious)
         self.bt_ResNext = ResButton(700, 400, "down", self.ResNext)
         self.bt_MatchedPrevious = ResButton(700, 250, "up", self.MatchedList_Previous)
@@ -224,8 +224,8 @@ class Window:
 
         if self.inProgram:
             screen.blit(fM.Textures['title_random_match'], (163, 60))
-            newText(screen, "©2024 Lonely Work (Lonely Acheng) All Rights Reserved.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright', shaderOn=False)
-            newText(screen, f"Random Match 2.2.0 Pre-B", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+            newText(screen, "©2024-2025 Lonely Work (Lonely Acheng) All Rights Reserved.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright', shaderOn=False)
+            newText(screen, f"Random Match Release 2.2.0", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
 
         if self.DevInfo:
             self.draw_DevInfo()
@@ -263,8 +263,8 @@ class Window:
                     self.draw_LoadPage()
                 case "Browse":
                     self.draw_LoadFileBrowser()
-                case "Fixes":
-                    self.draw_FixesPage()
+                case "News":
+                    self.draw_NewsPage()
                 case "Settings":
                     self.draw_SettingsPage()
                 case "Settings_Lang":
@@ -318,29 +318,39 @@ class Window:
             self.AutoDeletingWordsDelay = 0
 
     def draw_Splash(self):
-        if self.SplashPlayingTime < 240:
-            if self.PlayNewSplash:
-                screen.blit(pygame.transform.scale(fM.splash_black_block, (800, 600)), (0, 0))
-                LW_mark.draw(screen)
-            else:
-                screen.blit(fM.splash_Lonely_Work, (0, 0))
-        self.SplashPlayingTime += 1
+        if self.PlayNewSplash:
+            if self.SplashPlayingTime < 240:
+                    screen.blit(pygame.transform.scale(fM.splash_black_block, (800, 600)), (0, 0))
+                    LW_mark.draw(screen)
 
-        if self.SplashPlayingTime >= 240:
-            self.inProgram = True
-            self.PageName = "Home"
-            self.SplashPlayingTime = 0
+            if self.SplashPlayingTime >= 240:
+                self.inProgram = True
+                self.PageName = "Home"
+                self.SplashPlayingTime = 0
+        else:
+            if self.SplashPlayingTime < 120:
+                screen.blit(fM.splash_Lonely_Work, (0, 0))
+
+            if self.SplashPlayingTime >= 120:
+                self.inProgram = True
+                self.PageName = "Home"
+                self.SplashPlayingTime = 0
+
+        self.SplashPlayingTime += 1
 
     def StopProgram(self):
         gv.isProgramRunning = False
 
-    def GoToFixesPage(self):
-        self.PageName = "Fixes"
+    def GoToNewsPage(self):
+        self.PageName = "News"
 
-    def draw_FixesPage(self):
-        newText(screen, "Uhh... I just removed something that I forgot to delete.", fM.default_text_font, (0, 0, 0), 400, 200, 0.7, 'center')
-        newText(screen, "Also, I do actually forgot to rename the version, too.", fM.default_text_font, (0, 0, 0), 400, 230, 0.7, 'center')
-        newText(screen, "Anyways, I fixed them.", fM.default_text_font, (0, 0, 0), 400, 260, 0.7, 'center')
+    def draw_NewsPage(self):
+        newText(screen, "Release 2.2.0", fM.default_text_font, (0, 0, 0), 400, 200, 1, 'center', shaderOn=False)
+        newText(screen, "This is a first kernel-updated version since UI version was released.", fM.default_text_font, (255, 255, 255), 400, 250, 0.7, 'center')
+        newText(screen, "In this update, we changed how the program get language data.", fM.default_text_font, (255, 255, 255), 400, 280, 0.7, 'center')
+        newText(screen, "Also, we added a new advanced setting - Enable Splash.", fM.default_text_font, (255, 255, 255), 400, 310, 0.7, 'center')
+        newText(screen, "Yes, you can now turn off the splash now. BEST Idea forever.", fM.default_text_font, (255, 255, 255), 400, 340, 0.7, 'center')
+        newText(screen, "(There are some small changes written in README.md)", fM.default_text_font, (255, 255, 255), 400, 370, 0.7, 'center')
         self.bt_BackToHome.draw(screen, fM.LangFile_ui['bt_return'], self.NormalButtonTextures)
 
     def GoToHomePage(self):
@@ -351,6 +361,7 @@ class Window:
         self.bt_GoToHelp.draw(screen, fM.LangFile_ui['bt_help'], self.NormalButtonTextures)
         self.bt_GoToSetting.draw(screen, fM.LangFile_ui['bt_setting'], self.NormalButtonTextures)
         self.bt_StopProgram.draw(screen, fM.LangFile_ui['bt_stop'], self.NormalButtonTextures)
+        self.bt_news.draw(screen, 'null', self.NormalButtonTextures)
 
     def GoToMainFnPage(self):
         self.PageName = "MainFn"
@@ -605,6 +616,7 @@ class Window:
             file.close()
 
         fM.Lang_Reload()
+        gv.fM = fM
 
     def NextLang(self):
         if self.LangDirIndex < len(fM.LangFolder) - 1:
@@ -653,9 +665,7 @@ class Window:
         self.cb_Res3.index = fM.ResourcePackFolderIndex + 2
 
         if gv.ResNeedsUpdate:
-            time.sleep(0.5)
             fM.Resource_Pack_Reload()
-            time.sleep(0.5)
             self.ReloadTextures()
             gv.ResNeedsUpdate = False
 
@@ -714,7 +724,7 @@ class Window:
             self.bt_Load_File_Select.CursorInButton,
             self.bt_load_ChooseName.CursorInButton,
             self.bt_load_ChooseObject.CursorInButton,
-            self.bt_easter_egg.CursorInButton,
+            self.bt_news.CursorInButton,
             self.bt_setting_lang.CursorInButton,
             self.bt_return_settings.CursorInButton,
             self.bt_lang_select.CursorInButton,
@@ -733,6 +743,7 @@ class Window:
             self.bt_Match_AtoB.CursorInButton,
             self.bt_MatchedPrevious.CursorInButton,
             self.bt_MatchedNext.CursorInButton,
+            self.cb_enable_splash.CursorInButton
         ]
 
         if any(scsList):
@@ -760,7 +771,8 @@ class Window:
                                            fM.Textures['check_box_res_chosen'],
                                            fM.Textures['check_box_res_using'])
 
-        print("\nTextures Updated\n")
+        if self.settings_content['Develop_Info']:
+            print("\nTextures Updated\n")
 
     def GoToMatchPage(self):
         self.PageName = "Match_Options"
@@ -801,7 +813,7 @@ class Window:
         else:
             self.bt_MatchedNext.isEnabled = True
 
-        self.bt_Cancel.draw(screen, fM.LangFile_ui['bt_continue'], self.NormalButtonTextures)
+        self.bt_Cancel.draw(screen, 'null', self.NormalButtonTextures)
 
     def MatchedList_Previous(self):
         self.MatchedListIndex -= 1

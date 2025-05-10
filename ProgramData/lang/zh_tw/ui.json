@@ -31,5 +31,6 @@
   "input_name": "在此輸入名稱。",
   "cb_dev_info": "開發者資訊",
   "cb_new_splash": "新版Splash動畫",
-  "cb_en_or_es_snd": "超級秘密音效"
+  "cb_en_or_es_snd": "超級秘密音效",
+  "cb_enable_splash": "啟用開啟動畫"
 }

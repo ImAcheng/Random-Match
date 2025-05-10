@@ -31,5 +31,6 @@
   "input_name": "Type a name here.",
   "cb_dev_info": "Developer info",
   "cb_new_splash": "New splash animation",
-  "cb_en_or_es_snd": "Super secret sound"
+  "cb_en_or_es_snd": "Super secret sound",
+  "cb_enable_splash": "Enable Splash"
 }

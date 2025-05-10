@@ -1,17 +1,15 @@
 import json
 import os.path
-import time
 
 import pygame
 
-import fileManager
 import gloabalVars as gv
 from text import newText
 
-fM = fileManager.FileManager()
+fM = gv.fM
 
 class CheckBox:
-    def __init__(self, posX, posY , target_data, item_name, file: os.path):
+    def __init__(self, posX, posY, target_data, item_name, file: os.path):
         # I think this shit requires too many args,
         # I will fix that one day.
         # TODO: fix this shit (Acheng on Aug. 20th, 2024)
@@ -66,14 +64,12 @@ class CheckBox:
         self.image = pygame.transform.scale(self.image, (54, 54))
 
         surface.blit(self.image, (self.rect.x, self.rect.y))
-        
-        str_ctx = None
+
+        # Trying to make the first debug on getting data from lang files
         try:
-            str_ctx = fM.LangFile_ui[ctx]
+            newText(surface, gv.fM.LangFile_ui[ctx], fM.default_text_font, "#FFFFFF", self.rect.x + 75, self.rect.y + 8, 1, 'topleft')
         except:
-            str_ctx = ctx
-        
-        newText(surface, str_ctx, fM.default_text_font, "#FFFFFF", self.rect.x + 75, self.rect.y + 8, 1, 'topleft')
+            newText(surface, ctx, fM.default_text_font, "#FFFFFF", self.rect.x + 75, self.rect.y + 8, 1, 'topleft')
 
 class ResPacksCheckBox:
     def __init__(self, posX: float, posY: float, target_index: int):

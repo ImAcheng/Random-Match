@@ -1,13 +1,12 @@
 import pygame
-import fileManager
 import text
 import gloabalVars as gv
 
-fM = fileManager.FileManager()
+fM = gv.fM
 newText = text.newText
 
 class Button:
-    def __init__(self, posX: float, posY: float, scale: list, function, isEnabled: bool):
+    def __init__(self, posX: float, posY: float, scale: list, function, isEnabled: bool, ctx_lang_key: str = 'bt_lang_not_set'):
         self.posX = posX
         self.posY = posY
         self.Scale = scale
@@ -31,6 +30,7 @@ class Button:
         self.PressingTime: int = 0
         self.isEnabled = isEnabled
         self.CursorInButton: bool = False
+        self.ctxkey: str = ctx_lang_key
 
     def draw(self, surface, ctx, textures: tuple):
         # handle mouse
@@ -85,7 +85,10 @@ class Button:
 
         # draw
         surface.blit(self.image, (self.rect.x, self.rect.y))
-        newText(surface, ctx, fM.default_text_font, self.textColor, self.textPos[0], self.textPos[1], 1, 'center')
+        try:
+            newText(surface, gv.fM.LangFile_ui[self.ctxkey], fM.default_text_font, self.textColor, self.textPos[0], self.textPos[1], 1, 'center')
+        except:
+            newText(surface, self.ctxkey, fM.default_text_font, self.textColor, self.textPos[0], self.textPos[1], 1, 'center')
 
 class EnterButton:
     def __init__(self, posX: float, posY: float, scale: list, function):

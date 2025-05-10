@@ -1,8 +1,6 @@
-import time
+import gloabalVars as gv
 
-import fileManager
-
-fM = fileManager.FileManager()
+fM = gv.fM
 
 class LonelyWorkMark:
     def __init__(self):
