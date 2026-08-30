@@ -1,7 +1,6 @@
 # import modules
 import json
 import os.path
-import time
 import pygame
 
 # import other python files
@@ -11,9 +10,9 @@ import text
 import gloabalVars as gv
 import inputField
 from commandLogic import ProcessCommand
-import enores
 from animation import LonelyWorkMark
 from checkBox import CheckBox, ResPacksCheckBox
+import inputProc
 
 # setup
 fM = fileManager.FileManager()
@@ -55,7 +54,6 @@ class Window:
         self.isStaticPlayed: bool = False
         self.selected_lang = fM.Settings['Language']
         self.PlayNewSplash: bool = fM.Settings['New_Splash']
-        self.play_enores_snd: bool = fM.Settings['enores_snd']
         self.MatchedListIndex: int = 0
 
         self.NormalButtonTextures: tuple = (fM.Textures['button_normal'], fM.Textures['button_chose'], fM.Textures['button_pressed'],
@@ -122,7 +120,7 @@ class Window:
         self.InputField = inputField(400, 200)
         self.cb_DevInfo = checkBox(175, 170, self.settings_content, 'Develop_Info', os.path.join("UserData", "Settings.json"))
         self.cb_NewSplashAnimation = checkBox(175, 240, self.settings_content, "New_Splash", os.path.join("UserData", "Settings.json"))
-        self.cb_enoresSound = checkBox(175, 310, self.settings_content, "enores_snd", os.path.join("UserData", "Settings.json"))
+        # self.cb_enoresSound = checkBox(175, 310, self.settings_content, "enores_snd", os.path.join("UserData", "Settings.json"))
         self.cb_enable_splash = checkBox(175, 380, self.settings_content, "splash_enabled", os.path.join("UserData", "Settings.json"))
         self.cb_Res1 = resCB(57, 178, 0)
         self.cb_Res2 = resCB(57, 263, 0)
@@ -137,6 +135,8 @@ class Window:
         else:
             gv.LeftButtonPressingTime = 0   # handle the repeating executing command problem
 
+        gv.mousePos = pygame.mouse.get_pos()
+
         # handle the holding backspace function
         self.AutoDeletingWords()
 
@@ -145,14 +145,7 @@ class Window:
                 gv.isProgramRunning = False
 
             if ev.type == pygame.KEYDOWN:
-                # reload textures test key
-                if ev.key == pygame.K_r:
-                    fM.Resource_Pack_Reload()
-                    self.ReloadTextures()
-
-                if ev.key == pygame.K_o and self.inProgram:
-                    self.inProgram = False
-                    self.PageName = "Splash"
+                inputProc.keyDownSet.add(ev.key)
 
             # user input
             # keyboard input system
@@ -224,8 +217,8 @@ class Window:
 
         if self.inProgram:
             screen.blit(fM.Textures['title_random_match'], (163, 60))
-            newText(screen, "©2024-2025 Lonely Work (Lonely Acheng) All Rights Reserved.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright', shaderOn=False)
-            newText(screen, f"Random Match Release 2.2.0", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
+            newText(screen, "©2024-2026 Lonely Acheng All Rights Reserved.", fM.default_text_font, "#FFFFFF", 790, 590, 0.5, 'bottomright', shaderOn=False)
+            newText(screen, f"Random Match Release 2.3.0", fM.default_text_font, "#FFFFFF", 10, 10, 0.6, 'topleft')
 
         if self.DevInfo:
             self.draw_DevInfo()
@@ -234,7 +227,9 @@ class Window:
 
         # update
         pygame.display.update()
-        self.SolveEnglishOrSpanish()
+        inputProc.keyDownSet.clear()
+        if self.PageName != "Input":
+            self.userInputString = ""
 
     def DrawPages(self):
         try:
@@ -345,12 +340,9 @@ class Window:
         self.PageName = "News"
 
     def draw_NewsPage(self):
-        newText(screen, "Release 2.2.0", fM.default_text_font, (0, 0, 0), 400, 200, 1, 'center', shaderOn=False)
-        newText(screen, "This is a first kernel-updated version since UI version was released.", fM.default_text_font, (255, 255, 255), 400, 250, 0.7, 'center')
-        newText(screen, "In this update, we changed how the program get language data.", fM.default_text_font, (255, 255, 255), 400, 280, 0.7, 'center')
-        newText(screen, "Also, we added a new advanced setting - Enable Splash.", fM.default_text_font, (255, 255, 255), 400, 310, 0.7, 'center')
-        newText(screen, "Yes, you can now turn off the splash now. BEST Idea forever.", fM.default_text_font, (255, 255, 255), 400, 340, 0.7, 'center')
-        newText(screen, "(There are some small changes written in README.md)", fM.default_text_font, (255, 255, 255), 400, 370, 0.7, 'center')
+        newText(screen, "2.3.0 Beta 1", fM.default_text_font, (0, 0, 0), 400, 200, 1, 'center', shaderOn=False)
+        newText(screen, "This might be the last official release.", fM.default_text_font, (255, 255, 255), 400, 250, 0.7, 'center')
+        newText(screen, "This is basically an \"improvement\" version.", fM.default_text_font, (255, 255, 255), 400, 280, 0.7, 'center')
         self.bt_BackToHome.draw(screen, fM.LangFile_ui['bt_return'], self.NormalButtonTextures)
 
     def GoToHomePage(self):
@@ -626,15 +618,6 @@ class Window:
         if self.LangDirIndex > 0:
             self.LangDirIndex -= 1
 
-    def SolveEnglishOrSpanish(self):
-        if self.play_enores_snd:
-            if not self.isStaticPlayed and self.selected_lang == "es_sp" and self.PageName == "Settings_Lang":
-                enores.play()
-                self.isStaticPlayed = True
-            elif self.selected_lang != "es_sp" or self.PageName != "Settings_Lang":
-                enores.stop()
-                self.isStaticPlayed = False
-
     def GoToSettingsAdvancedPage(self):
         self.PageName = "Settings_Advanced"
 
@@ -642,9 +625,7 @@ class Window:
         self.cb_DevInfo.draw(screen, 'cb_dev_info', self.CheckBoxTextures)
         self.DevInfo = self.cb_DevInfo.isChecked
         self.cb_NewSplashAnimation.draw(screen, 'cb_new_splash', self.CheckBoxTextures)
-        self.cb_enoresSound.draw(screen, 'cb_en_or_es_snd', self.CheckBoxTextures)
         self.cb_enable_splash.draw(screen, 'cb_enable_splash', self.CheckBoxTextures)
-        self.play_enores_snd = self.cb_enoresSound.isChecked
         self.bt_return_settings.draw(screen, fM.LangFile_ui['bt_return'], self.NormalButtonTextures)
 
     def GoToSettingsResourcePacksPage(self):
@@ -734,7 +715,7 @@ class Window:
             self.bt_GoToResourcePacks.CursorInButton,
             self.cb_DevInfo.CursorInButton,
             self.cb_NewSplashAnimation.CursorInButton,
-            self.cb_enoresSound.CursorInButton,
+            # self.cb_enoresSound.CursorInButton,
             self.bt_ResNext.CursorInButton,
             self.bt_ResPrevious.CursorInButton,
             self.cb_Res1.CursorInButton,

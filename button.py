@@ -32,12 +32,19 @@ class Button:
         self.CursorInButton: bool = False
         self.ctxkey: str = ctx_lang_key
 
-    def draw(self, surface, ctx, textures: tuple):
-        # handle mouse
-        mousePos = pygame.mouse.get_pos()
+    def draw(self, surface, ctx, textures: tuple) -> None:
+        self.mouse_handler(textures)
+        
+        # draw
+        surface.blit(self.image, (self.rect.x, self.rect.y))
+        try:
+            newText(surface, gv.fM.LangFile_ui[self.ctxkey], fM.default_text_font, self.textColor, self.textPos[0], self.textPos[1], 1, 'center')
+        except:
+            newText(surface, self.ctxkey, fM.default_text_font, self.textColor, self.textPos[0], self.textPos[1], 1, 'center')
 
+    def mouse_handler(self, textures: tuple) -> None:
         if self.isEnabled:
-            if self.rect.collidepoint(mousePos):
+            if self.rect.collidepoint(gv.mousePos):
                 self.CursorInButton = True
 
                 if pygame.mouse.get_pressed()[0]:
@@ -83,13 +90,6 @@ class Button:
             self.textPos = [self.posX, self.posY - 5]
             self.textColor = self.textColor_normal
 
-        # draw
-        surface.blit(self.image, (self.rect.x, self.rect.y))
-        try:
-            newText(surface, gv.fM.LangFile_ui[self.ctxkey], fM.default_text_font, self.textColor, self.textPos[0], self.textPos[1], 1, 'center')
-        except:
-            newText(surface, self.ctxkey, fM.default_text_font, self.textColor, self.textPos[0], self.textPos[1], 1, 'center')
-
 class EnterButton:
     def __init__(self, posX: float, posY: float, scale: list, function):
         self.posX = posX
@@ -104,11 +104,14 @@ class EnterButton:
         self.PressingTime: int = 0
         self.CursorInButton: bool = False
 
-    def draw(self, surface, ctx, textures: tuple):
-        # handle mouse
-        mousePos = pygame.mouse.get_pos()
+    def draw(self, surface, ctx, textures: tuple) -> None:
+        self.mouse_handler(textures)
+        
+        # draw
+        surface.blit(self.image, (self.rect.x, self.rect.y))
 
-        if self.rect.collidepoint(mousePos):
+    def mouse_handler(self, textures: tuple) -> None:
+        if self.rect.collidepoint(gv.mousePos):
             self.CursorInButton = True
 
             if pygame.mouse.get_pressed()[0]:
@@ -129,9 +132,6 @@ class EnterButton:
             self.image = textures[0]
             self.image = pygame.transform.scale(self.image, (self.Scale[0], self.Scale[1]))
 
-        # draw
-        surface.blit(self.image, (self.rect.x, self.rect.y))
-
 class LangChoosingButton:
     def __init__(self, posX: float, posY: float, type: str, function):
         self.posX = posX
@@ -151,11 +151,14 @@ class LangChoosingButton:
         self.type = type
         self.CursorInButton: bool = False
 
-    def draw(self, surface, textures: tuple):
-        # handle mouse
-        mousePos = pygame.mouse.get_pos()
+    def draw(self, surface, textures: tuple) -> None:
+        self.mouse_handler(textures)
 
-        if self.rect.collidepoint(mousePos):
+        # draw
+        surface.blit(self.image, (self.rect.x, self.rect.y))
+
+    def mouse_handler(self, textures) -> None:
+        if self.rect.collidepoint(gv.mousePos):
             self.CursorInButton = True
             if pygame.mouse.get_pressed()[0]:
                 if self.type == "next":
@@ -183,9 +186,6 @@ class LangChoosingButton:
                 self.image = textures[3]
             self.image = pygame.transform.scale(self.image, (30, 70))
 
-        # draw
-        surface.blit(self.image, (self.rect.x, self.rect.y))
-
 class ResChoosingButton:
     def __init__(self, posX, posY, direction, function, **kwargs):
         if direction == "up":
@@ -203,11 +203,16 @@ class ResChoosingButton:
         self.CursorInButton: bool = False
         self.isEnabled = kwargs.get("isEnabled", True)
 
-    def draw(self, surface, texture):
-        mouse_pos = pygame.mouse.get_pos()
+    def draw(self, surface, texture) -> None:
+        self.mouse_handler(texture)
+        
+        # draw
+        self.image = pygame.transform.scale(self.image, (64, 64))
+        surface.blit(self.image, (self.rect.x, self.rect.y))
 
+    def mouse_handler(self, texture: tuple) -> None:
         if self.isEnabled:
-            if self.rect.collidepoint(mouse_pos):
+            if self.rect.collidepoint(gv.mousePos):
                 self.CursorInButton = True
 
                 if pygame.mouse.get_pressed()[0]:
@@ -237,6 +242,3 @@ class ResChoosingButton:
                 self.image = texture[4]
 
             self.CursorInButton = False
-
-        self.image = pygame.transform.scale(self.image, (64, 64))
-        surface.blit(self.image, (self.rect.x, self.rect.y))

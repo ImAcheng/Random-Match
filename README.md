@@ -1,41 +1,25 @@
 # Random Match
 This is a simple program which is designed to be a teaching tool.
 
-## IMPORTANT
-Something you need to know before using.
-* Because of the pygame module, you might not able to open the python file in file explore.
-* To open the py file, please open this stuff in IDE.
-* Now, the program includes both of the console and window version.
-
-## Usage
-Launch
-* The program now automatically starts in windowed mode.
-* You can change to launch mode by modifying [Settings.json -> Preferred_Startup_Mode] in "UserData" folder.
-
-Window Mode
-* Just click on the UI elements!
-
-Console Mode - Enter the commands below to use it.
-- help ({command}) - Show all commands (or specific command's details).
-- match - Main function. Use it to match random name to random object.
-- add {target} {name} - Add a new name / object to the database.
-- remove {target} {name} - Remove a name / object from the database.
-- load {target} {path}. Load content to the list(name / object) from a file.
-- clear {data} - Clear data(name / object / all) from the database.
-- print {target} - Show all content in the list(name / object).
-- stop - Stop program.
 
 ## Version
-- Release 2.2.0
-  - Fixed some performance issues.
-  - Changed the way how program get language data.
-  - Added a splash switch in [Settings -> Advanced].
-  - Brought back the [News] page.
-  - Adjusted the time of old splash (240 ticks -> 120 ticks).
+- 2.3.0 Beta 1
+  - Fixed buttons' mouse checking performace issues.
+  - Removed pressing 'O' triggers splash event.
+  - Removed pressing 'R' triggers reload event.
+  - Removed supper secret sound.
+  - Hide console mode.
+  - Planned to rewrite input field.
+  - Planned to add inputProc.
+  - Planned to rewrite button detections.
 ####
-- Release date: May 10th, 2025.
+- Planned to release in Sep. or Oct. 2026
 ####
-- Note
-  - There are only few features I haven't done :D  
+- Note  
+  The official release of 2.3.0 might be the last version.  
+  (Except for bug fixes ofc.)  
+  This is the longest project time I've ever done in my life.  
+  Thanks for no one viewing this project.  
+  I don't really know why Jr. high me made this project.
 ##
-©2024-2025 Lonely Work (Lonely Acheng) All Rights Reserved.
+©2024-2026 Lonely Acheng. All rights. Reserved.

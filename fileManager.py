@@ -88,9 +88,6 @@ class FileManager:
         self.splash_black_block = pygame.transform.scale(self.splash_black_block, (400, 500))
         self.splash_lw_text = pygame.image.load(os.path.join("ProgramData", "resources", "LonelyWork_Text.png"))
 
-        # sound
-        self.mus_Static = os.path.join("ProgramData", "resources", "en_es.ogg")    # copyright by Steve Lacy
-
     def Lang_Reload(self):
         # self.Settings = json.load(open(os.path.join("UserData", "Settings.json")))
         self.LangFile_msg = json.load(open(os.path.join("ProgramData", "lang", self.Settings["Language"], "message.json"), encoding='utf8'))

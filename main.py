@@ -25,7 +25,11 @@ class Main:
             self.LaunchMode = input("Enter launch mode (console / window) > ")
 
         while gv.isProgramRunning:
-            # process command
+            window.update()
+            continue
+
+            # dev log Aug. 30th, 2026:
+            # I want to remove console mode.
             match self.LaunchMode:
                 case "console":
                     self.Console()
